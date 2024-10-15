@@ -1,1 +1,616 @@
-# 🙈 Currently being documented. Please check back soon for updates.
+openapi: 3.0.1
+info:
+  title: Coherent Spark APIs
+  description: 'OpenAPI specification for the Coherent Spark RESTful APIs (see [API Reference](https://docs.coherent.global) for more details).'
+  termsOfService: https://www.coherent.global/terms-of-use
+  contact:
+    name: Coherent Support Team
+    url: https://www.coherent.global/contact-us
+  license:
+    name: Apache-2.0
+    url: https://github.com/Coherent-Partners/spark-openapi/blob/main/LICENSE
+  version: '3.0'
+servers:
+  - url: https://excel.uat.us.coherent.global
+  - url: https://excel.uat.ca.coherent.global
+  - url: https://excel.uat.eu.coherent.global
+  - url: https://excel.uat.jp.coherent.global
+  - url: https://excel.uat.au.coherent.global
+  - url: https://excel.us.coherent.global
+  - url: https://excel.ca.coherent.global
+  - url: https://excel.eu.coherent.global
+  - url: https://excel.jp.coherent.global
+  - url: https://excel.au.coherent.global
+  - url: https://excel.test.coherent.global
+  - url: https://excel.sit.coherent.global
+  - url: https://excel.staging.coherent.global
+
+tags:
+  - name: Batch
+    description: Manage asynchronous batch processing.
+  - name: Execute
+    description: Execute a Spark service using v3.
+  - name: Execute (new)
+    description: Execute a Spark service using v4.
+  - name: Export
+    description: Export Spark entities by versions, services, or folders.
+  - name: Import
+    description: Import previously exported Spark entities into the Spark platform.
+  - name: Validation
+    description: Extract static and dynamic validations from a Spark service.
+
+paths:
+  /{tenant}/api/v3/folders/{folder}/services/{service}/validation:
+    post:
+      tags:
+        - Validation
+      description: |
+        To access the public version of this endpoint,
+        use "/{tenant}/api/v3/public/folders/{folder}/services/{service}/validation"
+      parameters:
+        - name: tenant
+          in: path
+          required: true
+          description: The tenant name
+          example: presales
+          schema:
+            type: string
+        - name: folder
+          in: path
+          required: true
+          description: The folder name
+          example: my-folder
+          schema:
+            type: string
+            format: uri
+        - name: service
+          in: path
+          required: true
+          description: The service name
+          example: my-service
+          schema:
+            type: string
+            format: uri
+      requestBody:
+        description: Input data to validate
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidationRequest'
+
+      responses:
+        '200':
+          description: successfully validates the input data using static or dynamic validations set in the Excel file.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '400':
+          description: when wrong params are provided such as tenant mismatch, invalid folder or service name or version.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+              example:
+                status: Error
+                response_data: null
+                response_meta: null
+                error:
+                  error_category: application_error
+                  error_type: error.application_error
+                  message: TENANT_MISMATCH
+                  additional_details: null
+        '401':
+          description: when invalid, expired access token or API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+              example:
+                status: Error
+                response_data: null
+                response_meta: null
+                error:
+                  error_category: access_error
+                  error_type: error.UNAUTHORIZED
+                  message: INVALID_TOKEN
+        '403':
+          description: when users are not allowed to perform this action and require additional permissions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+              example:
+                status: Error
+                response_data: null
+                response_meta: null
+                error:
+                  error_category: application_error
+                  error_type: error.UNAUTHORIZED
+                  message: UNAUTHORIZED
+                  additional_details: null
+        '500':
+          description: when something disruptive happens on the server side during this operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+              example:
+                status: Error
+                response_data: null
+                response_meta: null
+                error:
+                  error_category: application_error
+                  error_type: error.application_error
+                  message: Could not complete this operation
+                  additional_details: null
+  /{tenant}/api/v3/service/{service_id}/validation:
+    post:
+      tags:
+        - Validation
+      description: To access the public version of this endpoint, use "/{tenant}/api/v3/public/service/{service_id}/validation"
+      parameters:
+        - name: tenant
+          in: path
+          required: true
+          description: The tenant name
+          example: presales
+          schema:
+            type: string
+        - name: service_id
+          in: path
+          required: true
+          description: The service UUID (it points to its latest version)
+          example: f0b6d6a0-06b0-4a5a-9b3f-9c4a2c9b6a2e
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Input data to validate
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidationRequest'
+      responses:
+        '200':
+          description: successfully validates the input data using static or dynamic validations set in the Excel file.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '400':
+          description: when wrong params are provided such as tenant mismatch, invalid folder or service name or version.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+              example:
+                status: Error
+                response_data: null
+                response_meta: null
+                error:
+                  error_category: application_error
+                  error_type: error.application_error
+                  message: TENANT_MISMATCH
+                  additional_details: null
+        '401':
+          description: when invalid, expired access token or API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+              example:
+                status: Error
+                response_data: null
+                response_meta: null
+                error:
+                  error_category: access_error
+                  error_type: error.UNAUTHORIZED
+                  message: INVALID_TOKEN
+        '403':
+          description: when users are not allowed to perform this action and require additional permissions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+              example:
+                status: Error
+                response_data: null
+                response_meta: null
+                error:
+                  error_category: application_error
+                  error_type: error.UNAUTHORIZED
+                  message: UNAUTHORIZED
+                  additional_details: null
+        '500':
+          description: when something disruptive happens on the server side during this operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+              example:
+                status: Error
+                response_data: null
+                response_meta: null
+                error:
+                  error_category: application_error
+                  error_type: error.application_error
+                  message: Could not complete this operation
+                  additional_details: null
+  /{tenant}/api/v3/version/{version_id}/validation:
+    post:
+      tags:
+        - Validation
+      description: To access the public version of this endpoint, use "/{tenant}/api/v3/public/version/{version_id}/validation"
+      parameters:
+        - name: tenant
+          in: path
+          required: true
+          description: The tenant name
+          example: presales
+          schema:
+            type: string
+        - name: version_id
+          in: path
+          required: true
+          description: The version UUID
+          example: f0b6d6a0-06b0-4a5a-9b3f-9c4a2c9b6a2e
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Input data to validate
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidationRequest'
+      responses:
+        '200':
+          description: successfully validates the input data using static or dynamic validations set in the Excel file.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '400':
+          description: when wrong params are provided such as tenant mismatch, invalid folder or service name or version.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+              example:
+                status: Error
+                response_data: null
+                response_meta: null
+                error:
+                  error_category: application_error
+                  error_type: error.application_error
+                  message: TENANT_MISMATCH
+                  additional_details: null
+        '401':
+          description: when invalid, expired access token or API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+              example:
+                status: Error
+                response_data: null
+                response_meta: null
+                error:
+                  error_category: access_error
+                  error_type: error.UNAUTHORIZED
+                  message: INVALID_TOKEN
+        '403':
+          description: when users are not allowed to perform this action and require additional permissions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+              example:
+                status: Error
+                response_data: null
+                response_meta: null
+                error:
+                  error_category: application_error
+                  error_type: error.UNAUTHORIZED
+                  message: UNAUTHORIZED
+                  additional_details: null
+        '500':
+          description: when something disruptive happens on the server side during this operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+              example:
+                status: Error
+                response_data: null
+                response_meta: null
+                error:
+                  error_category: application_error
+                  error_type: error.application_error
+                  message: Could not complete this operation
+                  additional_details: null
+
+components:
+  schemas:
+    ApiV3ResponseError:
+      type: object
+      additionalProperties: false
+      properties:
+        error_category:
+          type: string
+          nullable: true
+        error_type:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true
+        additional_details:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+            nullable: true
+          nullable: true
+
+    ServiceRequestData:
+      type: object
+      additionalProperties: false
+      properties:
+        inputs:
+          type: object
+          additionalProperties: true
+          nullable: true
+          example:
+            input_1: true
+            input_2: string
+            input_3: { 'zero': 0, 'one': 1 }
+            input_n: [false, 1, 'string']
+
+    ServiceRequestMeta:
+      type: object
+      additionalProperties: true
+      properties:
+        service_uri:
+          type: string
+          nullable: true
+        service_id:
+          type: string
+          nullable: true
+        version:
+          type: string
+          nullable: true
+        version_id:
+          type: string
+          nullable: true
+        transaction_date:
+          type: string
+          format: date-time
+          nullable: true
+        call_purpose:
+          type: string
+          nullable: true
+        source_system:
+          type: string
+          nullable: true
+        correlation_id:
+          type: string
+          nullable: true
+        requested_output:
+          type: array
+          items:
+            type: string
+          nullable: true
+        service_category:
+          type: string
+          nullable: true
+        compiler_type:
+          type: string
+          enum: [Neuron, Xconnector, Type3, Type2, Type1]
+          nullable: true
+        array_outputs:
+          type: string
+          nullable: true
+        response_data_inputs:
+          type: boolean
+        parameterset_version_id:
+          type: string
+          nullable: true
+        validation_type:
+          type: string
+          nullable: true
+        excel_file:
+          type: boolean
+        call_id:
+          type: string
+          nullable: true
+        xreport_options:
+          type: object
+          additionalProperties: false
+          properties:
+            multiple_docs:
+              type: boolean
+            page_numbers:
+              type: boolean
+
+    ServiceExecutionWarning:
+      type: object
+      additionalProperties: false
+      properties:
+        source_path:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true
+
+    ServiceExecutionError:
+      type: object
+      additionalProperties: false
+      properties:
+        source_path:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true
+        error_category:
+          type: string
+          nullable: true
+        error_type:
+          type: string
+          nullable: true
+        additional_details:
+          type: string
+          nullable: true
+
+    ServiceResponseData:
+      type: object
+      additionalProperties: false
+      properties:
+        outputs:
+          type: object
+          additionalProperties: true
+          nullable: true
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceExecutionWarning'
+          nullable: true
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceExecutionError'
+          nullable: true
+        service_chain:
+          type: array
+          nullable: true
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              service_name:
+                type: string
+                nullable: true
+              run_if:
+                type: boolean
+              requested_report:
+                type: array
+                items:
+                  type: string
+                nullable: true
+              requested_report_filename:
+                type: array
+                items:
+                  type: string
+                nullable: true
+        inputs: # can be echoed back if indicated.
+          type: object
+          additionalProperties: true
+          nullable: true
+
+    ServiceResponseMeta:
+      type: object
+      additionalProperties: false
+      properties:
+        system:
+          type: string
+          nullable: true
+        request_timestamp:
+          type: string
+          nullable: true
+        service_id:
+          type: string
+          nullable: true
+        version_id:
+          type: string
+          nullable: true
+        version:
+          type: string
+          nullable: true
+        process_time:
+          type: integer
+          format: int64
+        call_id:
+          type: string
+          nullable: true
+        compiler_type:
+          type: string
+          nullable: true
+        compiler_version:
+          type: string
+          nullable: true
+        source_hash:
+          type: string
+          nullable: true
+        engine_id:
+          type: string
+          nullable: true
+        correlation_id:
+          type: string
+          nullable: true
+        parameterset_version_id:
+          type: string
+          nullable: true
+
+    ValidationRequest:
+      type: object
+      additionalProperties: false
+      required: [request_data, request_meta]
+      properties:
+        request_data:
+          $ref: '#/components/schemas/ServiceRequestData'
+        request_meta:
+          $ref: '#/components/schemas/ServiceRequestMeta'
+          nullable: true
+          additionalProperties: true
+
+    ValidationResponse:
+      type: object
+      additionalProperties: false
+      required: [status, response_data, response_meta, error]
+      properties:
+        status:
+          type: string
+          nullable: true
+          enum: [Status, Error]
+        response_data:
+          $ref: '#/components/schemas/ServiceResponseData'
+        response_meta:
+          $ref: '#/components/schemas/ServiceResponseMeta'
+        error:
+          $ref: '#/components/schemas/ApiV3ResponseError'
+        traceEvents:
+          type: array
+          nullable: true
+          items:
+            type: object
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      description: Bearer token to access this API.
+      scheme: 'bearer'
+    apiKeyAuth:
+      type: apiKey
+      name: x-synthetic-key
+      in: header
+      description: |
+        Provide the API key to access this API.
+        When using this authentication method, please include the "x-tenant-name" header with the tenant name as its value.
+    oauth2Auth:
+      type: oauth2
+      description: |
+        For server-to-server authentication, see our user guide on
+        [Client Credentials](https://docs.coherent.global/tenant-administration/user-authentication-services/client-credentials-grant-oauth-2.0)
+      flows:
+        clientCredentials:
+          tokenUrl: https://keycloak.{env}.coherent.global/auth/realms/{tenant}/protocol/openid-connect/token
+          scopes: {}
+
+security:
+  - bearerAuth: []
+  - apiKeyAuth: []
+  - oauth2Auth: []
