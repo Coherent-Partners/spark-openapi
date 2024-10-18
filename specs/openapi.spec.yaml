@@ -40,6 +40,7 @@ tags:
     description: Extract static and dynamic validations from a Spark service.
 
 paths:
+  # Validation API
   /{tenant}/api/v3/folders/{folder}/services/{service}/validation:
     post:
       tags:
@@ -52,8 +53,8 @@ paths:
           in: path
           required: true
           description: The tenant name
-          example: presales
           schema:
+            example: presales
             type: string
         - name: folder
           in: path
@@ -154,8 +155,8 @@ paths:
           in: path
           required: true
           description: The tenant name
-          example: presales
           schema:
+            example: presales
             type: string
         - name: service_id
           in: path
@@ -247,8 +248,8 @@ paths:
           in: path
           required: true
           description: The tenant name
-          example: presales
           schema:
+            example: presales
             type: string
         - name: version_id
           in: path
@@ -331,6 +332,261 @@ paths:
                   message: Could not complete this operation
                   additional_details: null
 
+  # Import API
+  /{tenant}/api/v4/import:
+    post:
+      tags:
+        - Import
+      description: Initiates an import job to import Spark entities into the platform.
+      parameters:
+        - name: tenant
+          in: path
+          required: true
+          description: The tenant name
+          schema:
+            example: presales
+            type: string
+      requestBody:
+        description: Params of what to import (zip file, metadata)
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file, importRequestEntity]
+              additionalProperties: false
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: ZIP file previously exported by Export API using 'migrate' mode
+                importRequestEntity:
+                  description: Additional metadata to specify source and destination service URI(s).
+                  type: object
+                  required: [inputs]
+                  additionalProperties: false
+                  properties:
+                    correlation_id:
+                      type: string
+                      nullable: true
+                    source_system:
+                      type: string
+                      nullable: true
+                    services_existing:
+                      description: What to do when the service is present already in the destination.
+                      type: string
+                      enum: [abort, replace, add_version]
+                    inputs:
+                      type: object
+                      additionalProperties: false
+                      required: [services_modify]
+                      properties:
+                        services_modify:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              service_uri_source:
+                                type: string
+                                example: 'folder-name/service-name[revision]'
+                              service_uri_destination:
+                                description: when omitted, it uses 'service_uri_source' as fallback
+                                nullable: true
+                                type: string
+                              update_version_type:
+                                nullable: true
+                                type: string
+                                enum: [major, minor, patch]
+      responses:
+        '200':
+          description: Import job created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [id, object, status_url]
+                properties:
+                  id:
+                    type: string
+                  object:
+                    type: string
+                  status_url:
+                    type: string
+                    format: uri
+        '401':
+          description: when invalid, expired access token or API key.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                properties:
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  errorCode:
+                    type: string
+              example:
+                errorCode: INVALID_TOKEN
+                status: Error
+        '404':
+          description: when indicated service is not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV4ResponseError'
+              example:
+                type: invalid_input
+                code: SERVICE_NOT_FOUND
+                message: service could not be found
+        '500':
+          description: |
+            when something disruptive happens on the server side during this operation such as:
+            - INVALID_IMPORT_ZIP: invalid zip file provided for import
+            - EXCEEDED_FILE_SIZE: the uploaded file size exceeds the upload limit.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV4ResponseError'
+              example:
+                type: invalid_input
+                code: EXCEEDED_FILE_SIZE
+                message: The uploaded file size of 250 MB exceeds the upload limit of 200 MB. Please choose a smaller number of service versions to import or upload the Excel directly to the target environment.
+  /{tenant}/api/v4/import/{job_id}/status:
+    get:
+      tags:
+        - Import
+      description: Checks the status of an import job
+      parameters:
+        - name: tenant
+          in: path
+          required: true
+          description: The tenant name
+          schema:
+            type: string
+            example: presales
+        - name: job_id
+          in: path
+          required: true
+          description: a valid job ID (UUID)
+          schema:
+            type: string
+            format: uuid
+            example: 017a0a2f-eb29-47b4-a245-2ddf6c2d9846
+      responses:
+        '200':
+          description: Import job status
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [id, object, status_url, response_timestamp, process_time, errors, outputs]
+                properties:
+                  id:
+                    type: string
+                  object:
+                    type: string
+                  status:
+                    type: string
+                  status_url:
+                    type: string
+                    format: uri
+                  response_timestamp:
+                    type: string
+                  process_time:
+                    type: number
+                  source_system:
+                    type: string
+                  correlation_id:
+                    type: string
+                  errors:
+                    type: object
+                  outputs:
+                    type: object
+                    required: [services, service_versions]
+                    properties:
+                      services:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            service_uri_source:
+                              type: string
+                            folder_source:
+                              type: string
+                            service_source:
+                              type: string
+                            service_id_source:
+                              type: string
+                            service_uri_destination:
+                              type: string
+                            folder_destination:
+                              type: string
+                            service_destination:
+                              type: string
+                            service_id_destination:
+                              type: string
+                            status:
+                              type: string
+                      service_versions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            service_uri_source:
+                              type: string
+                            folder_source:
+                              type: string
+                            service_source:
+                              type: string
+                            version_source:
+                              type: string
+                            service_id_source:
+                              type: string
+                            version_id_source:
+                              type: string
+                            folder_destination:
+                              type: string
+                            service_destination:
+                              type: string
+                            version_destination:
+                              type: string
+                            service_uri_destination:
+                              type: string
+                            service_id_destination:
+                              type: string
+                            version_id_destination:
+                              type: string
+                            status:
+                              type: string
+        '401':
+          description: when invalid, expired access token or API key.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                properties:
+                  status:
+                    type: string
+                    enum: [Success, Error]
+                  errorCode:
+                    type: string
+              example:
+                errorCode: INVALID_TOKEN
+                status: Error
+        '500':
+          description: when something disruptive happens on the server side during this operation such as INVALID_JOB_ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiV4ResponseError'
+              example:
+                type: invalid_input
+                code: INVALID_JOB_ID
+                message: Please Provide valid job id
+
 components:
   schemas:
     ApiV3ResponseError:
@@ -354,6 +610,20 @@ components:
               type: string
             nullable: true
           nullable: true
+
+    ApiV4ResponseError:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        code:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true
+      additionalProperties: false
 
     ServiceRequestData:
       type: object
