@@ -1,0 +1,5554 @@
+{
+	"info": {
+		"_postman_id": "2d00a93a-0ff7-4245-a6db-1afc144604f9",
+		"name": "Coherent Spark",
+		"description": "This Postman collection covers all the APIs documented on the [Coherent Spark User Guide](https://docs.coherent.global) page.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26663095"
+	},
+	"item": [
+		{
+			"name": "Public APIs",
+			"item": [
+				{
+					"name": "Metadata",
+					"item": [
+						{
+							"name": "gets service metadata if any",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{api_key}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "x-synthetic-key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/public/folders/{{folder}}/services/{{service}}/metadata",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v3",
+										"public",
+										"folders",
+										"{{folder}}",
+										"services",
+										"{{service}}",
+										"metadata"
+									]
+								},
+								"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/metadata-api) to learn more."
+							},
+							"response": []
+						},
+						{
+							"name": "gets service metadata by service id if any",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{api_key}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "x-synthetic-key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/public/service/{{service_id}}/metadata",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v3",
+										"public",
+										"service",
+										"{{service_id}}",
+										"metadata"
+									]
+								},
+								"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/metadata-api) to learn more."
+							},
+							"response": []
+						},
+						{
+							"name": "gets service metadata by version id if any",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{api_key}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "x-synthetic-key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/public/version/{{version_id}}/metadata",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v3",
+										"public",
+										"version",
+										"{{version_id}}",
+										"metadata"
+									]
+								},
+								"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/metadata-api) to learn more."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "WASM",
+					"item": [
+						{
+							"name": "downloads wasm",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{api_key}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "x-synthetic-key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/nodegen/public/getnodegenzipbyid/folders/{{folder}}/services/{{service}}",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v3",
+										"nodegen",
+										"public",
+										"getnodegenzipbyid",
+										"folders",
+										"{{folder}}",
+										"services",
+										"{{service}}"
+									]
+								},
+								"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/webassembly-module-api) to learn more."
+							},
+							"response": []
+						},
+						{
+							"name": "downloads wasm by service id",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{api_key}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "x-synthetic-key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/nodegen/public/getnodegenzipbyid/service/{{service_id}}",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v3",
+										"nodegen",
+										"public",
+										"getnodegenzipbyid",
+										"service",
+										"{{service_id}}"
+									]
+								},
+								"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/webassembly-module-api) to learn more."
+							},
+							"response": []
+						},
+						{
+							"name": "downloads wasm by version id",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{api_key}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "x-synthetic-key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/nodegen/public/getnodegenzipbyid/version/{{version_id}}",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v3",
+										"nodegen",
+										"public",
+										"getnodegenzipbyid",
+										"version",
+										"{{version_id}}"
+									]
+								},
+								"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/webassembly-module-api) to learn more."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Validation",
+					"item": [
+						{
+							"name": "validates service inputs",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{api_key}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "x-synthetic-key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"request_data\": {\n        \"inputs\": {}\n    },\n    \"request_meta\": {\n        \"validation_type\": \"dynamic\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/public/folders/{{folder}}/services/{{service}}/validation",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v3",
+										"public",
+										"folders",
+										"{{folder}}",
+										"services",
+										"{{service}}",
+										"validation"
+									]
+								},
+								"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/validation-api) to learn more."
+							},
+							"response": []
+						},
+						{
+							"name": "validates service inputs by service id",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{api_key}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "x-synthetic-key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"request_data\": {\n        \"inputs\": {}\n    },\n    \"request_meta\": {\n        \"validation_type\": \"dynamic\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/public/service/{{service_id}}/validation",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v3",
+										"public",
+										"service",
+										"{{service_id}}",
+										"validation"
+									]
+								},
+								"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/validation-api) to learn more."
+							},
+							"response": []
+						},
+						{
+							"name": "validates service inputs by version id",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "{{api_key}}",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "x-synthetic-key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"request_data\": {\n        \"inputs\": {}\n    },\n    \"request_meta\": {\n        \"validation_type\": \"dynamic\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/public/version/{{version_id}}/validation",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v3",
+										"public",
+										"version",
+										"{{version_id}}",
+										"validation"
+									]
+								},
+								"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/validation-api) to learn more."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Execute",
+					"item": [
+						{
+							"name": "v3",
+							"item": [
+								{
+									"name": "locates latest service using folder/service (url)",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/public/folders/{{folder}}/services/{{service}}/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"public",
+												"folders",
+												"{{folder}}",
+												"services",
+												"{{service}}",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "locates latest service by service id (url)",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/public/service/{{service_id}}",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"public",
+												"service",
+												"{{service_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pinpoints service by version id (url)",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/public/version/{{version_id}}",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"public",
+												"version",
+												"{{version_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "locates service using custom endpoint",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/public/proxy/{{proxy}}",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"public",
+												"proxy",
+												"{{proxy}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "v4",
+							"item": [
+								{
+									"name": "locates latest service using folder/service",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"service\": \"{{folder}}/{{service}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/public/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v4",
+												"public",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pinpoints service using folder/service[version]",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"service\": \"{{folder}}/{{service}}[{{version}}]\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/public/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v4",
+												"public",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pinpoints service using version id",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"version_id\": \"{{version_id}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/public/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v4",
+												"public",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "checks spark environment health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/health",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "The following endpoints can be consumed without authentication. Follow [this guide](https://docs.coherent.global/spark-apis/public-apis) to learn more about Public APIs."
+		},
+		{
+			"name": "Keycloak",
+			"item": [
+				{
+					"name": "retrieves access token using CCG",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Update access token whenever a new token gets created.",
+									"const response = pm.response.json();",
+									"if (response && response.access_token) {",
+									"    pm.environment.set(\"access_token\", response.access_token);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://keycloak.{{environment}}.coherent.global/auth/realms/{{tenant}}/protocol/openid-connect/token",
+							"protocol": "https",
+							"host": [
+								"keycloak",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"{{tenant}}",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						},
+						"description": "Upon successful execution, this request will update the environment variable `access_token`."
+					},
+					"response": []
+				},
+				{
+					"name": "fetches Spark config",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/api/v1/config/getsparkconfiguration",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"api",
+								"v1",
+								"config",
+								"getsparkconfiguration"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Folder API",
+			"item": [
+				{
+					"name": "categories",
+					"item": [
+						{
+							"name": "lists all categories",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/api/v1/lookup/getcategories",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"api",
+										"v1",
+										"lookup",
+										"getcategories"
+									]
+								},
+								"description": "This helps list all categories, both predefined and user-defined ones.\n\nNote that, though Spark contains some predefined categories, users are allowed to add their own if needed."
+							},
+							"response": []
+						},
+						{
+							"name": "saves or updates categories",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"value\": \"category-name\",\n    \"key\": \"uuid\",\n    \"icon\": \"other.svg\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/api/v1/lookup/savecategory",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"api",
+										"v1",
+										"lookup",
+										"savecategory"
+									]
+								},
+								"description": "This helps save or update user-defined categories. Do know that if you intend to use new icons, you can use the UI to upload them first before you can assign them to a category.\n\nAPI key authorization is not supported for this operation."
+							},
+							"response": []
+						},
+						{
+							"name": "deletes user-defined categories",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/api/v1/lookup/deletecategory/<category-key>",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"api",
+										"v1",
+										"lookup",
+										"deletecategory",
+										"<category-key>"
+									]
+								},
+								"description": "This helps delete user-defined categories.\n\nAPI key authorization is not supported for this operation."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "creates new folder",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Update folder_id whenever a new folder gets created.",
+									"const response = pm.response.json();",
+									"if (response && response.data) {",
+									"    pm.environment.set(\"folder_id\", response.data.folderId);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Name",
+									"value": "{{folder}}",
+									"type": "text"
+								},
+								{
+									"key": "Category",
+									"value": "Medical",
+									"description": "See Categories folder to learn more about it.",
+									"type": "text"
+								},
+								{
+									"key": "Description",
+									"value": "Created from Postman",
+									"type": "text"
+								},
+								{
+									"key": "StartDate",
+									"value": "2025-01-31T00:00:00.000Z",
+									"description": "acceptable format: ISO (YYYY-MM-DDTHH:MM:SS.SSSZ)",
+									"type": "text"
+								},
+								{
+									"key": "LaunchDate",
+									"value": "2025-01-31T00:00:00.000Z",
+									"description": "acceptable format: ISO (YYYY-MM-DDTHH:MM:SS.SSSZ)",
+									"type": "text"
+								},
+								{
+									"key": "Status",
+									"value": "Design",
+									"type": "text"
+								},
+								{
+									"key": "CoverImage",
+									"description": "attach supported image file formats.",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/api/v1/product/create",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"api",
+								"v1",
+								"product",
+								"create"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/folder-apis/create-folder) to learn more.\n\n**NOTE**: This endpoint cannot be authorized with API Keys."
+					},
+					"response": []
+				},
+				{
+					"name": "updates existing folder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"category\": \"Other\",\n    \"description\": \"Updated by Postman\",\n    \"name\": \"{{folder}}\",\n    \"launchDate\": \"2025-01-31T00:00:00.000Z\",\n    \"startDate\": \"2035-01-31T00:00:00.000Z\",\n    \"shouldTrackUserAction\": true,\n    \"status\": \"Design\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/api/v1/product/update/{{folder_id}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"api",
+								"v1",
+								"product",
+								"update",
+								"{{folder_id}}"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/folder-apis/update-folder) to learn more.\n\n**NOTE**: This endpoint cannot be authorized with API Keys."
+					},
+					"response": []
+				},
+				{
+					"name": "finds folder by name",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": 1,\n    \"pageSize\": 16,\n    \"sort\": \"-updated\",\n    \"search\": [{ \"field\": \"name\", \"value\": \"{{folder}}\" }],\n    \"shouldFetchActiveServicesCount\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/api/v1/product/list",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"api",
+								"v1",
+								"product",
+								"list"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/folder-apis/find-folder) to learn more.\n\n**NOTE**: This endpoint cannot be authorized with API Keys."
+					},
+					"response": []
+				},
+				{
+					"name": "gets folder info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/api/v1/product/GetProduct/{{folder}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"api",
+								"v1",
+								"product",
+								"GetProduct",
+								"{{folder}}"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/folder-apis/get-folder) to learn more.\n\n**NOTE**: This endpoint cannot be authorized with API Keys."
+					},
+					"response": []
+				},
+				{
+					"name": "deletes folder by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/api/v1/product/delete/{{folder_id}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"api",
+								"v1",
+								"product",
+								"delete",
+								"{{folder_id}}"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/folder-apis/delete-folder) to learn more.\n\n**NOTE**: This endpoint cannot be authorized with API Keys."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Service API",
+			"item": [
+				{
+					"name": "1. uploads an Excel as service",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Update access token whenever a new token gets created.",
+									"const response = pm.response.json();",
+									"if (response && response.response_data) {",
+									"    pm.environment.set(\"upload_compile_job_id\", response.response_data.nodegen_compilation_jobid);",
+									"    pm.environment.set(\"upload_file_id\", response.response_data.original_file_documentid);",
+									"    pm.environment.set(\"upload_engine_id\", response.response_data.engine_file_documentid);",
+									"    if (response.response_meta) pm.environment.set(\"version_id\", response.response_meta.version_id);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "engineUploadRequestEntity",
+									"value": "{\"request_data\":{\"version_difference\":\"minor\",\"effective_start_date\":\"2025-01-31T00:00:00.000Z\",\"effective_end_date\":\"2035-01-31T00:00:00.000Z\",\"compiler_version\":\"StableLatest\", \"compiler_type\":\"StableLatest\"}}",
+									"type": "text"
+								},
+								{
+									"key": "serviceFile",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/upload",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"folders",
+								"{{folder}}",
+								"services",
+								"{{service}}",
+								"upload"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/service-apis/upload-spark-service) to learn more."
+					},
+					"response": []
+				},
+				{
+					"name": "2. checks compilation status of an upload job",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/getcompilationprogess/{{upload_compile_job_id}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"folders",
+								"{{folder}}",
+								"services",
+								"{{service}}",
+								"getcompilationprogess",
+								"{{upload_compile_job_id}}"
+							]
+						},
+						"description": "Make sure to trigger an upload process first to generate the `upload_compile_job_id` as this is required to perform status check.\n\nCheck out the [API Reference](https://docs.coherent.global/spark-apis/service-apis/check-compilation-status) to learn more."
+					},
+					"response": []
+				},
+				{
+					"name": "3. publishes an Excel as service",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"request_data\": {\n        \"draft_service_name\": \"{{service}}\",\n        \"effective_start_date\":\"2025-01-31T00:00:00.000Z\",\n        \"effective_end_date\":\"2035-01-31T00:00:00.000Z\",\n        \"original_file_documentid\": \"{{upload_file_id}}\",\n        \"engine_file_documentid\": \"{{upload_engine_id}}\",\n        \"version_difference\": \"minor\",\n        \"should_trck_user_action\": \"true\",\n        \"version_label\": \"initial release\",\n        \"release_note\": \"Uploaded via Postman\",\n        \"tags\": null\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/publish",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"folders",
+								"{{folder}}",
+								"services",
+								"{{service}}",
+								"publish"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/service-apis/publish-service) to learn more."
+					},
+					"response": []
+				},
+				{
+					"name": "gets version details of a service",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/api/v1/product/{{folder}}/engines/getversions/{{service}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"api",
+								"v1",
+								"product",
+								"{{folder}}",
+								"engines",
+								"getversions",
+								"{{service}}"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/service-apis/retrieve-all-version-ids) to learn more."
+					},
+					"response": []
+				},
+				{
+					"name": "gets service schema using semantic version",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/api/v1/product/{{folder}}/engines/get/{{service}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"api",
+								"v1",
+								"product",
+								"{{folder}}",
+								"engines",
+								"get",
+								"{{service}}"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/service-apis/retrieve-latest-version) to learn more."
+					},
+					"response": []
+				},
+				{
+					"name": "gets service schema by version id",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/api/v1/product/{{folder}}/engines/getbyversionid/{{service}}/{{version_id}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"api",
+								"v1",
+								"product",
+								"{{folder}}",
+								"engines",
+								"getbyversionid",
+								"{{service}}",
+								"{{version_id}}"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/service-apis/retrieve-latest-version) to learn more."
+					},
+					"response": []
+				},
+				{
+					"name": "downloads a service (latest)",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/api/v1/product/{{folder}}/engines/{{service}}/download",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"api",
+								"v1",
+								"product",
+								"{{folder}}",
+								"engines",
+								"{{service}}",
+								"download"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/service-apis/download-service) to learn more."
+					},
+					"response": []
+				},
+				{
+					"name": "downloads a service by version id",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/api/v1/product/{{folder}}/engines/{{service}}/download/{{version_id}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"api",
+								"v1",
+								"product",
+								"{{folder}}",
+								"engines",
+								"{{service}}",
+								"download",
+								"{{version_id}}"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/service-apis/download-service) to learn more."
+					},
+					"response": []
+				},
+				{
+					"name": "downloads swagger representation (latest)",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/downloadswagger/{{subservices}}/false",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"folders",
+								"{{folder}}",
+								"services",
+								"{{service}}",
+								"downloadswagger",
+								"{{subservices}}",
+								"false"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/service-apis/download-swagger) to learn more.\n\nSet the boolean value of the endpoint to `true` for the purposes of integrating with this endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "downloads swagger representation by version id",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/downloadswagger/{{subservices}}/false/{{version_id}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"folders",
+								"{{folder}}",
+								"services",
+								"{{service}}",
+								"downloadswagger",
+								"{{subservices}}",
+								"false",
+								"{{version_id}}"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/service-apis/download-swagger) to learn more.\n\nSet the boolean value of the endpoint to `true` for the purposes of integrating with this endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "recompiles a service by version id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"request_data\": {\n        \"versionId\": \"{{version_id}}\",\n        \"upgradeType\": \"patch\",\n        \"defaultEngineType\": \"Neuron\",\n        \"effectiveStartDate\": \"2025-01-31T00:00:00.000Z\",\n        \"effectiveEndDate\": \"2035-01-31T00:00:00.000Z\",\n        \"versionLabel\": \"Recompile to neuron\",\n        \"releaseNotes\": \"Programmatically updated to neuron\",\n        \"referenceRangeMetadatas\": []\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/recompilenodgen",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"folders",
+								"{{folder}}",
+								"services",
+								"{{service}}",
+								"recompilenodgen"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Metadata API",
+			"item": [
+				{
+					"name": "gets service metadata if any",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/metadata",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"folders",
+								"{{folder}}",
+								"services",
+								"{{service}}",
+								"metadata"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/metadata-api) to learn more."
+					},
+					"response": []
+				},
+				{
+					"name": "gets service metadata by service id if any",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/service/{{service_id}}/metadata",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"service",
+								"{{service_id}}",
+								"metadata"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/metadata-api) to learn more."
+					},
+					"response": []
+				},
+				{
+					"name": "gets service metadata by version id if any",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/version/{{version_id}}/metadata",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"version",
+								"{{version_id}}",
+								"metadata"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/metadata-api) to learn more."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "WASM API",
+			"item": [
+				{
+					"name": "downloads wasm",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/nodegen/getnodegenzipbyid/folders/{{folder}}/services/{{service}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"nodegen",
+								"getnodegenzipbyid",
+								"folders",
+								"{{folder}}",
+								"services",
+								"{{service}}"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/webassembly-module-api) to learn more."
+					},
+					"response": []
+				},
+				{
+					"name": "downloads wasm by service id",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/nodegen/getnodegenzipbyid/service/{{service_id}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"nodegen",
+								"getnodegenzipbyid",
+								"service",
+								"{{service_id}}"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/webassembly-module-api) to learn more."
+					},
+					"response": []
+				},
+				{
+					"name": "downloads wasm by version id",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/nodegen/getnodegenzipbyid/version/{{version_id}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"nodegen",
+								"getnodegenzipbyid",
+								"version",
+								"{{version_id}}"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/webassembly-module-api) to learn more."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Validation API",
+			"item": [
+				{
+					"name": "validates service inputs",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"request_data\": {\n        \"inputs\": {}\n    },\n    \"request_meta\": {\n        \"validation_type\": \"dynamic\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/validation",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"folders",
+								"{{folder}}",
+								"services",
+								"{{service}}",
+								"validation"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/validation-api) to learn more."
+					},
+					"response": []
+				},
+				{
+					"name": "validates service inputs by service id",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"request_data\": {\n        \"inputs\": {}\n    },\n    \"request_meta\": {\n        \"validation_type\": \"dynamic\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/service/{{service_id}}/validation",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"service",
+								"{{service_id}}",
+								"validation"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/validation-api) to learn more."
+					},
+					"response": []
+				},
+				{
+					"name": "validates service inputs by version id",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-synthetic-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"request_data\": {\n        \"inputs\": {}\n    },\n    \"request_meta\": {\n        \"validation_type\": \"dynamic\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/version/{{version_id}}/validation",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"version",
+								"{{version_id}}",
+								"validation"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/validation-api) to learn more."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Execute API",
+			"item": [
+				{
+					"name": "v3",
+					"item": [
+						{
+							"name": "locators",
+							"item": [
+								{
+									"name": "locates latest service using folder/service (url)",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"folders",
+												"{{folder}}",
+												"services",
+												"{{service}}",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "locates latest service using folder/service (body)",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_data\": {},\n    \"request_meta\": {\n        \"service_uri\": \"folders/{{folder}}/services/{{service}}\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pinpoints service using folder/service (url) + version (body)",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_meta\": {\n        \"transaction_date\": \"2025-12-31T00:00:00.000Z\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"folders",
+												"{{folder}}",
+												"services",
+												"{{service}}",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pinpoints service using folder/service (body) + version (body)",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_data\": {},\n    \"request_meta\": {\n        \"service_uri\": \"folders/{{folder}}/services/{{service}}\",\n        \"version\": \"{{version}}\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pinpoints service using folder/service (url) + date (body)",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_meta\": {\n        \"transaction_date\": \"2025-12-31T23:00:00.000Z\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"folders",
+												"{{folder}}",
+												"services",
+												"{{service}}",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pinpoints service using folder/service (body) + date (body)",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_data\": {},\n    \"request_meta\": {\n        \"service_uri\": \"folders/{{folder}}/services/{{service}}\",\n        \"transaction_date\": \"2025-12-31T23:00:00.000Z\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "locates latest service by service id (url)",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/service/{{service_id}}",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"service",
+												"{{service_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "locates latest service by service id (body)",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_data\": {},\n    \"request_meta\": {\n        \"service_id\": \"{{service_id}}\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pinpoints service by service id (url) + version (body)",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_meta\": {\n        \"version\": \"{{version}}\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/service/{{service_id}}",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"service",
+												"{{service_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pinpoints service by service id (body) + version (body)",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_data\": {},\n    \"request_meta\": {\n        \"service_id\": \"{{service_id}}\",\n        \"version\": \"{{version}}\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pinpoints service by service id (url) + date (body)",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_meta\": {\n        \"transaction_date\": \"2025-12-31T23:00:00.000Z\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/service/{{service_id}}",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"service",
+												"{{service_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pinpoints service by service id (body) + date (body)",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_data\": {},\n    \"request_meta\": {\n        \"service_id\": \"{{service_id}}\",\n        \"transaction_date\": \"2025-12-31T23:00:00.000Z\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pinpoints service by version id (url)",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/version/{{version_id}}",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"version",
+												"{{version_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pinpoints service by version id (body)",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_data\": {},\n    \"request_meta\": {\n        \"version_id\": \"{{version_id}}\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "locates service using custom endpoint",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/proxy/{{proxy}}",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"proxy",
+												"{{proxy}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"description": "When enabled, all these endpoints can be publicly accessed if the `/public` is part of path and precedes the service URI: `BASE_URL/api/v3` + `/public` + `/SERVICE_URI`.\n\nFor example:\n\n`https://excel.my-env.coherent.global/my-tenant/api/v3/public/folders/my-folder/services/my-service/execute`."
+						},
+						{
+							"name": "metadata",
+							"item": [
+								{
+									"name": "tags service with metadata",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_data\": {},\n    \"request_meta\": {\n        \"call_purpose\": \"Quick Start\",\n        \"source_system\": \"Postman\",\n        \"correlation_id\": \"echo-this-as-identifier\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/version/{{version_id}}",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"version",
+												"{{version_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "controls service outputs with metadata",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_data\": {},\n    \"request_meta\": {\n        \"array_outputs\": null,\n        \"compiler_type\": \"Neuron\",\n        \"debug_solve\": false,\n        \"debug_xcall\": false,\n        \"excel_file\": false,\n        \"manual_now\": null,\n        \"random_seed\": null,\n        \"requested_output\": null,\n        \"requested_output_regex\": null,\n        \"response_data_inputs\": null,\n        \"service_category\": null,\n        \"xreport_options\": null\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/version/{{version_id}}",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"version",
+												"{{version_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "debugs service behavior with metadata",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_data\": {},\n    \"request_meta\": {\n        \"profile\": null,\n        \"show_max_calc_chain\": null,\n        \"top_n_profile\": null\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/version/{{version_id}}",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"version",
+												"{{version_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "usecases",
+							"item": [
+								{
+									"name": "generates rehydrated file on the go",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_data\": {\n        \"inputs\": {}\n    },\n    \"request_meta\": {\n        \"version\": \"{{version}}\",\n        \"call_purpose\": \"Rehydration\",\n        \"source_system\": \"Postman\",\n        \"excel_file\": true\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"folders",
+												"{{folder}}",
+												"services",
+												"{{service}}",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "selects which part of a service to execute",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_data\": {\n        \"inputs\": {}\n    },\n    \"request_meta\": {\n        \"version\": \"{{version}}\",\n        \"call_purpose\": \"Subservices\",\n        \"source_system\": \"Postman\",\n        \"service_category\": \"*\" // support comma-separated values\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"folders",
+												"{{folder}}",
+												"services",
+												"{{service}}",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "connects to external APIs via data connectors",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_data\": {\n        \"inputs\": {}\n    },\n    \"request_meta\": {\n        \"version\": \"{{version}}\",\n        \"call_purpose\": \"Data Connectors\",\n        \"source_system\": \"Postman\",\n        \"compiler_type\": \"XConnector\" // make sure external APIs are reachable.\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"folders",
+												"{{folder}}",
+												"services",
+												"{{service}}",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "generates pdf reports",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_data\": {\n        \"inputs\": {}\n    },\n    \"request_meta\": {\n        \"version\": \"{{version}}\",\n        \"call_purpose\": \"PDF Reporting\",\n        \"source_system\": \"Postman\",\n        \"xreport_options\": {\n            \"produce_pdfs\": true,\n            \"multiple_docs\": false,\n            \"page_numbers\": true\n        }\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"folders",
+												"{{folder}}",
+												"services",
+												"{{service}}",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "creates profiling for perfetto",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_data\": {\n        \"inputs\": {}\n    },\n    \"request_meta\": {\n        \"version\": \"{{version}}\",\n        \"call_purpose\": \"Profiling and Debugging\",\n        \"source_system\": \"Postman\",\n        \"profile\": true, // xBuildParams must be set as \"--build=Debug\" to enable profiling.\n        \"top_n_profile\": 10,\n        \"show_max_calc_chain\": true\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"folders",
+												"{{folder}}",
+												"services",
+												"{{service}}",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "uses inputs with json array data",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"request_data\": {\n        \"inputs\": {\n            \"non_tabular_input\": \"some-data\",\n            \"json_object\": [\n                { \"Name\": \"Dinesh\", \"Age\": 32, \"Location\": \"Gota\" },\n                { \"Name\": \"Sagar\", \"Age\": 25, \"Location\": \"Nikol\" }\n            ],\n            \"json_array\": [\n                [ \"Name\", \"Age\", \"Location\" ],\n                [ \"Dinesh\", 32, \"Gota\" ],\n                [ \"Sagar\", 25, \"Nikol\" ]\n            ]\n        }\n    },\n    \"request_meta\": {\n        \"version\": \"{{version}}\",\n        \"call_purpose\": \"JSON Objects vs. JSON Array\",\n        \"source_system\": \"Postman\",\n        \"array_outputs\": \"*\" // (Optionally) this will format all tabular outputs as JSON array.\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v3",
+												"folders",
+												"{{folder}}",
+												"services",
+												"{{service}}",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					],
+					"description": "This version of the Execute API only performs one calculation for a given Spark service from a platform standpoint. There are use cases (such as PDF Reporting, Data Connectors, Traffic Directors) where more than one operation happen behind the scenes, however, this is still considered ONE calculation because the model (aka WASM module) is only run once and can be viewed in API Call History if enabled.\n\nCheck out the [API Reference](https://docs.coherent.global/spark-apis/execute-api/execute-api-v3) to learn more."
+				},
+				{
+					"name": "v4",
+					"item": [
+						{
+							"name": "locators",
+							"item": [
+								{
+									"name": "locates latest service using folder/service",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"service\": \"{{folder}}/{{service}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v4",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pinpoints service using folder/service[version]",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"service\": \"{{folder}}/{{service}}[{{version}}]\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v4",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pinpoints service using folder/service + date",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"service\": \"{{folder}}/{{service}}\",\n    \"version_by_timestamp\": \"2025-12-31T23:00:00.000Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v4",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "locates latest service using service id",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"service\": \"{{service_id}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v4",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pinpoints service using service id + date",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"service\": \"{{service_id}}\",\n    \"version_by_timestamp\": \"2025-12-31T23:00:00.000Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v4",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pinpoints service using version id",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"version_id\": \"{{version_id}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v4",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"description": "When enabled, all these endpoints can be publicly accessed if the `/public` is part of path and precedes the `/execute`: `BASE_URL/api/v4` + `/public` + `/execute`.\n\nFor example:\n\n`https://excel.my-env.coherent.global/my-tenant/api/v4/public/execute`."
+						},
+						{
+							"name": "metadata",
+							"item": [
+								{
+									"name": "tags service with metadata",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"version_id\": \"{{version_id}}\",\n    \"call_purpose\": \"Quick Start\",\n    \"source_system\": \"Postman\",\n    \"correlation_id\": \"echo-this-as-identifier\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v4",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "controls service outputs with metadata",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"version_id\": \"{{version_id}}\",\n    \"output\": null,\n    \"compiler_type\": \"Neuron\",\n    \"manual_now\": null,\n    \"subservice\": null\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v4",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "usecases",
+							"item": [
+								{
+									"name": "uses inputs with json object data",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"version_id\": \"{{version_id}}\",\n    \"call_purpose\": \"JSON Object Inputs\",\n    \"source_system\": \"Postman\",\n    \"inputs\": [\n        {\n            \"A\": 1,\n            \"B\": [\n                {\"B1\": 6, \"B2\": 3},\n                {\"B1\": 9, \"B2\": 4}\n            ]\n        },\n        {\n            \"A\": 7,\n            \"B\": [\n                {\"B1\": 0, \"B2\": 2}\n            ]\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v4",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "uses inputs with json array data",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-tenant-name",
+												"value": "{{tenant}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"version_id\": \"{{version_id}}\",\n    \"call_purpose\": \"JSON Array Inputs\",\n    \"source_system\": \"Postman\",\n    \"inputs\": [\n        [\"A\", \"B\"],\n        [1, \n            [\n                [\"B1\", \"B2\"],\n                [6, 3],\n                [9, 4]\n            ]\n        ],\n        [7,\n            [\n                [\"B1\", \"B2\"],\n                [0, 2]\n            ]\n        ]\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/execute",
+											"protocol": "https",
+											"host": [
+												"excel",
+												"{{environment}}",
+												"coherent",
+												"global"
+											],
+											"path": [
+												"{{tenant}}",
+												"api",
+												"v4",
+												"execute"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					],
+					"description": "This version of the Execute API can perform one or more WASM module calculations in sequence behind the scenes, which saves travel time.\n\nA clear tradeoff is that some metadata-flagged operations are no longer valid due to its multipicilty nature.\n\nCheck out the [API Reference](https://docs.coherent.global/spark-apis/execute-api/execute-api-v4) to learn more."
+				}
+			],
+			"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/execute-api) to learn more.\n\nRemember to add your inputs and metadata fields as needed.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "API Call History API",
+			"item": [
+				{
+					"name": "csv download",
+					"item": [
+						{
+							"name": "1. initiates log download job",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Update log download job id whenever a download job gets created.",
+											"const response = pm.response.json();",
+											"if (response && response.response_data) {",
+											"    pm.environment.set(\"log_download_job_id\", response.response_data.job_id);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"request_data\": {\n        \"version_id\": \"{{version_id}}\",\n        \"timezone_offset\": null,\n        \"start_date\": \"2025-01-31\", // short format if needed\n        \"end_date\": \"2025-02-28T00:00:00.000Z\",\n        \"has_warnings\": false,\n        \"has_errors\": false,\n        \"call_ids\": [] // call IDs or correlation ID or source system (mutually exclusive).\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/log/downloadcsv",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v3",
+										"folders",
+										"{{folder}}",
+										"services",
+										"{{service}}",
+										"log",
+										"downloadcsv"
+									]
+								},
+								"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/api-call-history-apis/download-log-as-csv) to learn more."
+							},
+							"response": []
+						},
+						{
+							"name": "2. checks log download job status",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"request_data\": {\n        \"version_id\": \"{{version_id}}\",\n        \"timezone_offset\": null,\n        \"start_date\": \"2025-01-31\", // short format if needed\n        \"end_date\": \"2025-02-28T00:00:00.000Z\",\n        \"has_warnings\": false,\n        \"has_errors\": false,\n        \"call_ids\": [] // call IDs or correlation ID or source system (mutually exclusive).\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/log/downloadcsv/status/{{log_download_job_id}}",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v3",
+										"folders",
+										"{{folder}}",
+										"services",
+										"{{service}}",
+										"log",
+										"downloadcsv",
+										"status",
+										"{{log_download_job_id}}"
+									]
+								},
+								"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/api-call-history-apis/download-log-as-csv) to learn more."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "json download",
+					"item": [
+						{
+							"name": "1. initiates log download job",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Update log download job id whenever a download job gets created.",
+											"const response = pm.response.json();",
+											"if (response && response.response_data) {",
+											"    pm.environment.set(\"log_download_job_id\", response.response_data.job_id);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"request_data\": {\n        \"version_id\": \"{{version_id}}\",\n        \"timezone_offset\": null,\n        \"start_date\": \"2025-01-31\", // short format if needed\n        \"end_date\": \"2025-02-28T00:00:00.000Z\",\n        \"has_warnings\": false,\n        \"has_errors\": false,\n        \"call_ids\": [\"0aadcffd-6af0-4ff7-b5a3-176c43e73b44\"] // call IDs or correlation ID or source system (mutually exclusive).\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/log/downloadjson",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v3",
+										"folders",
+										"{{folder}}",
+										"services",
+										"{{service}}",
+										"log",
+										"downloadjson"
+									]
+								},
+								"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/api-call-history-apis/download-log-as-json) to learn more."
+							},
+							"response": []
+						},
+						{
+							"name": "2. checks log download job status",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"request_data\": {\n        \"version_id\": \"{{version_id}}\",\n        \"timezone_offset\": null,\n        \"start_date\": \"2025-01-31\", // short format if needed\n        \"end_date\": \"2025-02-28T00:00:00.000Z\",\n        \"has_warnings\": false,\n        \"has_errors\": false,\n        \"call_ids\": [] // call IDs or correlation ID or source system (mutually exclusive).\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/log/downloadjson/status/{{log_download_job_id}}",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v3",
+										"folders",
+										"{{folder}}",
+										"services",
+										"{{service}}",
+										"log",
+										"downloadjson",
+										"status",
+										"{{log_download_job_id}}"
+									]
+								},
+								"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/api-call-history-apis/download-log-as-csv) to learn more."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "gets detailed log by call id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/log/getexecutionhistorybycallid/{{call_id}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"log",
+								"getexecutionhistorybycallid",
+								"{{call_id}}"
+							]
+						},
+						"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/api-call-history-apis/get-call-id) to learn more."
+					},
+					"response": []
+				},
+				{
+					"name": "downloads copy of original Excel using call id",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/download/xml/{{call_id}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"folders",
+								"{{folder}}",
+								"services",
+								"{{service}}",
+								"download",
+								"xml",
+								"{{call_id}}"
+							],
+							"query": [
+								{
+									"key": "index",
+									"value": "1",
+									"description": "if the API call was done via Execute APIv4",
+									"disabled": true
+								}
+							]
+						},
+						"description": "This endpoint returns the download URL valid for roughly 5 minutes since the generated Excel file is temporary.\n\nCheck out the [API Reference](https://docs.coherent.global/spark-apis/api-call-history-apis/download-as-excel) to learn more."
+					},
+					"response": []
+				},
+				{
+					"name": "downloads copy of original Excel using call id (legacy)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/download/{{call_id}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v3",
+								"folders",
+								"{{folder}}",
+								"services",
+								"{{service}}",
+								"download",
+								"{{call_id}}"
+							],
+							"query": [
+								{
+									"key": "index",
+									"value": "1",
+									"description": "if the API call was done via Execute APIv4",
+									"disabled": true
+								}
+							]
+						},
+						"description": "This endpoint returns the download URL valid for roughly 5 minutes since the generated Excel file is temporary.\n\n**NOTE**: This is marked as `legacy` because its rehydration process relies on a deprecated algorithm.\n\nCheck out the [API Reference](https://docs.coherent.global/spark-apis/api-call-history-apis/download-as-excel-legacy) to learn more."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transforms API",
+			"item": [
+				{
+					"name": "jsonata",
+					"item": [
+						{
+							"name": "executes jsonata transform",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-request-meta",
+										"value": "\"{\\\"call_purpose\\\": \\\"Transforms\\\",\\\"source_system\\\":\\\"Postman\\\" }\"",
+										"description": "when target api version is v3",
+										"type": "text"
+									},
+									{
+										"key": "x-meta",
+										"value": "\"{\\\"call_purpose\\\": \\\"Transforms\\\",\\\"source_system\\\":\\\"Postman\\\" }\"",
+										"description": "when target api version is v4",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"unstructured_data\": \"goes here\" \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/transforms/{{transform_folder}}/{{transform_name}}/for/{{folder}}/{{service}}",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v4",
+										"transforms",
+										"{{transform_folder}}",
+										"{{transform_name}}",
+										"for",
+										"{{folder}}",
+										"{{service}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "executes jsonata transform [DEPRECATED]",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-transform-path",
+										"value": "\"path/to/transform/document\"",
+										"description": "for old transforms located in apps/transforms folder.",
+										"type": "text"
+									},
+									{
+										"key": "x-request-meta",
+										"value": "\"{\\\"call_purpose\\\": \\\"Transforms\\\",\\\"source_system\\\":\\\"Postman\\\" }\"",
+										"description": "when target api version is v3",
+										"type": "text"
+									},
+									{
+										"key": "x-meta",
+										"value": "\"{\\\"call_purpose\\\": \\\"Transforms\\\",\\\"source_system\\\":\\\"Postman\\\" }\"",
+										"description": "when target api version is v4",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"unstructured_data\": \"goes here\" \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/transforms/{{transform_name}}/for/folders/{{folder}}/services/{{service}}",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v4",
+										"transforms",
+										"{{transform_name}}",
+										"for",
+										"folders",
+										"{{folder}}",
+										"services",
+										"{{service}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "node",
+					"item": [
+						{
+							"name": "executes node transform",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-request-meta",
+										"value": "\"{\\\"call_purpose\\\": \\\"Transforms\\\",\\\"source_system\\\":\\\"Postman\\\" }\"",
+										"description": "when target api version is v3",
+										"type": "text"
+									},
+									{
+										"key": "x-meta",
+										"value": "\"{\\\"call_purpose\\\": \\\"Transforms\\\",\\\"source_system\\\":\\\"Postman\\\" }\"",
+										"description": "when target api version is v4",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "x-any-custom-header",
+										"value": "will work too",
+										"description": "if needed",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"unstructured_data\": \"goes here\" \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/transforms/{{transform_folder}}/{{transform_name}}/run",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v4",
+										"transforms",
+										"{{transform_folder}}",
+										"{{transform_name}}",
+										"run"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "uploads transform document as file",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"description": "this supports both node or jsonata transform docs.",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/transforms/{{transform_folder}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v4",
+								"transforms",
+								"{{transform_folder}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "uploads transform document as content",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"transform_content\": \"{\\\"transform_type\\\": \\\"Nodejs22_v1.0.0\\\",\\\"transform_code\\\": \\\"async function handler(event){return {http_status_code:200,headers:{'Content-Type':'application/json'},body:{event}}}\\\"}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/transforms/{{transform_folder}}/{{transform_name}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v4",
+								"transforms",
+								"{{transform_folder}}",
+								"{{transform_name}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validates transform document",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"transform_content\": \"{\\\"transform_type\\\": \\\"Nodejs22_v1.0.0\\\",\\\"transform_code\\\": \\\"async function handler(event){return {http_status_code:200,headers:{'Content-Type':'application/json'},body:{event}}}\\\"}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/transforms/validation",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v4",
+								"transforms",
+								"validation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "lists transform documents in a folder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": 1,\n    \"pageSize\": 100,\n    \"sort\": \"-updatedAt\",\n    \"search\": [] // e.g.: [{\"field\":\"transform_type\", \"value\": \"JSONtransforms_v1.0.1\"}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/transforms/list/{{transform_folder}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v4",
+								"transforms",
+								"list",
+								"{{transform_folder}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gets transform document",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/transforms/{{transform_folder}}/{{transform_name}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v4",
+								"transforms",
+								"{{transform_folder}}",
+								"{{transform_name}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletes transform document",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/transforms/{{transform_folder}}/{{transform_name}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v4",
+								"transforms",
+								"{{transform_folder}}",
+								"{{transform_name}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/transforms-api/transform-documents-apis) to learn more about Transforms."
+		},
+		{
+			"name": "ImpEx API",
+			"item": [
+				{
+					"name": "export",
+					"item": [
+						{
+							"name": "1. initiates export job",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Update export job id whenever an export job gets created.",
+											"const response = pm.response.json();",
+											"if (response && response.response_data) {",
+											"    pm.environment.set(\"export_job_id\", response.response_data.id);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"version_filter\": \"latest\", // latest | all\n    \"file_filter\": \"migrate\",   // migrate | onpremises\n    \"source_system\": \"Postman\",\n    \"correlation_id\": null,\n    \"file_name\": null,          \n    \"inputs\": {\n        \"folders\": [],          // folder names\n        \"services\": [],         // service uris (e.g.,: folder-name/service-name[version]) or service ids\n        \"version_ids\": []       // version ids \n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/export",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v4",
+										"export"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. checks export job status",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/export/{{export_job_id}}/status",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v4",
+										"export",
+										"{{export_job_id}}",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "cancels export job",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"export_status\": \"cancelled\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/export/{{export_job_id}}",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v4",
+										"export",
+										"{{export_job_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "describes export job across tenant",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/export/status",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v4",
+										"export",
+										"status"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/impex-apis/export) to learn more."
+				},
+				{
+					"name": "import",
+					"item": [
+						{
+							"name": "1. initiates import job",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Update import job id whenever an import job gets created.",
+											"const response = pm.response.json();",
+											"if (response && response.response_data) {",
+											"    pm.environment.set(\"import_job_id\", response.response_data.id);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"description": "zip file previously exported from Spark using file filter \"migrate\".",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "importRequestEntity",
+											"value": "{ \"inputs\": {\"services_modify\": [{\"service_uri_source\": \"folder-a/service-a\",\"service_uri_destination\": \"folder-a/service-a\",\"update_version_type\": \"major\"}]},\"services_existing\": \"add_version\",\"source_system\": \"Postman\"}",
+											"description": "see API reference for more info.",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/import",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v4",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. checks import job status",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/import/{{import_job_id}}/status",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v4",
+										"import",
+										"{{import_job_id}}",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "describes import job across tenant",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/import/status",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v4",
+										"import",
+										"status"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/impex-apis/import) to learn more."
+				}
+			],
+			"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/impex-apis) to learn more about Export/Import APIs."
+		},
+		{
+			"name": "Batch API",
+			"item": [
+				{
+					"name": "flow",
+					"item": [
+						{
+							"name": "1. starts batch process",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"if (response && response.id) {",
+											"    pm.environment.set(\"batch_id\", response.id);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"service\": \"{{folder}}/{{service}}\",\n    \"output\": null,\n    \"unique_record_key\": null,\n    \"call_purpose\": \"Batch Process\",\n    \"source_system\": \"Postman\",\n    \"correlation_id\": \"echo-this-as-identifier\",\n    // performance parameters\n    \"initial_workers\": 1,\n    \"max_workers\": 100, \n    \"chunks_per_request\": 1,\n    \"runner_thread_count\": 1,\n    \"max_input_in_mb\": 10,\n    \"max_output_in_mb\": 10,\n    \"acceptable_error_percentage\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/batch",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v4",
+										"batch"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. adds chunks to batch pipeline",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"chunks\": [\n        {\n            \"id\": \"uuid\",\n            \"data\": {\n                \"inputs\": [\n                    [\"sale_id\",\"price\",\"quantity\"],\n                    [1, 20, 65],\n                    [2, 74, 73]\n                ],\n                \"parameters\": { \"tax\": 0.1 },\n                \"summary\": {\n                    \"ignore_error\": false,\n                    \"aggregation\": [\n                        { \"output_name\": \"total\", \"operator\": \"SUM\" }\n                    ]\n                }\n            },\n            \"size\": 2\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/batch/{{batch_id}}/chunks",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v4",
+										"batch",
+										"{{batch_id}}",
+										"chunks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. checks batch pipeline status",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/batch/{{batch_id}}/status",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v4",
+										"batch",
+										"{{batch_id}}",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4. retrieves chunk results",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/batch/{{batch_id}}/chunkresults?max=100",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v4",
+										"batch",
+										"{{batch_id}}",
+										"chunkresults"
+									],
+									"query": [
+										{
+											"key": "max",
+											"value": "100",
+											"description": "100 is limit (default is 50)."
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "5. closes batch pipeline",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"batch_status\": \"closed\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/batch/{{batch_id}}",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v4",
+										"batch",
+										"{{batch_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "cancels batch pipeline",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "x-tenant-name",
+										"value": "{{tenant}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"batch_status\": \"cancelled\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/batch/{{batch_id}}",
+									"protocol": "https",
+									"host": [
+										"excel",
+										"{{environment}}",
+										"coherent",
+										"global"
+									],
+									"path": [
+										"{{tenant}}",
+										"api",
+										"v4",
+										"batch",
+										"{{batch_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "describes batch pipelines across tenant",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/batch/status",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v4",
+								"batch",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "describes batch pipeline by batch id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tenant-name",
+								"value": "{{tenant}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/batch/{{batch_id}}",
+							"protocol": "https",
+							"host": [
+								"excel",
+								"{{environment}}",
+								"coherent",
+								"global"
+							],
+							"path": [
+								"{{tenant}}",
+								"api",
+								"v4",
+								"batch",
+								"{{batch_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/batch-apis) to learn more."
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{api_key}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "x-synthetic-key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
