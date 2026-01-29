@@ -1,877 +1,3012 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.1.1",
   "info": {
-    "title": "Coherent Spark APIs",
-    "description": "OpenAPI specification for the Coherent Spark RESTful APIs (see [API Reference](https://docs.coherent.global) for more details).",
-    "termsOfService": "https://www.coherent.global/terms-of-use",
-    "contact": {
-      "name": "Coherent Support Team",
-      "url": "https://www.coherent.global/contact-us"
-    },
-    "license": {
-      "name": "Apache-2.0",
-      "url": "https://github.com/Coherent-Partners/spark-openapi/blob/main/LICENSE"
-    },
-    "version": "3.0"
+      "title": "Spark OpenAPI specification",
+      "description": "This supplements the information in the [User Guide](https://docs.coherent.global).",
+      "termsOfService": "https://www.coherent.global/terms-of-use",
+      "contact": {
+          "name": "Coherent Support",
+          "url": "https://docs.coherent.global/support"
+      },
+      "license": {
+        "name": "Apache-2.0",
+        "url": "https://github.com/Coherent-Partners/spark-openapi/blob/main/LICENSE"
+      },
+      "version": "0.1.0"
   },
   "servers": [
-    {
-      "url": "https://excel.uat.us.coherent.global"
-    },
-    {
-      "url": "https://excel.uat.ca.coherent.global"
-    },
-    {
-      "url": "https://excel.uat.eu.coherent.global"
-    },
-    {
-      "url": "https://excel.uat.jp.coherent.global"
-    },
-    {
-      "url": "https://excel.uat.au.coherent.global"
-    },
-    {
-      "url": "https://excel.us.coherent.global"
-    },
-    {
-      "url": "https://excel.ca.coherent.global"
-    },
-    {
-      "url": "https://excel.eu.coherent.global"
-    },
-    {
-      "url": "https://excel.jp.coherent.global"
-    },
-    {
-      "url": "https://excel.au.coherent.global"
-    },
-    {
-      "url": "https://excel.test.coherent.global"
-    },
-    {
-      "url": "https://excel.sit.coherent.global"
-    },
-    {
-      "url": "https://excel.staging.coherent.global"
-    }
+      {
+          "url": "https://excel.{environment}.coherent.global",
+          "variables": {
+              "environment": {
+                  "default": "myenvironmentname"
+              }
+          }
+      }
+  ],
+  "security": [
+      {
+          "bearerToken": []
+      },
+      {
+          "tenantName": []
+      },
+      {
+          "syntheticKey": []
+      }
   ],
   "tags": [
-    {
-      "name": "Batch",
-      "description": "Manage asynchronous batch processing."
-    },
-    {
-      "name": "Execute",
-      "description": "Execute a Spark service using v3."
-    },
-    {
-      "name": "Execute (new)",
-      "description": "Execute a Spark service using v4."
-    },
-    {
-      "name": "Export",
-      "description": "Export Spark entities by versions, services, or folders."
-    },
-    {
-      "name": "Import",
-      "description": "Import previously exported Spark entities into the Spark platform."
-    },
-    {
-      "name": "Validation",
-      "description": "Extract static and dynamic validations from a Spark service."
-    }
+      {
+          "name": "API Call History APIs",
+          "description": "APIs for accessing the _API Call History_."
+      },
+      {
+          "name": "Execute API (v3)",
+          "description": "Execute the calculation from a Spark service. Depending on the desired reference parameter, different URI are available."
+      },
+      {
+          "name": "Folder APIs",
+          "description": "APIs for managing Spark folders."
+      },
+      {
+          "name": "Service APIs",
+          "description": "APIs for manager Spark services."
+      }
   ],
   "paths": {
-    "/{tenant}/api/v3/folders/{folder}/services/{service}/validation": {
-      "post": {
-        "tags": ["Validation"],
-        "description": "To access the public version of this endpoint,\nuse \"/{tenant}/api/v3/public/folders/{folder}/services/{service}/validation\"\n",
-        "parameters": [
-          {
-            "name": "tenant",
-            "in": "path",
-            "required": true,
-            "description": "The tenant name",
-            "example": "presales",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "folder",
-            "in": "path",
-            "required": true,
-            "description": "The folder name",
-            "example": "my-folder",
-            "schema": {
-              "type": "string",
-              "format": "uri"
-            }
-          },
-          {
-            "name": "service",
-            "in": "path",
-            "required": true,
-            "description": "The service name",
-            "example": "my-service",
-            "schema": {
-              "type": "string",
-              "format": "uri"
-            }
+      "/{tenant}/api/v3/log/getexecutionhistorybycallid/{callId}": {
+          "get": {
+              "tags": [
+                  "API Call History APIs"
+              ],
+              "summary": "Get Call ID",
+              "description": "Get the details of an API call from the _API Call History_. If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadAPILog.json` or `Spark.AllEncompassingProxy.json`.",
+              "operationId": "getLogGetExecutionHistoryByCallid",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  },
+                  {
+                      "$ref": "#/components/parameters/callId"
+                  },
+                  {
+                      "name": "index",
+                      "in": "query",
+                      "required": false,
+                      "description": "Index number for the record to get. With `v4/execute`, multiple request records can be submitted at once.",
+                      "schema": {
+                          "type": "integer",
+                          "minimum": 0
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object"
+                              },
+                              "example": {
+                                  "status": "Success",
+                                  "response_data": {
+                                      "\\\"EngineCallId\\\"...": null
+                                  },
+                                  "response_meta": {
+                                      "system": "SPARK",
+                                      "request_timestamp": "2025-08-14T07:32:22.271Z"
+                                  },
+                                  "error": null
+                              }
+                          }
+                      }
+                  }
+              }
           }
-        ],
-        "requestBody": {
-          "description": "Input data to validate",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValidationRequest"
+      },
+      "/{tenant}/api/v3/folders/{folder}/services/{service}/download/xml/{callId}": {
+          "post": {
+              "tags": [
+                  "API Call History APIs"
+              ],
+              "summary": "Download as Excel",
+              "description": "Get a copy of the original Excel file with inputs embedded with the _API Call History_ for an Execute API `call_id`. If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadAPILog.json` or `Spark.AllEncompassingProxy.json`.",
+              "operationId": "getDownloadXML",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  },
+                  {
+                      "$ref": "#/components/parameters/folder"
+                  },
+                  {
+                      "$ref": "#/components/parameters/service"
+                  },
+                  {
+                      "$ref": "#/components/parameters/callId"
+                  }
+              ],
+              "requestBody": {
+                  "required": true,
+                  "description": "The request body should be empty or `{}`.",
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object"
+                          },
+                          "example": {}
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object"
+                              },
+                              "example": {
+                                  "status": null,
+                                  "response_data": {
+                                      "download_url": "https://excel.myenvironmentname.coherent.global/SparkService_CallLogDetails_a5c6a61f-06f8-499b-8a4d-818ce4e74d29.xlsx"
+                                  },
+                                  "response_meta": {
+                                      "service_id": "d160a776-01ba-433d-8cb4-60fa2710b085",
+                                      "version_id": "e778bbb1-288c-42f5-a4c3-d0a47f7d0463",
+                                      "version": "0.2.0",
+                                      "process_time": 0,
+                                      "call_id": "18f53170-93d1-4b3c-88b6-04ae302b7e8d",
+                                      "compiler_type": "Neuron",
+                                      "compiler_version": null,
+                                      "source_hash": null,
+                                      "engine_id": "53ACA991910FF82E1DF0B133D66A5A97",
+                                      "correlation_id": null,
+                                      "parameterset_version_id": null,
+                                      "system": "SPARK",
+                                      "request_timestamp": "2025-02-13T05:48:19.654Z"
+                                  },
+                                  "error": null
+                              }
+                          }
+                      }
+                  }
               }
-            }
           }
-        },
-        "responses": {
-          "200": {
-            "description": "successfully validates the input data using static or dynamic validations set in the Excel file.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "when wrong params are provided such as tenant mismatch, invalid folder or service name or version.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidationResponse"
-                },
-                "example": {
-                  "status": "Error",
-                  "response_data": null,
-                  "response_meta": null,
-                  "error": {
-                    "error_category": "application_error",
-                    "error_type": "error.application_error",
-                    "message": "TENANT_MISMATCH",
-                    "additional_details": null
+      },
+      "/{tenant}/api/v3/folders/{folder}/services/{service}/log/downloadcsv": {
+          "post": {
+              "tags": [
+                  "API Call History APIs"
+              ],
+              "summary": "Download Log as CSV post log job",
+              "description": "Get a ZIP of CSV files from the _API Call History_ of a Spark service. This is equivalent to the _API Call History_ functionality to _Download all API calls_, _Download as CSV_. If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadCsvLog.json` or `Spark.AllEncompassingProxy.json`.",
+              "operationId": "postLogDownloadCSV",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
                   }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "when invalid, expired access token or API key.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidationResponse"
-                },
-                "example": {
-                  "status": "Error",
-                  "response_data": null,
-                  "response_meta": null,
-                  "error": {
-                    "error_category": "access_error",
-                    "error_type": "error.UNAUTHORIZED",
-                    "message": "INVALID_TOKEN"
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  },
+                  {
+                      "$ref": "#/components/parameters/folder"
+                  },
+                  {
+                      "$ref": "#/components/parameters/service"
                   }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "when users are not allowed to perform this action and require additional permissions.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidationResponse"
-                },
-                "example": {
-                  "status": "Error",
-                  "response_data": null,
-                  "response_meta": null,
-                  "error": {
-                    "error_category": "application_error",
-                    "error_type": "error.UNAUTHORIZED",
-                    "message": "UNAUTHORIZED",
-                    "additional_details": null
+              ],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "request_data": {
+                                      "type": "object",
+                                      "properties": {
+                                          "timezone_offset": {
+                                              "type": "integer",
+                                              "description": "Number of hours to adjust the returned timestamps."
+                                          },
+                                          "start_date": {
+                                              "type": "string",
+                                              "format": "date-time",
+                                              "description": "Timestamp for start log time filter. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601.",
+                                              "examples": [
+                                                  "2022-10-30T18:30:00.853Z"
+                                              ]
+                                          },
+                                          "end_date": {
+                                              "type": "string",
+                                              "format": "date-time",
+                                              "description": "Timestamp for end log time filter. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601.",
+                                              "examples": [
+                                                  "2022-10-30T18:30:00.853Z"
+                                              ]
+                                          },
+                                          "call_ids": {
+                                              "type": "array",
+                                              "items": {
+                                                  "type": "string"
+                                              },
+                                              "description": "Array containing `call_id`s, or single element `correlation_id`, or single element `source_system` to filter.",
+                                              "examples": [
+                                                  [
+                                                      "329700e6-0850-40cf-b61e-310c2f756b73",
+                                                      "fc01d941-bc29-4312-993a-c203913adcb8"
+                                                  ],
+                                                  [
+                                                      "correlation id for quotation"
+                                                  ],
+                                                  [
+                                                      "external source system "
+                                                  ]
+                                              ]
+                                          },
+                                          "callpurpose": {
+                                              "type": "string",
+                                              "description": "`call_purpose` to filter."
+                                          },
+                                          "userName": {
+                                              "type": "string",
+                                              "format": "email",
+                                              "description": "Username to filter.",
+                                              "example": "myname@mydomain.com"
+                                          },
+                                          "has_warnings": {
+                                              "type": "boolean",
+                                              "description": "Filter calls with warnings."
+                                          },
+                                          "has_errors": {
+                                              "type": "boolean",
+                                              "description": "Filter calls with errors."
+                                          }
+                                      }
+                                  },
+                                  "request_meta": {
+                                      "type": "object",
+                                      "properties": {
+                                          "version_id": {
+                                              "type": "string",
+                                              "format": "uuid",
+                                              "description": "`version_id` to filter for a specific service version.",
+                                              "example": "7c3a51a3-a0ae-41ec-b78a-5b8f75376b2f"
+                                          }
+                                      }
+                                  }
+                              }
+                          },
+                          "example": {
+                              "request_data": {
+                                  "start_date": "2023-11-11",
+                                  "end_date": ""
+                              }
+                          }
+                      }
                   }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "when something disruptive happens on the server side during this operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidationResponse"
-                },
-                "example": {
-                  "status": "Error",
-                  "response_data": null,
-                  "response_meta": null,
-                  "error": {
-                    "error_category": "application_error",
-                    "error_type": "error.application_error",
-                    "message": "Could not complete this operation",
-                    "additional_details": null
+              },
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object"
+                              },
+                              "example": {
+                                  "status": null,
+                                  "response_data": {
+                                      "job_id": "ebcbf840-df82-472a-b9d4-073f14f4320b"
+                                  },
+                                  "response_meta": {
+                                      "system": "SPARK",
+                                      "request_timestamp": "2023-11-14T07:59:43.050Z"
+                                  },
+                                  "error": null
+                              }
+                          }
+                      }
                   }
-                }
               }
-            }
           }
-        }
+      },
+      "/{tenant}/api/v3/folders/{folder}/services/{service}/log/downloadcsv/status/{jobId}": {
+          "get": {
+              "tags": [
+                  "API Call History APIs"
+              ],
+              "summary": "Download Log as CSV get log job status",
+              "description": "Get a ZIP of CSV files from the _API Call History_ of a Spark service. This is equivalent to the _API Call History_ functionality to _Download all API calls_, _Download as CSV_. If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadCsvLog.json` or `Spark.AllEncompassingProxy.json`.",
+              "operationId": "getLogDownloadCSVStatus",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  },
+                  {
+                      "$ref": "#/components/parameters/folder"
+                  },
+                  {
+                      "$ref": "#/components/parameters/service"
+                  },
+                  {
+                      "$ref": "#/components/parameters/jobId"
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object"
+                              },
+                              "example": {
+                                  "status": null,
+                                  "response_data": {
+                                      "progress": 100,
+                                      "download_url": "https://environment.coherent.global/SparkService_allRecords_2023_11_14_T_08_25_40.zip"
+                                  },
+                                  "response_meta": {
+                                      "system": "SPARK",
+                                      "request_timestamp": "2023-11-14T08:25:40.762Z"
+                                  },
+                                  "error": null
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/{tenant}/api/v3/folders/{folder}/services/{service}/log/downloadJSON": {
+          "post": {
+              "tags": [
+                  "API Call History APIs"
+              ],
+              "summary": "Download Log as JSON post log job",
+              "description": "Get a ZIP of JSON files from the _API Call History_ of a Spark service. This is equivalent to the _API Call History_ functionality to _Download all API calls_, _Download as JSON_. If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadJSONLog.json` or `Spark.AllEncompassingProxy.json`.",
+              "operationId": "postLogDownloadJSON",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  },
+                  {
+                      "$ref": "#/components/parameters/folder"
+                  },
+                  {
+                      "$ref": "#/components/parameters/service"
+                  }
+              ],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "request_data": {
+                                      "type": "object",
+                                      "properties": {
+                                          "timezone_offset": {
+                                              "type": "integer",
+                                              "description": "Number of hours to adjust the returned timestamps."
+                                          },
+                                          "start_date": {
+                                              "type": "string",
+                                              "format": "date-time",
+                                              "description": "Timestamp for start log time filter. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601.",
+                                              "examples": [
+                                                  "2022-10-30T18:30:00.853Z"
+                                              ]
+                                          },
+                                          "end_date": {
+                                              "type": "string",
+                                              "format": "date-time",
+                                              "description": "Timestamp for end log time filter. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601.",
+                                              "examples": [
+                                                  "2022-10-30T18:30:00.853Z"
+                                              ]
+                                          },
+                                          "call_ids": {
+                                              "type": "array",
+                                              "items": {
+                                                  "type": "string"
+                                              },
+                                              "description": "Array containing `call_id`s, or single element `correlation_id`, or single element `source_system` to filter.",
+                                              "examples": [
+                                                  [
+                                                      "329700e6-0850-40cf-b61e-310c2f756b73",
+                                                      "fc01d941-bc29-4312-993a-c203913adcb8"
+                                                  ],
+                                                  [
+                                                      "correlation id for quotation"
+                                                  ],
+                                                  [
+                                                      "external source system "
+                                                  ]
+                                              ]
+                                          },
+                                          "callpurpose": {
+                                              "type": "string",
+                                              "description": "`call_purpose` to filter."
+                                          },
+                                          "userName": {
+                                              "type": "string",
+                                              "format": "email",
+                                              "description": "Username to filter.",
+                                              "example": "myname@mydomain.com"
+                                          },
+                                          "has_warnings": {
+                                              "type": "boolean",
+                                              "description": "Filter calls with warnings."
+                                          },
+                                          "has_errors": {
+                                              "type": "boolean",
+                                              "description": "Filter calls with errors."
+                                          }
+                                      }
+                                  },
+                                  "request_meta": {
+                                      "type": "object",
+                                      "properties": {
+                                          "version_id": {
+                                              "type": "string",
+                                              "format": "uuid",
+                                              "description": "`version_id` to filter for a specific service version.",
+                                              "example": "7c3a51a3-a0ae-41ec-b78a-5b8f75376b2f"
+                                          }
+                                      }
+                                  }
+                              }
+                          },
+                          "example": {
+                              "request_data": {
+                                  "start_date": "2023-11-11",
+                                  "end_date": ""
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object"
+                              },
+                              "example": {
+                                  "status": null,
+                                  "response_data": {
+                                      "job_id": "ebcbf840-df82-472a-b9d4-073f14f4320b"
+                                  },
+                                  "response_meta": {
+                                      "system": "SPARK",
+                                      "request_timestamp": "2023-11-14T07:59:43.050Z"
+                                  },
+                                  "error": null
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/{tenant}/api/v3/folders/{folder}/services/{service}/log/downloadJSON/status/{jobId}": {
+          "get": {
+              "tags": [
+                  "API Call History APIs"
+              ],
+              "summary": "Download Log as JSON get log job status",
+              "description": "Get a ZIP of JSON files from the _API Call History_ of a Spark service. This is equivalent to the _API Call History_ functionality to _Download all API calls_, _Download as JSON_. If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadJSONLog.json` or `Spark.AllEncompassingProxy.json`.",
+              "operationId": "getLogDownloadJSONStatus",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  },
+                  {
+                      "$ref": "#/components/parameters/folder"
+                  },
+                  {
+                      "$ref": "#/components/parameters/service"
+                  },
+                  {
+                      "$ref": "#/components/parameters/jobId"
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object"
+                              },
+                              "example": {
+                                  "status": null,
+                                  "response_data": {
+                                      "progress": 100,
+                                      "download_url": "https://environment.coherent.global/SparkService_allRecords_2023_11_14_T_08_25_40.zip"
+                                  },
+                                  "response_meta": {
+                                      "system": "SPARK",
+                                      "request_timestamp": "2023-11-14T08:25:40.762Z"
+                                  },
+                                  "error": null
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/{tenant}/api/v3/folders/{folder}/services/{service}/execute": {
+          "post": {
+              "tags": [
+                  "Execute API (v3)"
+              ],
+              "summary": "Reference by folder and service",
+              "description": "`request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution.",
+              "operationId": "postv3FoldersServicesExecute",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  },
+                  {
+                      "$ref": "#/components/parameters/folder"
+                  },
+                  {
+                      "$ref": "#/components/parameters/service"
+                  }
+              ],
+              "requestBody": {
+                  "$ref": "#/components/requestBodies/executeV3"
+              },
+              "responses": {
+                  "200": {
+                      "$ref": "#/components/responses/executeV3"
+                  }
+              }
+          }
+      },
+      "/{tenant}/api/v3/service/{serviceId}": {
+          "post": {
+              "tags": [
+                  "Execute API (v3)"
+              ],
+              "summary": "Reference by service_id",
+              "description": "`request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution.",
+              "operationId": "postv3Service",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  },
+                  {
+                      "$ref": "#/components/parameters/serviceId"
+                  }
+              ],
+              "requestBody": {
+                  "$ref": "#/components/requestBodies/executeV3"
+              },
+              "responses": {
+                  "200": {
+                      "$ref": "#/components/responses/executeV3"
+                  }
+              }
+          }
+      },
+      "/{tenant}/api/v3/version/{versionId}": {
+          "post": {
+              "tags": [
+                  "Execute API (v3)"
+              ],
+              "summary": "Reference by version_id",
+              "description": "`version_id` is the most direct service version reference.",
+              "operationId": "postv3Version",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  },
+                  {
+                      "$ref": "#/components/parameters/versionId"
+                  }
+              ],
+              "requestBody": {
+                  "$ref": "#/components/requestBodies/executeV3"
+              },
+              "responses": {
+                  "200": {
+                      "$ref": "#/components/responses/executeV3"
+                  }
+              }
+          }
+      },
+      "/{tenant}/api/v3/execute": {
+          "post": {
+              "tags": [
+                  "Execute API (v3)"
+              ],
+              "summary": "Generic execute endpoint",
+              "description": "Service reference must be defined in the `request_meta`.",
+              "operationId": "postv3Execute",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  }
+              ],
+              "requestBody": {
+                  "$ref": "#/components/requestBodies/executeV3"
+              },
+              "responses": {
+                  "200": {
+                      "$ref": "#/components/responses/executeV3"
+                  }
+              }
+          }
+      },
+      "/{tenant}/api/v3": {
+          "post": {
+              "tags": [
+                  "Execute API (v3)"
+              ],
+              "summary": "Generic v3 endpoint",
+              "description": "Service reference must be defined in the request_meta.",
+              "operationId": "postv3",
+              "security": [
+                  {
+                      "bearerToken": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  }
+              ],
+              "requestBody": {
+                  "$ref": "#/components/requestBodies/executeV3"
+              },
+              "responses": {
+                  "200": {
+                      "$ref": "#/components/responses/executeV3"
+                  }
+              }
+          }
+      },
+      "/{tenant}/api/v3/public/folders/{folder}/services/{service}/execute": {
+          "post": {
+              "tags": [
+                  "Execute API (v3)"
+              ],
+              "summary": "Public API reference by folder and service",
+              "description": "`request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution.",
+              "operationId": "postv3PublicFoldersServicesExecute",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  },
+                  {
+                      "$ref": "#/components/parameters/folder"
+                  },
+                  {
+                      "$ref": "#/components/parameters/service"
+                  }
+              ],
+              "requestBody": {
+                  "$ref": "#/components/requestBodies/executeV3"
+              },
+              "responses": {
+                  "200": {
+                      "$ref": "#/components/responses/executeV3"
+                  }
+              }
+          }
+      },
+      "/{tenant}/api/v3/public/service/{serviceId}": {
+          "post": {
+              "tags": [
+                  "Execute API (v3)"
+              ],
+              "summary": "Public API reference by service_id",
+              "description": "`request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution.",
+              "operationId": "postv3PublicService",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  },
+                  {
+                      "$ref": "#/components/parameters/serviceId"
+                  }
+              ],
+              "requestBody": {
+                  "$ref": "#/components/requestBodies/executeV3"
+              },
+              "responses": {
+                  "200": {
+                      "$ref": "#/components/responses/executeV3"
+                  }
+              }
+          }
+      },
+      "/{tenant}/api/v3/public/version/{versionId}": {
+          "post": {
+              "tags": [
+                  "Execute API (v3)"
+              ],
+              "summary": "Public API reference by version_id",
+              "description": "`version_id` is the most direct service version reference.",
+              "operationId": "postv3PublicVersion",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  },
+                  {
+                      "$ref": "#/components/parameters/versionId"
+                  }
+              ],
+              "requestBody": {
+                  "$ref": "#/components/requestBodies/executeV3"
+              },
+              "responses": {
+                  "200": {
+                      "$ref": "#/components/responses/executeV3"
+                  }
+              }
+          }
+      },
+      "/{tenant}/api/v3/proxy/{urlsuffix}": {
+          "post": {
+              "tags": [
+                  "Execute API (v3)"
+              ],
+              "summary": "Reference for custom endpoints",
+              "description": "The `request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution.",
+              "operationId": "postv3ProxyUrlsuffix",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  },
+                  {
+                      "$ref": "#/components/parameters/urlsuffix"
+                  }
+              ],
+              "requestBody": {
+                  "$ref": "#/components/requestBodies/executeV3"
+              },
+              "responses": {
+                  "200": {
+                      "$ref": "#/components/responses/executeV3"
+                  }
+              }
+          }
+      },
+      "/api/v1/product/create": {
+          "post": {
+              "tags": [
+                  "Folder APIs"
+              ],
+              "summary": "Create folder",
+              "description": "Folders contain Spark services.",
+              "operationId": "postProductCreate",
+              "security": [
+                  {
+                      "bearerToken": []
+                  }
+              ],
+              "requestBody": {
+                  "required": true,
+                  "content": {
+                      "multipart/form-data": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "Name": {
+                                      "type": "string",
+                                      "description": "Folder name.",
+                                      "example": "myfoldername"
+                                  },
+                                  "Category": {
+                                      "type": "string",
+                                      "description": "Folder category. Must be a valid folder category. The category names are managed in _Options_ _Folder categories_.",
+                                      "example": "Others"
+                                  },
+                                  "Description": {
+                                      "type": "string",
+                                      "description": "Folder description.",
+                                      "example": "My folder description."
+                                  },
+                                  "Status": {
+                                      "type": "string",
+                                      "default": "Design",
+                                      "description": "Status of the folder. `Design` is the default value.",
+                                      "example": "Design"
+                                  },
+                                  "CoverImage": {
+                                      "type": "string",
+                                      "format": "binary",
+                                      "description": "Image file for cover image."
+                                  }
+                              },
+                              "required": [
+                                  "Name",
+                                  "Category",
+                                  "Description",
+                                  "Status"
+                              ]
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object"
+                              },
+                              "example": {
+                                  "message": null,
+                                  "data": {
+                                      "folderId": "66e9c8a9-335e-43b5-9353-39077d49d188",
+                                      "get_product_url": "https://excel.myenvironment.coherent.global/api/v1/product/GetProduct/folderstatus"
+                                  },
+                                  "errorCode": null,
+                                  "status": "Success"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/api/v1/product/list": {
+          "post": {
+              "tags": [
+                  "Folder APIs"
+              ],
+              "summary": "List folders",
+              "description": "Returns folders that match the search filter. If using an API key, the API key group must contain user groups that are also assigned to `Spark.FolderList.json` or `Spark.AllEncompassingProxy.json`.",
+              "operationId": "postProductList",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "requestBody": {
+                  "required": false,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "page": {
+                                      "type": "integer",
+                                      "minimum": 1,
+                                      "description": "Page number of the list to get."
+                                  },
+                                  "pageSize": {
+                                      "type": "integer",
+                                      "minimum": 1,
+                                      "description": "Number of records per page."
+                                  },
+                                  "sort": {
+                                      "type": "string",
+                                      "description": "String defining the sort order",
+                                      "example": "`-updated`"
+                                  },
+                                  "search": {
+                                      "type": "array",
+                                      "description": "Array of search filter objects.",
+                                      "items": {
+                                          "type": "object",
+                                          "properties": {
+                                              "field": {
+                                                  "type": "string",
+                                                  "description": "Name of the field to filter."
+                                              },
+                                              "value": {
+                                                  "description": "Value of the `field` to filter for."
+                                              },
+                                              "operator": {
+                                                  "type": "string",
+                                                  "description": "Operator for numeric properties."
+                                              }
+                                          }
+                                      },
+                                      "examples": [
+                                          [
+                                              {
+                                                  "field": "name",
+                                                  "name": "myfoldername"
+                                              }
+                                          ],
+                                          [
+                                              {
+                                                  "field": "isstarred",
+                                                  "isstarred": "true"
+                                              }
+                                          ]
+                                      ]
+                                  }
+                              }
+                          },
+                          "example": {
+                              "page": 1,
+                              "pageSize": 10,
+                              "sort": "-updated",
+                              "search": [
+                                  {
+                                      "field": "name",
+                                      "value": "Simon Testing"
+                                  }
+                              ]
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object"
+                              },
+                              "example": {
+                                  "count": 1,
+                                  "next": null,
+                                  "previous": null,
+                                  "message": null,
+                                  "data": [
+                                      {
+                                          "id": "88018b91-6c91-4309-a70b-5bcacfc8a724",
+                                          "name": "myfolder",
+                                          "status": "Design",
+                                          "category": "Other",
+                                          "description": "myfolderdescription",
+                                          "coverImagePath": "41f7dd49-8582-4f00-945c-b49242a52b0d.jpeg",
+                                          "createdAt": "2020-12-18T02:04:03.610Z",
+                                          "createdBy": "0ec91ce3-52d2-41df-abf8-60b038cd7670",
+                                          "lastModifiedDate": "2025-12-02T00:59:39.178Z",
+                                          "isStarred": true,
+                                          "startDate": "2020-12-18T00:00:00.000Z",
+                                          "launchDate": "2021-03-18T00:00:00.000Z",
+                                          "totalServiceCount": 3
+                                      }
+                                  ],
+                                  "errorCode": null,
+                                  "status": "Success"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/api/v1/product/getproduct/{folder}": {
+          "get": {
+              "tags": [
+                  "Folder APIs"
+              ],
+              "summary": "Get folder",
+              "description": "Get folder details.",
+              "operationId": "getProductGetProduct",
+              "security": [
+                  {
+                      "bearerToken": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/folder"
+                  },
+                  {
+                      "name": "noOfCalculationEngines",
+                      "in": "query",
+                      "required": false,
+                      "description": "Number of services to include in the response.",
+                      "schema": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "example": 5
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object"
+                              },
+                              "example": {
+                                  "message": null,
+                                  "data": {
+                                      "id": "7165e556-e149-4b37-a545-c62c84b35b1a",
+                                      "name": "Simple-Calculator",
+                                      "category": "Other",
+                                      "description": "CI-CD DEMO",
+                                      "coverImagePath": "443630e8-bc2f-45a2-9a46-58433f1241a6.jpg",
+                                      "createdAt": "2025-05-04T02:06:14.355Z",
+                                      "isStarred": false,
+                                      "status": "Design",
+                                      "startDate": "2024-09-28T00:00:00.000Z",
+                                      "launchDate": "2024-12-28T00:00:00.000Z",
+                                      "calculationEngines": {
+                                          "count": 1,
+                                          "next": false,
+                                          "previous": null,
+                                          "message": null,
+                                          "data": [
+                                              {
+                                                  "revision": "0.7.0",
+                                                  "serviceName": "Formula",
+                                                  "originalFileName": "Formula.xlsx",
+                                                  "isStarred": false,
+                                                  "serviceStatus": "active",
+                                                  "versionId": "20827543-bdaf-44e1-bc7a-ac20a8431005",
+                                                  "lastModifiedDate": "2025-05-04T02:06:22.656Z",
+                                                  "isLatestVersion": true,
+                                                  "createdAt": "2025-05-04T02:06:22.656Z",
+                                                  "author": "service-account-client-credentials",
+                                                  "size": 9,
+                                                  "defaultEngineType": "neuron",
+                                                  "tags": null,
+                                                  "engineChains": [],
+                                                  "effectiveStartDate": "2003-06-26T23:47:00.000Z",
+                                                  "effectiveEndDate": "2003-07-26T23:47:00.000Z"
+                                              }
+                                          ],
+                                          "errorCode": null,
+                                          "status": "Success"
+                                      },
+                                      "sections": [],
+                                      "lastModifiedDate": "2025-05-04T02:06:18.225Z",
+                                      "createdBy": "service-account-client-credentials"
+                                  },
+                                  "errorCode": null,
+                                  "status": "Success"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/api/v1/product/update/{folderId}": {
+          "post": {
+              "tags": [
+                  "Folder APIs"
+              ],
+              "summary": "Update folder",
+              "description": "Update folder details including category or description.",
+              "operationId": "postProductUpdate",
+              "security": [
+                  {
+                      "bearerToken": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/folderId"
+                  }
+              ],
+              "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "category": {
+                                      "type": "string",
+                                      "description": "Folder category. Must be a valid folder category. The category names are managed in _Options_ _Folder categories_."
+                                  },
+                                  "description": {
+                                      "type": "string",
+                                      "description": "Folder description."
+                                  },
+                                  "shouldTrackUserAction": {
+                                      "type": "boolean",
+                                      "default": true
+                                  }
+                              }
+                          },
+                          "example": {
+                              "category": "Critical Illness",
+                              "name": "CI Partner PS",
+                              "shouldTrackUserAction": true
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object"
+                              },
+                              "example": {
+                                  "message": null,
+                                  "data": null,
+                                  "errorCode": null,
+                                  "status": "Success"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/api/v1/product/delete/{folderId}": {
+          "delete": {
+              "tags": [
+                  "Folder APIs"
+              ],
+              "summary": "Delete folder",
+              "description": "Delete folder including all documents and services.",
+              "operationId": "deleteProductDelete",
+              "security": [
+                  {
+                      "bearerToken": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/folderId"
+                  }
+              ],
+              "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object"
+                          },
+                          "example": {}
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object"
+                              },
+                              "example": {
+                                  "message": null,
+                                  "data": null,
+                                  "errorCode": null,
+                                  "status": "Success"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/{tenant}/api/v3/folders/{folder}/services/{service}/upload": {
+          "post": {
+              "tags": [
+                  "Service APIs"
+              ],
+              "summary": "Upload Excel file to Spark",
+              "description": "Returns `nodegen_compilation_jobid`, `original_file_documentid`, and `engine_file_documentid` which are needed to Publish service. If using an API key, the API key group must contain user groups that are also assigned to `Spark.ServiceUpload.json` or `Spark.AllEncompassingProxy.json`.",
+              "operationId": "postFoldersServicesUpload",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  },
+                  {
+                      "$ref": "#/components/parameters/folder"
+                  },
+                  {
+                      "$ref": "#/components/parameters/service"
+                  }
+              ],
+              "requestBody": {
+                  "required": true,
+                  "content": {
+                      "multipart/form-data": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "serviceFile": {
+                                      "type": "string",
+                                      "format": "binary",
+                                      "description": "Service file to be uploaded.",
+                                      "example": "@/path/to/file"
+                                  },
+                                  "engineUploadRequestEntity": {
+                                      "type": "object",
+                                      "description": "Request parameters for the engine upload. These settings may be overridden during Publish.",
+                                      "properties": {
+                                          "request_data": {
+                                              "type": "object",
+                                              "properties": {
+                                                  "version_difference": {
+                                                      "type": "string",
+                                                      "enum": [
+                                                          "major",
+                                                          "minor",
+                                                          "patch"
+                                                      ],
+                                                      "description": "Parameter is required but ignored. Value is set in Publish service.",
+                                                      "default": "minor",
+                                                      "example": "minor"
+                                                  },
+                                                  "effective_start_date": {
+                                                      "type": "string",
+                                                      "format": "date-time",
+                                                      "description": "Parameter is required but ignored. Value is set in Publish service.",
+                                                      "default": "2000-01-01T00:00:00.000Z",
+                                                      "example": "2000-01-01T00:00:00.000Z"
+                                                  },
+                                                  "effective_end_date": {
+                                                      "type": "string",
+                                                      "format": "date-time",
+                                                      "description": "Parameter is required but ignored. Value is set in Publish service.",
+                                                      "default": "2100-01-01T00:00:00.000Z",
+                                                      "example": "2100-01-01T00:00:00.000Z"
+                                                  }
+                                              },
+                                              "required": [
+                                                  "version_difference",
+                                                  "effective_start_date",
+                                                  "effective_end_date"
+                                              ]
+                                          }
+                                      },
+                                      "required": [
+                                          "request_data"
+                                      ]
+                                  }
+                              },
+                              "required": [
+                                  "serviceFile",
+                                  "engineUploadRequestEntity"
+                              ]
+                          },
+                          "example": {
+                              "serviceFile": "@path/to/file",
+                              "engineUploadRequestEntity": {
+                                  "request_data": {
+                                      "version_difference": "minor",
+                                      "effective_start_date": "2000-01-01T00:00:00.000Z",
+                                      "effective_end_date": "2100-01-01T00:00:00.000Z"
+                                  }
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object"
+                              },
+                              "example": {
+                                  "status": "Success",
+                                  "response_data": {
+                                      "lines_of_code": 11,
+                                      "hours_saved": 0.02107043788185858,
+                                      "nodegen_compilation_jobid": "19bd64d6-f567-0bd4-c73f-190ed4bc49c3",
+                                      "original_file_documentid": "265ddaee-89b9-42ff-96af-3cf08ceaf344",
+                                      "engine_file_documentid": "f15269d5-0104-4269-8c46-ba5996b5b1c4",
+                                      "hash_signature_chain": false,
+                                      "warnings": [],
+                                      "infos": [],
+                                      "current_statistics": null,
+                                      "no_of_sheets": 1,
+                                      "no_of_inputs": 2,
+                                      "no_of_outputs": 1,
+                                      "no_of_formulas": 1,
+                                      "no_of_cellswithdata": 15
+                                  },
+                                  "response_meta": {
+                                      "service_id": null,
+                                      "version_id": "b4555085-1535-4058-8335-212216c89044",
+                                      "version": "0.1.0",
+                                      "process_time": 1138,
+                                      "call_id": null,
+                                      "compiler_type": "Neuron",
+                                      "compiler_version": null,
+                                      "source_hash": null,
+                                      "engine_id": null,
+                                      "correlation_id": null,
+                                      "parameterset_version_id": null,
+                                      "system": "SPARK",
+                                      "request_timestamp": "2026-01-19T12:49:16.092Z"
+                                  },
+                                  "error": null
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/{tenant}/api/v3/folders/{folder}/services/{service}/getcompilationprogess/{jobId}": {
+          "get": {
+              "tags": [
+                  "Service APIs"
+              ],
+              "summary": "Check compilation status",
+              "description": "Get the Neuron \"Excel-to-code\" compilation status of the Excel upload. This can be run after Upload Excel file to Spark. If using an API key, the API key group must contain user groups that are also assigned to `Spark.ServiceCompilationProgress.json` or `Spark.AllEncompassingProxy.json`.",
+              "operationId": "getFoldersServicesGetCompilationProgress",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  },
+                  {
+                      "$ref": "#/components/parameters/folder"
+                  },
+                  {
+                      "$ref": "#/components/parameters/service"
+                  },
+                  {
+                      "$ref": "#/components/parameters/jobId"
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object"
+                              },
+                              "example": {
+                                  "status": "Success",
+                                  "response_data": {
+                                      "status": "Success",
+                                      "last_error_message": "null",
+                                      "progress": 100
+                                  },
+                                  "response_meta": {
+                                      "system": "SPARK",
+                                      "request_timestamp": "2023-05-19T01:39:42.074Z"
+                                  },
+                                  "error": null
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/{tenant}/api/v3/folders/{folder}/services/{service}/publish": {
+          "post": {
+              "tags": [
+                  "Service APIs"
+              ],
+              "summary": "Publish service",
+              "description": "Complete the actions to create a Spark service after Upload Excel file to Spark. Compilation must be completed before publishing, Check compilation status. If using an API key, the API key group must contain user groups that are also assigned to `Spark.ServicePublish.json` or `Spark.AllEncompassingProxy.json`.",
+              "operationId": "postFoldersServicesPublish",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  },
+                  {
+                      "$ref": "#/components/parameters/folder"
+                  },
+                  {
+                      "$ref": "#/components/parameters/service"
+                  }
+              ],
+              "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "request_data": {
+                                      "type": "object",
+                                      "properties": {
+                                          "original_file_documentid": {
+                                              "type": "string",
+                                              "format": "uuid",
+                                              "description": "`id` from Upload Excel to Spark."
+                                          },
+                                          "engine_file_documentid": {
+                                              "type": "string",
+                                              "format": "uuid",
+                                              "description": "`id` from Upload Excel to Spark."
+                                          },
+                                          "draft_service_name": {
+                                              "type": "string",
+                                              "description": "Target service name overrides `service` from Upload Excel file to Spark."
+                                          },
+                                          "version_label": {
+                                              "type": "string",
+                                              "description": "Version label for service version. This will appear in the user interface dropdowns."
+                                          },
+                                          "releasenote": {
+                                              "type": "string",
+                                              "description": "Release note for service version."
+                                          },
+                                          "effective_start_date": {
+                                              "type": "string",
+                                              "format": "date-time",
+                                              "description": "Timestamp to set the parameters for the version resolution capability. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601.",
+                                              "example": "2026-01-19T16:05:23.517Z"
+                                          },
+                                          "effective_end_date": {
+                                              "type": "string",
+                                              "format": "date-time",
+                                              "description": "Timestamp to set the parameters for the version resolution capability. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601.",
+                                              "example": "2126-01-19T16:05:23.517Z"
+                                          },
+                                          "version_difference": {
+                                              "type": "string",
+                                              "enum": [
+                                                  "major",
+                                                  "minor",
+                                                  "patch",
+                                                  "custom"
+                                              ],
+                                              "description": "`major`, `minor`, `patch` or `custom` method of updating [Semantic Versioning](https://semver.org/)."
+                                          },
+                                          "should_trck_user_action": {
+                                              "type": "string",
+                                              "example": "true",
+                                              "description": "String boolean to set whether an event would be recorded for this action. Events are visible in the _Options_ _Event viewer_."
+                                          },
+                                          "tags": {
+                                              "type": "string",
+                                              "description": "Comma separated string of tags.",
+                                              "example": "abc,def"
+                                          },
+                                          "description": {
+                                              "type": "string",
+                                              "description": "Description for service version."
+                                          },
+                                          "semantic_version": {
+                                              "type": "string",
+                                              "description": "Semantic version needs to be popualted if `version_difference` is `custom`."
+                                          }
+                                      },
+                                      "required": [
+                                          "original_file_documentid",
+                                          "engine_file_documentid",
+                                          "draft_service_name"
+                                      ]
+                                  }
+                              },
+                              "required": [
+                                  "request_data"
+                              ]
+                          },
+                          "example": {
+                              "request_data": {
+                                  "draft_service_name": "my service name",
+                                  "version_label": "my service label",
+                                  "effective_start_date": "2024-01-19T12:12:00.000Z",
+                                  "effective_end_date": "2126-01-19T12:12:00.000Z",
+                                  "original_file_documentid": "4c4cef82-3f30-45ae-ade8-b43f4ab29779",
+                                  "engine_file_documentid": "d84bf685-2ed6-4d95-8fb1-d01770a0e0d8",
+                                  "version_difference": "minor",
+                                  "releasenote": "my release note",
+                                  "description": "my description",
+                                  "should_trck_user_action": "true"
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object"
+                              },
+                              "example": {
+                                  "status": "Success",
+                                  "response_data": {
+                                      "version_id": "7004e077-153f-4561-97ee-eb8124f6eb72"
+                                  },
+                                  "response_meta": {
+                                      "system": "SPARK",
+                                      "request_timestamp": "2023-05-18T21:20:42.498Z"
+                                  },
+                                  "error": null
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/api/v1/product/{folder}/engines/getversions/{service}": {
+          "get": {
+              "tags": [
+                  "Service APIs"
+              ],
+              "summary": "List service versions",
+              "description": "Get details about every service version. If using an API key, the API key group must contain user groups that are also assigned to `Spark.GetVersions.json` or `Spark.AllEncompassingProxy.json`.",
+              "operationId": "getProductEnginesGetVersions",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/folder"
+                  },
+                  {
+                      "$ref": "#/components/parameters/service"
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object"
+                              },
+                              "example": {
+                                  "message": null,
+                                  "data": [
+                                      {
+                                          "id": "76629732-ec95-4ec1-a48b-9455ae1d06c0",
+                                          "createdAt": "2024-08-12T05:59:41.267282+00:00",
+                                          "engine": "SUMAB",
+                                          "revision": "0.5.0",
+                                          "effectiveStartDate": "2024-07-22T00:54:00Z",
+                                          "effectiveEndDate": "2124-07-22T00:54:00Z",
+                                          "isActive": true,
+                                          "releaseNote": null,
+                                          "childEngines": null,
+                                          "versionLabel": null,
+                                          "defaultEngineType": "Neuron",
+                                          "tags": "",
+                                          "product": "Mathematics",
+                                          "author": "myuser@mydomain.com",
+                                          "originalFileName": "SUMAB.xlsx"
+                                      },
+                                      {
+                                          "id": "863b818a-63b5-4372-ae76-890a8d73e27f",
+                                          "createdAt": "2024-08-12T05:58:33.719893+00:00",
+                                          "engine": "SUMAB",
+                                          "revision": "0.4.0",
+                                          "effectiveStartDate": "2024-07-22T00:54:00Z",
+                                          "effectiveEndDate": "2124-07-22T00:54:00Z",
+                                          "isActive": false,
+                                          "releaseNote": null,
+                                          "childEngines": null,
+                                          "versionLabel": null,
+                                          "defaultEngineType": "Neuron",
+                                          "tags": "",
+                                          "product": "Mathematics",
+                                          "author": "myuser@mydomain.com",
+                                          "originalFileName": "SUMAB.xlsx"
+                                      }
+                                  ]
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/api/v1/product/{folder}/engines/get/{service}/{versionId}": {
+          "get": {
+              "tags": [
+                  "Service APIs"
+              ],
+              "summary": "Get details for a service version",
+              "description": "Returns detailed information about the Excel workbook, upload details, Neuron compilation outputs, mapped `Xinput`, `Xoutput`, and metadata, etc. If using an API key, the API key group must contain user groups that are also assigned to `Spark.ServiceGet.json` or `Spark.AllEncompassingProxy.json`.",
+              "operationId": "getProductEnginesGet",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/folder"
+                  },
+                  {
+                      "$ref": "#/components/parameters/service"
+                  },
+                  {
+                      "$ref": "#/components/parameters/versionId"
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object"
+                              },
+                              "example": {
+                                  "message": null,
+                                  "data": {
+                                      "bookSummary": {
+                                          "bookServiceName": "AtimesB",
+                                          "bookFileName": null,
+                                          "bookFileHash": "394ED4529FAF3778D13C2AE6918DB9C2",
+                                          "bookFileGUID": "986ef1ea-c0f0-4634-98e5-e58bc418b25e",
+                                          "bookRevision": "0.1.0",
+                                          "bookReleaseDate": "2026-01-19 16:05:23",
+                                          "bookDescription": null,
+                                          "bookAuthor": "myname@mydomain.com",
+                                          "bookUploadDate": "2026-01-19 16:05:23",
+                                          "bookUploaderEmail": "myname@mydomain.com",
+                                          "bookVersionReleaseNotes": null,
+                                          "docstoreSize": 11825,
+                                          "timeExtractModel": 15125,
+                                          "totalTime": 794,
+                                          "uploadTime": 736,
+                                          "versionId": "c53d397f-af04-4b6a-9437-232c7bc30ea4",
+                                          "product": "Arithmetic",
+                                          "isStarred": false,
+                                          "universalFileHash": null,
+                                          "versionLabel": null,
+                                          "parametersetCompatibilityGroup": "",
+                                          "tags": "",
+                                          "originalServiceHash": "9D51F4327DD1B475BF7EE67FD6359466E57EE71CA2F48C0AF8522E2D13E6B22A",
+                                          "compiledOutputHash": "BC4646F5F42E1CAF54564448556CDA47DB986989A054E4D33115EF57A4EEC61D",
+                                          "compilerVersion": "Neuron_v1.25.0",
+                                          "compilerVersionServiceUpdate": "MaintainVersion"
+                                      },
+                                      "bookProperties": [
+                                          {
+                                              "name": "PublicAPI",
+                                              "value": "False"
+                                          },
+                                          {
+                                              "name": "PublicAPI",
+                                              "value": "False"
+                                          },
+                                          {
+                                              "name": "AllowToStoreHistory",
+                                              "value": "True"
+                                          },
+                                          {
+                                              "name": "Author",
+                                              "value": "myname@mydomain.com"
+                                          },
+                                          {
+                                              "name": "BaseUrl",
+                                              "value": "https://excel.myenvironment.coherent.global"
+                                          },
+                                          {
+                                              "name": "BatchSizeOverride",
+                                              "value": "0"
+                                          },
+                                          {
+                                              "name": "CalcMode",
+                                              "value": "AUTO"
+                                          },
+                                          {
+                                              "name": "CompilerVersion",
+                                              "value": "Neuron_v1.25.0"
+                                          },
+                                          {
+                                              "name": "CompilerVersionServiceUpdate",
+                                              "value": "MaintainVersion"
+                                          },
+                                          {
+                                              "name": "DefaultEngineType",
+                                              "value": "Neuron"
+                                          },
+                                          {
+                                              "name": "Description",
+                                              "value": null
+                                          },
+                                          {
+                                              "name": "DirectAddressingOutputsEnabled",
+                                              "value": "False"
+                                          },
+                                          {
+                                              "name": "FileGUID",
+                                              "value": "986ef1ea-c0f0-4634-98e5-e58bc418b25e"
+                                          },
+                                          {
+                                              "name": "ForceInputsWriteBeforeCalcModeChanges",
+                                              "value": "True"
+                                          },
+                                          {
+                                              "name": "NoOfInstance",
+                                              "value": "0"
+                                          },
+                                          {
+                                              "name": "OriginalFileName",
+                                              "value": "AtimesB.xlsx"
+                                          },
+                                          {
+                                              "name": "ProductName",
+                                              "value": "Arithmetic"
+                                          },
+                                          {
+                                              "name": "Provenance",
+                                              "value": null
+                                          },
+                                          {
+                                              "name": "PublicAPI",
+                                              "value": "False"
+                                          },
+                                          {
+                                              "name": "ReleaseNote",
+                                              "value": null
+                                          },
+                                          {
+                                              "name": "Revision",
+                                              "value": "0.1.0"
+                                          },
+                                          {
+                                              "name": "ServiceGUID",
+                                              "value": null
+                                          },
+                                          {
+                                              "name": "ServiceName",
+                                              "value": "AtimesB"
+                                          },
+                                          {
+                                              "name": "ServiceStatus",
+                                              "value": "active"
+                                          },
+                                          {
+                                              "name": "ServiceVersionGUID",
+                                              "value": "c53d397f-af04-4b6a-9437-232c7bc30ea4"
+                                          },
+                                          {
+                                              "name": "Tenant",
+                                              "value": "mytenant"
+                                          },
+                                          {
+                                              "name": "UniversalServiceHash",
+                                              "value": null
+                                          },
+                                          {
+                                              "name": "UploadDate",
+                                              "value": "2026-01-19 16:05:23"
+                                          },
+                                          {
+                                              "name": "UploaderEmail",
+                                              "value": "myname@mydomain.com"
+                                          },
+                                          {
+                                              "name": "VersionUpgradeAssert",
+                                              "value": "OFF"
+                                          },
+                                          {
+                                              "name": "XConnectorServiceName",
+                                              "value": null
+                                          },
+                                          {
+                                              "name": "XConnectorTargetUrl",
+                                              "value": null
+                                          },
+                                          {
+                                              "name": "DirectAddressingOutputsEnabled",
+                                              "value": "False"
+                                          },
+                                          {
+                                              "name": "VersionLabel",
+                                              "value": null
+                                          },
+                                          {
+                                              "name": "ServiceUuid",
+                                              "value": "8d438c34-d120-46b5-b82c-07278caefd6e"
+                                          },
+                                          {
+                                              "name": "UpgradeType",
+                                              "value": "minor"
+                                          },
+                                          {
+                                              "name": "BatchSizeOverride",
+                                              "value": "0"
+                                          },
+                                          {
+                                              "name": "DirectAddressingOutputsEnabled",
+                                              "value": "False"
+                                          },
+                                          {
+                                              "name": "VersionLabel",
+                                              "value": null
+                                          },
+                                          {
+                                              "name": "ServiceUuid",
+                                              "value": "8d438c34-d120-46b5-b82c-07278caefd6e"
+                                          },
+                                          {
+                                              "name": "UpgradeType",
+                                              "value": "minor"
+                                          },
+                                          {
+                                              "name": "BatchSizeOverride",
+                                              "value": "0"
+                                          }
+                                      ],
+                                      "engineHash": "394ED4529FAF3778D13C2AE6918DB9C2",
+                                      "engineID": "8d438c34-d120-46b5-b82c-07278caefd6e",
+                                      "fetchTimeUTC": "2026-01-19T16:05:24.4846647Z",
+                                      "validationErrors": [],
+                                      "xlInputs": [
+                                          {
+                                              "sheetIndex": 1,
+                                              "value": 2,
+                                              "rawValue": 2,
+                                              "dataType": "NUMBER",
+                                              "numberFormatType": "NUMBER",
+                                              "numberFormat": "",
+                                              "rowIndex": 4,
+                                              "columnIndex": 3,
+                                              "rows": 1,
+                                              "columns": 1,
+                                              "textColor": null,
+                                              "backGroundColor": null,
+                                              "xjName": null,
+                                              "validation": {
+                                                  "allow": "wholeNumber",
+                                                  "data": "between",
+                                                  "min": 1,
+                                                  "max": 5,
+                                                  "options": [],
+                                                  "ignoreEmptyCells": true,
+                                                  "errorBoxText": null
+                                              },
+                                              "type": "XInput",
+                                              "validationCol": 0,
+                                              "validationRow": 0,
+                                              "headerSpecs": [],
+                                              "subServiceName": null,
+                                              "name": "A",
+                                              "sheetName": "Sheet1",
+                                              "address": "C4",
+                                              "description": null,
+                                              "cellCount": 1,
+                                              "validationErrors": []
+                                          },
+                                          {
+                                              "sheetIndex": 1,
+                                              "value": 3,
+                                              "rawValue": 3,
+                                              "dataType": "NUMBER",
+                                              "numberFormatType": "NUMBER",
+                                              "numberFormat": "",
+                                              "rowIndex": 5,
+                                              "columnIndex": 3,
+                                              "rows": 1,
+                                              "columns": 1,
+                                              "textColor": null,
+                                              "backGroundColor": null,
+                                              "xjName": null,
+                                              "validation": {
+                                                  "allow": "wholeNumber",
+                                                  "data": "between",
+                                                  "min": 1,
+                                                  "max": 5,
+                                                  "options": [],
+                                                  "ignoreEmptyCells": true,
+                                                  "errorBoxText": null
+                                              },
+                                              "type": "XInput",
+                                              "validationCol": 0,
+                                              "validationRow": 0,
+                                              "headerSpecs": [],
+                                              "subServiceName": null,
+                                              "name": "B",
+                                              "sheetName": "Sheet1",
+                                              "address": "C5",
+                                              "description": null,
+                                              "cellCount": 1,
+                                              "validationErrors": []
+                                          }
+                                      ],
+                                      "xOutput": [
+                                          {
+                                              "sheetIndex": 1,
+                                              "value": null,
+                                              "rawValue": null,
+                                              "dataType": "TEXT",
+                                              "numberFormatType": "TEXT",
+                                              "numberFormat": "",
+                                              "rowIndex": 6,
+                                              "columnIndex": 3,
+                                              "rows": 1,
+                                              "columns": 1,
+                                              "textColor": null,
+                                              "backGroundColor": null,
+                                              "xjName": null,
+                                              "validation": null,
+                                              "type": "XOutput",
+                                              "validationCol": 0,
+                                              "validationRow": 0,
+                                              "headerSpecs": [],
+                                              "subServiceName": null,
+                                              "name": "AtimesB",
+                                              "sheetName": "Sheet1",
+                                              "address": "C6",
+                                              "description": null,
+                                              "cellCount": 1,
+                                              "validationErrors": []
+                                          }
+                                      ],
+                                      "sizeOfUploadFile": 15456,
+                                      "sizeOfCompressedFile": 15611,
+                                      "success": true,
+                                      "totalHiddenSheets": 0,
+                                      "totalInputTables": 0,
+                                      "totalOutputSolves": 0,
+                                      "totalOutputTables": 0,
+                                      "totalReports": 0,
+                                      "totalSheets": 1,
+                                      "totalXJInputs": 0,
+                                      "totalXJOutputs": 0,
+                                      "effectiveStartDate": "2026-01-19T16:05:00Z",
+                                      "effectiveEndDate": "2126-01-19T16:05:00Z",
+                                      "chainingEngines": [],
+                                      "chainedEngines": [],
+                                      "solveInputs": [],
+                                      "reportInputs": [],
+                                      "imageInputs": [],
+                                      "serviceCategories": [],
+                                      "engineWarnings": [],
+                                      "engineType": "Neuron",
+                                      "lastCalcTime": 0,
+                                      "totalTime": 20,
+                                      "serviceStatus": "active",
+                                      "inputMetadata": {
+                                          "solves": [],
+                                          "reports": [],
+                                          "single": [
+                                              "A",
+                                              "B"
+                                          ],
+                                          "images": [],
+                                          "tables": [],
+                                          "csv": []
+                                      },
+                                      "outputMetadata": {
+                                          "csv": [],
+                                          "solves": [],
+                                          "reports": [],
+                                          "single": [
+                                              "AtimesB"
+                                          ],
+                                          "images": [],
+                                          "tables": []
+                                      },
+                                      "xParameter": {},
+                                      "nodeGenCompilerResult": {
+                                          "Infos": [
+                                              "TEST: [Summary] Spark performs a self-test comparing the saved output values in the Excel file and a calculation of the formulas using Spark. The self-test can be used to understand and diagnose mismatches. For the mapped outputs in this workbook, there were 1 matches out of 1 (100.0%) assessed at 12 digits accuracy. The maximum difference has a significance of -∞ and magnitude of -∞. Self-test results may not match if the workbook includes external references, random functions, Xcall, Xrichoutput, Xsolve. The outputs that contain a mismatch are listed in the compiler messages. Read the Spark Neuron documentation for more information about the self-test."
+                                          ],
+                                          "Warnings": [],
+                                          "Errors": [],
+                                          "TokenCnt": [
+                                              "RootRelative",
+                                              2,
+                                              "ImmutableRef",
+                                              2,
+                                              "Add",
+                                              1
+                                          ],
+                                          "SourceXlsxMd5": "dd55495f945dfbb596c2c03c36b685dd",
+                                          "SourceLines": 199,
+                                          "SourceBytes": 5737,
+                                          "SourceFiles": 4,
+                                          "CompilerVersion": "1.25.0",
+                                          "Sheets": 1,
+                                          "Cells": 27,
+                                          "CellsWithData": 14,
+                                          "Formulas": 1,
+                                          "SelfTestCellMatches": 1,
+                                          "SelfTestCellsInspected": 1,
+                                          "SelfTestMaxSoe": "-Infinity",
+                                          "SelfTestMaxMoe": "-Infinity",
+                                          "SelfTestDigits": 12,
+                                          "SelfTestProcessTimeMillis": 7,
+                                          "CompilerStage1Millis": 70,
+                                          "CompilerStage2Millis": 13619,
+                                          "CompilerStage3Millis": 83,
+                                          "CompilerStage4Millis": 93,
+                                          "CompilerStage5Millis": 22,
+                                          "CompilerDateTime": "2026-01-19T16:05:39.492Z",
+                                          "trace": null
+                                      },
+                                      "metadata": {
+                                          "engineInformation": {
+                                              "fileSize": 15456,
+                                              "author": "myname@mydomain.com",
+                                              "productName": "Arithmetic",
+                                              "revision": "0.1.0",
+                                              "description": null,
+                                              "fileMD5Hash": "394ED4529FAF3778D13C2AE6918DB9C2",
+                                              "universalFileHash": null,
+                                              "releaseDate": "2026-01-19T16:05:58.3747957Z",
+                                              "serviceName": "AtimesB",
+                                              "noOfInstance": 0,
+                                              "uploaderEmail": "myname@mydomain.com",
+                                              "defaultEngineType": "Neuron",
+                                              "originalFileName": "AtimesB.xlsx",
+                                              "sizeOfUploadedFile": 15456,
+                                              "releaseNote": null,
+                                              "isTypeScriptFile": false,
+                                              "engineUpgradeType": "minor",
+                                              "publicAPI": false,
+                                              "fileGuid": "986ef1ea-c0f0-4634-98e5-e58bc418b25e",
+                                              "serviceGuid": null,
+                                              "serviceVersionGuid": "c53d397f-af04-4b6a-9437-232c7bc30ea4",
+                                              "baseUrl": "https://excel.myenvironment.coherent.global",
+                                              "tenant": "mytenant",
+                                              "allowToStoreHistory": true,
+                                              "calcMode": "AUTO",
+                                              "forceInputsWriteBeforeCalcModeChanges": true,
+                                              "provenance": null,
+                                              "versionLabel": null,
+                                              "explainerType": "",
+                                              "isXParameter": false,
+                                              "parametersetCompatibilityGroup": "",
+                                              "xParameterSetVersionId": "",
+                                              "versionUpgradeAssert": "OFF",
+                                              "xReportRanges": null,
+                                              "tags": "",
+                                              "originalServiceHash": "9D51F4327DD1B475BF7EE67FD6359466E57EE71CA2F48C0AF8522E2D13E6B22A",
+                                              "compiledOutputHash": "BC4646F5F42E1CAF54564448556CDA47DB986989A054E4D33115EF57A4EEC61D",
+                                              "compilerVersion": "Neuron_v1.25.0",
+                                              "compilerVersionServiceUpdate": "MaintainVersion",
+                                              "directAddressingOutputsEnabled": false,
+                                              "xConnectorServiceName": null,
+                                              "xConnectorTargetUrl": null,
+                                              "batchSizeOverride": 0,
+                                              "serviceStatus": "active",
+                                              "skipMetadata": false,
+                                              "skipCompile": false
+                                          },
+                                          "xInputTable": [
+                                              {
+                                                  "Input Name": "A",
+                                                  "Description": null,
+                                                  "Address": "C4"
+                                              },
+                                              {
+                                                  "Input Name": "B",
+                                                  "Description": null,
+                                                  "Address": "C5"
+                                              }
+                                          ],
+                                          "xOutputTable": [
+                                              {
+                                                  "Output Name": "AtimesB",
+                                                  "Description": null,
+                                                  "Address": "C6"
+                                              }
+                                          ],
+                                          "formsService": null,
+                                          "staticService": null,
+                                          "versionId": "c53d397f-af04-4b6a-9437-232c7bc30ea4",
+                                          "hasSignatureChain": null
+                                      },
+                                      "totalUsedRowsAndCells": 15,
+                                      "isLambdaExist": false,
+                                      "parameterset_version_id": "",
+                                      "isAutoJsonFormExists": true,
+                                      "engineInfos": [
+                                          {
+                                              "key": "The compiler used for this service version was  Neuron_v1.25.0.",
+                                              "value": []
+                                          }
+                                      ],
+                                      "engineErrors": null,
+                                      "hasSignatureChain": null,
+                                      "isSameServiceOwner": true
+                                  },
+                                  "errorCode": null,
+                                  "status": "Success"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/api/v1/product/{folder}/engines/{service}/download/{versionId}": {
+          "get": {
+              "tags": [
+                  "Service APIs"
+              ],
+              "summary": "Download the Excel file from a Spark service",
+              "description": "If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadServiceByVersionId.json` or `Spark.AllEncompassingProxy.json`.",
+              "operationId": "getProductEnginesDownload",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/folder"
+                  },
+                  {
+                      "$ref": "#/components/parameters/service"
+                  },
+                  {
+                      "$ref": "#/components/parameters/versionId"
+                  },
+                  {
+                      "name": "filename",
+                      "in": "query",
+                      "description": "Name of the downloaded file. If not provided, Spark will use an appropriate name.",
+                      "schema": {
+                          "type": "string"
+                      }
+                  },
+                  {
+                      "name": "type",
+                      "in": "query",
+                      "description": "`ca` returns the Coherent Assistant enhanced version of the workbook. If not provided, the original workbook will be downloaded.",
+                      "schema": {
+                          "type": "string",
+                          "enum": [
+                              "ca",
+                              null
+                          ]
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+                              "schema": {
+                                  "type": "string",
+                                  "format": "binary"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/{tenant}/api/v3/folders/{folder}/services/{service}/downloadswagger/{category}/{isDownload}/{versionId}": {
+          "get": {
+              "tags": [
+                  "Service APIs"
+              ],
+              "summary": "Download Swagger",
+              "description": "Get [Swagger](https://swagger.io/specification/v2/) (OpenAPI 2.0) documentation for a Spark service. If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadSwagger.json` or `Spark.AllEncompassingProxy.json`.",
+              "operationId": "getFoldersServicesDownloadSwagger",
+              "security": [
+                  {
+                      "bearerToken": []
+                  },
+                  {
+                      "tenantName": [],
+                      "syntheticKey": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tenant"
+                  },
+                  {
+                      "$ref": "#/components/parameters/folder"
+                  },
+                  {
+                      "$ref": "#/components/parameters/service"
+                  },
+                  {
+                      "name": "category",
+                      "in": "path",
+                      "required": true,
+                      "description": "`All` for all subservices or a list of the requested subservices.",
+                      "schema": {
+                          "type": "string",
+                          "example": "All"
+                      }
+                  },
+                  {
+                      "name": "isDownload",
+                      "in": "path",
+                      "required": true,
+                      "description": "`true` for integrating with this endpoint.",
+                      "schema": {
+                          "type": "boolean",
+                          "example": true
+                      }
+                  },
+                  {
+                      "$ref": "#/components/parameters/versionId"
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
       }
-    },
-    "/{tenant}/api/v3/service/{service_id}/validation": {
-      "post": {
-        "tags": ["Validation"],
-        "description": "To access the public version of this endpoint, use \"/{tenant}/api/v3/public/service/{service_id}/validation\"",
-        "parameters": [
-          {
-            "name": "tenant",
-            "in": "path",
-            "required": true,
-            "description": "The tenant name",
-            "example": "presales",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "service_id",
-            "in": "path",
-            "required": true,
-            "description": "The service UUID (it points to its latest version)",
-            "example": "f0b6d6a0-06b0-4a5a-9b3f-9c4a2c9b6a2e",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Input data to validate",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValidationRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "successfully validates the input data using static or dynamic validations set in the Excel file.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "when wrong params are provided such as tenant mismatch, invalid folder or service name or version.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidationResponse"
-                },
-                "example": {
-                  "status": "Error",
-                  "response_data": null,
-                  "response_meta": null,
-                  "error": {
-                    "error_category": "application_error",
-                    "error_type": "error.application_error",
-                    "message": "TENANT_MISMATCH",
-                    "additional_details": null
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "when invalid, expired access token or API key.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidationResponse"
-                },
-                "example": {
-                  "status": "Error",
-                  "response_data": null,
-                  "response_meta": null,
-                  "error": {
-                    "error_category": "access_error",
-                    "error_type": "error.UNAUTHORIZED",
-                    "message": "INVALID_TOKEN"
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "when users are not allowed to perform this action and require additional permissions.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidationResponse"
-                },
-                "example": {
-                  "status": "Error",
-                  "response_data": null,
-                  "response_meta": null,
-                  "error": {
-                    "error_category": "application_error",
-                    "error_type": "error.UNAUTHORIZED",
-                    "message": "UNAUTHORIZED",
-                    "additional_details": null
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "when something disruptive happens on the server side during this operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidationResponse"
-                },
-                "example": {
-                  "status": "Error",
-                  "response_data": null,
-                  "response_meta": null,
-                  "error": {
-                    "error_category": "application_error",
-                    "error_type": "error.application_error",
-                    "message": "Could not complete this operation",
-                    "additional_details": null
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/{tenant}/api/v3/version/{version_id}/validation": {
-      "post": {
-        "tags": ["Validation"],
-        "description": "To access the public version of this endpoint, use \"/{tenant}/api/v3/public/version/{version_id}/validation\"",
-        "parameters": [
-          {
-            "name": "tenant",
-            "in": "path",
-            "required": true,
-            "description": "The tenant name",
-            "example": "presales",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "version_id",
-            "in": "path",
-            "required": true,
-            "description": "The version UUID",
-            "example": "f0b6d6a0-06b0-4a5a-9b3f-9c4a2c9b6a2e",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Input data to validate",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValidationRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "successfully validates the input data using static or dynamic validations set in the Excel file.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "when wrong params are provided such as tenant mismatch, invalid folder or service name or version.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidationResponse"
-                },
-                "example": {
-                  "status": "Error",
-                  "response_data": null,
-                  "response_meta": null,
-                  "error": {
-                    "error_category": "application_error",
-                    "error_type": "error.application_error",
-                    "message": "TENANT_MISMATCH",
-                    "additional_details": null
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "when invalid, expired access token or API key.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidationResponse"
-                },
-                "example": {
-                  "status": "Error",
-                  "response_data": null,
-                  "response_meta": null,
-                  "error": {
-                    "error_category": "access_error",
-                    "error_type": "error.UNAUTHORIZED",
-                    "message": "INVALID_TOKEN"
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "when users are not allowed to perform this action and require additional permissions.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidationResponse"
-                },
-                "example": {
-                  "status": "Error",
-                  "response_data": null,
-                  "response_meta": null,
-                  "error": {
-                    "error_category": "application_error",
-                    "error_type": "error.UNAUTHORIZED",
-                    "message": "UNAUTHORIZED",
-                    "additional_details": null
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "when something disruptive happens on the server side during this operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidationResponse"
-                },
-                "example": {
-                  "status": "Error",
-                  "response_data": null,
-                  "response_meta": null,
-                  "error": {
-                    "error_category": "application_error",
-                    "error_type": "error.application_error",
-                    "message": "Could not complete this operation",
-                    "additional_details": null
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
   },
   "components": {
-    "schemas": {
-      "ApiV3ResponseError": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "error_category": {
-            "type": "string",
-            "nullable": true
+      "securitySchemes": {
+          "bearerToken": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT",
+              "description": "Bearer token can be accessed from the user menu."
           },
-          "error_type": {
-            "type": "string",
-            "nullable": true
+          "tenantName": {
+              "type": "apiKey",
+              "in": "header",
+              "name": "x-tenant-name",
+              "description": "Tenant name header required when using API key authentication."
           },
-          "message": {
-            "type": "string",
-            "nullable": true
-          },
-          "additional_details": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "nullable": true
-            },
-            "nullable": true
+          "syntheticKey": {
+              "type": "apiKey",
+              "in": "header",
+              "name": "x-synthetic-key",
+              "description": "API key instance."
           }
-        }
       },
-      "ServiceRequestData": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "inputs": {
-            "type": "object",
-            "additionalProperties": true,
-            "nullable": true,
-            "example": {
-              "input_1": true,
-              "input_2": "string",
-              "input_3": {
-                "zero": 0,
-                "one": 1
-              },
-              "input_n": [false, 1, "string"]
-            }
-          }
-        }
-      },
-      "ServiceRequestMeta": {
-        "type": "object",
-        "additionalProperties": true,
-        "properties": {
-          "service_uri": {
-            "type": "string",
-            "nullable": true
-          },
-          "service_id": {
-            "type": "string",
-            "nullable": true
-          },
-          "version": {
-            "type": "string",
-            "nullable": true
-          },
-          "version_id": {
-            "type": "string",
-            "nullable": true
-          },
-          "transaction_date": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "call_purpose": {
-            "type": "string",
-            "nullable": true
-          },
-          "source_system": {
-            "type": "string",
-            "nullable": true
-          },
-          "correlation_id": {
-            "type": "string",
-            "nullable": true
-          },
-          "requested_output": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "service_category": {
-            "type": "string",
-            "nullable": true
-          },
-          "compiler_type": {
-            "type": "string",
-            "enum": ["Neuron", "Xconnector", "Type3", "Type2", "Type1"],
-            "nullable": true
-          },
-          "array_outputs": {
-            "type": "string",
-            "nullable": true
-          },
-          "response_data_inputs": {
-            "type": "boolean"
-          },
-          "parameterset_version_id": {
-            "type": "string",
-            "nullable": true
-          },
-          "validation_type": {
-            "type": "string",
-            "nullable": true
-          },
-          "excel_file": {
-            "type": "boolean"
-          },
-          "call_id": {
-            "type": "string",
-            "nullable": true
-          },
-          "xreport_options": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "multiple_docs": {
-                "type": "boolean"
-              },
-              "page_numbers": {
-                "type": "boolean"
-              }
-            }
-          }
-        }
-      },
-      "ServiceExecutionWarning": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "source_path": {
-            "type": "string",
-            "nullable": true
-          },
-          "message": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "ServiceExecutionError": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "source_path": {
-            "type": "string",
-            "nullable": true
-          },
-          "message": {
-            "type": "string",
-            "nullable": true
-          },
-          "error_category": {
-            "type": "string",
-            "nullable": true
-          },
-          "error_type": {
-            "type": "string",
-            "nullable": true
-          },
-          "additional_details": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "ServiceResponseData": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "outputs": {
-            "type": "object",
-            "additionalProperties": true,
-            "nullable": true
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ServiceExecutionWarning"
-            },
-            "nullable": true
-          },
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ServiceExecutionError"
-            },
-            "nullable": true
-          },
-          "service_chain": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "service_name": {
+      "parameters": {
+          "callId": {
+              "name": "callId",
+              "in": "path",
+              "required": true,
+              "description": "Execute API `call_id`.",
+              "schema": {
                   "type": "string",
-                  "nullable": true
-                },
-                "run_if": {
-                  "type": "boolean"
-                },
-                "requested_report": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "nullable": true
-                },
-                "requested_report_filename": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "nullable": true
-                }
+                  "format": "uuid",
+                  "example": "a5c6a61f-06f8-499b-8a4d-818be4e74d29"
               }
-            }
           },
-          "inputs": {
-            "type": "object",
-            "additionalProperties": true,
-            "nullable": true
+          "folder": {
+              "name": "folder",
+              "in": "path",
+              "required": true,
+              "description": "Folder associated with the API call.",
+              "schema": {
+                  "type": "string",
+                  "example": "myfoldername"
+              }
+          },
+          "folderId": {
+              "name": "folderId",
+              "in": "path",
+              "required": true,
+              "description": "Folder `id` which can be found from List folders or Get folder.",
+              "schema": {
+                  "type": "string",
+                  "format": "uuid",
+                  "example": "9efb97d3-59b5-4ab1-b138-525797d58a91"
+              }
+          },
+          "jobId": {
+              "name": "jobId",
+              "in": "path",
+              "required": true,
+              "description": "`job_id` associated from `POST` job.",
+              "schema": {
+                  "type": "string",
+                  "format": "uuid",
+                  "example": "b13a5526-60c8-43cc-840f-2c76dca701d9"
+              }
+          },
+          "service": {
+              "name": "service",
+              "in": "path",
+              "required": true,
+              "description": "Service associated with the API call.",
+              "schema": {
+                  "type": "string",
+                  "example": "myservicename"
+              }
+          },
+          "serviceId": {
+              "name": "serviceId",
+              "in": "path",
+              "required": true,
+              "description": "`service_id` of the requested service.",
+              "schema": {
+                  "type": "string",
+                  "format": "uuid",
+                  "example": "4bab4cc7-fde1-4315-871d-17a72c4c39a2"
+              }
+          },
+          "tenant": {
+              "name": "tenant",
+              "in": "path",
+              "required": true,
+              "description": "Tenant is part of your login URL and also available in the user menu.",
+              "schema": {
+                  "type": "string",
+                  "example": "mytenantname"
+              }
+          },
+          "urlsuffix": {
+              "name": "urlsuffix",
+              "in": "path",
+              "required": true,
+              "description": "Custom endpoints path.",
+              "schema": {
+                  "type": "string"
+              }
+          },
+          "versionId": {
+              "name": "versionId",
+              "in": "path",
+              "required": true,
+              "description": "`version_id` of the requested service.",
+              "schema": {
+                  "type": "string",
+                  "format": "uuid",
+                  "example": "0fb13c76-8b9b-43da-b664-2b11eb11d5c3"
+              }
           }
-        }
       },
-      "ServiceResponseMeta": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "system": {
-            "type": "string",
-            "nullable": true
-          },
-          "request_timestamp": {
-            "type": "string",
-            "nullable": true
-          },
-          "service_id": {
-            "type": "string",
-            "nullable": true
-          },
-          "version_id": {
-            "type": "string",
-            "nullable": true
-          },
-          "version": {
-            "type": "string",
-            "nullable": true
-          },
-          "process_time": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "call_id": {
-            "type": "string",
-            "nullable": true
-          },
-          "compiler_type": {
-            "type": "string",
-            "nullable": true
-          },
-          "compiler_version": {
-            "type": "string",
-            "nullable": true
-          },
-          "source_hash": {
-            "type": "string",
-            "nullable": true
-          },
-          "engine_id": {
-            "type": "string",
-            "nullable": true
-          },
-          "correlation_id": {
-            "type": "string",
-            "nullable": true
-          },
-          "parameterset_version_id": {
-            "type": "string",
-            "nullable": true
+      "requestBodies": {
+          "executeV3": {
+              "content": {
+                  "application/json": {
+                      "schema": {
+                          "type": "object",
+                          "properties": {
+                              "request_data": {
+                                  "type": "object",
+                                  "properties": {
+                                      "inputs": {
+                                          "type": "object",
+                                          "description": "Object that contains key value pairs that will be passed to the fields identified as Xinput in the workbook. See documentation for more information."
+                                      }
+                                  }
+                              },
+                              "request_meta": {
+                                  "type": "object",
+                                  "properties": {
+                                      "service_uri": {
+                                          "type": "string",
+                                          "description": "Reference to service location in the format of `folders/{folder}/services/{service}`. This does not specify the version of the service returned. This can be done so by including `transaction_date` or `version`.",
+                                          "example": "folders/API V3/services/Sample API"
+                                      },
+                                      "service_id": {
+                                          "type": "string",
+                                          "format": "uuid",
+                                          "description": "`service_id` of the requested service. This does not specify the version of the service returned. This can be done so by using `transaction_date` or `version`.",
+                                          "example": "0c9deaad-bd33-49dd-9404-14f9303c531e"
+                                      },
+                                      "version": {
+                                          "type": "string",
+                                          "description": "Semantic version number which corresponds to the version number shown in the Spark user interface `{Major revision}.{Minor revision}.{Patch revision}`.",
+                                          "examples": [
+                                              "4.15.2",
+                                              "1.4 takes the latest version starting with 1.4.",
+                                              "1 take the latest version starting with 1."
+                                          ]
+                                      },
+                                      "version_id": {
+                                          "type": "string",
+                                          "format": "uuid",
+                                          "description": "`version_id` of the requested service version. This takes precedence over `service_uri`, `service_id`, `transaction_date`, `version`.",
+                                          "example": "e5a86ccb-b53b-47c7-86e7-25c228b211f4"
+                                      },
+                                      "transaction_date": {
+                                          "type": "string",
+                                          "format": "date-time",
+                                          "description": "Timestamp to resolve the service version. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601. When call to a service is made using the `service_uri` or `service_id` this is used to determine the latest version of a service which have effective start and effective end dates that bound `transaction_date`. If omitted, the current date and time is used. If the `transaction_date` does not fall within the effective start and effective end dates of any versions, then the response will be an error. When calling a specific version using `version` or `version_id` this field has no effect.",
+                                          "examples": [
+                                              "2022-10-30T00:00:00.000Z",
+                                              "2022-10-30T18:30:00.853Z"
+                                          ]
+                                      },
+                                      "debug_solve": {
+                                          "type": "boolean",
+                                          "description": "Boolean to return `outputs.additional_outputs.solve_log` which contains the iterations for each `Xsolve` in the service.",
+                                          "example": true
+                                      },
+                                      "debug_xcall": {
+                                          "type": "boolean",
+                                          "description": "Boolean to return `outputs.additional_outputs.xcall_log` which contains the tracing for the `Xcall` used in the execution of the service.",
+                                          "example": true
+                                      },
+                                      "manual_now": {
+                                          "type": "integer",
+                                          "description": "Default behavior for Excel `NOW()` and `TODAY()` functions are to return the value based upon server time. If a [Unix epoch time](https://en.wikipedia.org/wiki/Unix_time) is provided, then that will be used to derive the current time and date instead.",
+                                          "example": 1650593119
+                                      },
+                                      "profile": {
+                                          "type": "boolean",
+                                          "description": "Boolean to enable performance tracing. See documentation for more information.",
+                                          "example": true
+                                      },
+                                      "random_seed": {
+                                          "type": "integer",
+                                          "description": "Number for random number generation seed. This ensures that each API call generates the same sequence of random numbers.",
+                                          "example": 123
+                                      },
+                                      "requested_output_regex": {
+                                          "type": "string",
+                                          "description": "Regular expression string to denote the outputs to keep in the response. This is an advancement of `requested_output`. If both `requested_output` and `requested_output_regex` are specified, then an error will be raised.",
+                                          "examples": [
+                                              "solve will return all outputs that contain solve.",
+                                              "price_ will return all outputs that begin with price_."
+                                          ]
+                                      },
+                                      "show_max_calc_chain": {
+                                          "type": "boolean",
+                                          "description": "When the debug build is used, this is used to identify the longest calculation chain. See documentation for more information.",
+                                          "example": true,
+                                          "default": false
+                                      },
+                                      "top_n_profile": {
+                                          "type": "integer",
+                                          "description": "When the debug build is used, this is used to adjust the of records returned from the performance tracing output.",
+                                          "example": 20
+                                      },
+                                      "requested_output": {
+                                          "anyOf": [
+                                              {
+                                                  "type": "string"
+                                              },
+                                              {
+                                                  "type": "array",
+                                                  "items": {
+                                                      "type": "string"
+                                                  }
+                                              }
+                                          ],
+                                          "description": "Array of strings to denote the outputs to keep in the response. `*` can be used to identify wildcard characters. For `Neuron_v1.17.0` and later this can be enabled In Excel by adding a Named Range referenced to a cell called `xBuildParams`. The cell contents must contain `'--direct_addressing=true`. Furthermore if \\#SparkFormulaValueVector is added to these requests, only the calculated results would be returned.",
+                                          "examples": [
+                                              [
+                                                  "price*",
+                                                  "*nut",
+                                                  "Boeing7*7",
+                                                  "calc"
+                                              ],
+                                              [
+                                                  "@Sheet1!B2:D4"
+                                              ],
+                                              [
+                                                  "@MyNamedRange"
+                                              ],
+                                              "first,second,third"
+                                          ]
+                                      },
+                                      "service_category": {
+                                          "type": "string",
+                                          "description": "Comma separated string of subservice names. When this is not specified or set as `#Default#`, outputs not related to subservices are shown.",
+                                          "examples": [
+                                              "subservice1 will only show the the outputs from subservice1.",
+                                              "subservice1,subservice2 will only show the outputs from subservice1 and subservice2.",
+                                              "\\#Default\\#,subservice2 will show outputs not relating to subservices and from subservice2."
+                                          ]
+                                      },
+                                      "compiler_type": {
+                                          "type": "string",
+                                          "description": "Calculation engine for the request. By default this uses the setting defined in _Service Documentation_ _Default service type_.",
+                                          "enum": [
+                                              "Neuron",
+                                              "XConnector"
+                                          ],
+                                          "example": "Neuron"
+                                      },
+                                      "array_outputs": {
+                                          "type": "string",
+                                          "description": "This is a string list of `Xoutput` ranges to return in the JSON array format. Using `*` can be used to denote all of the outputs.",
+                                          "examples": [
+                                              "*",
+                                              "list1, list2"
+                                          ]
+                                      },
+                                      "response_data_inputs": {
+                                          "type": "boolean",
+                                          "description": "Boolean to enable the echo of `request_data.inputs` into `response_data.inputs`. This is useful for consuming systems that want to store and analyze the API request and response data together."
+                                      },
+                                      "excel_file": {
+                                          "type": "boolean",
+                                          "description": "When set to `true`, this returns a copy of the source Excel file with the `request_data` `input`s populated into the `Xinput` cells. The output is the same as the _Download as Excel (Legacy)_. For security, the use of this feature with API keys can be managed through the `Spark.DownloadServiceByCallId.json` feature permission. This is not a feature that is recommended for extensive use. Response times when using this feature will be inconsistent call to call due to the need to generate and populate the Excel file."
+                                      },
+                                      "xreport_options": {
+                                          "type": "object",
+                                          "description": "Parameters to control how `Xreport`s are produced. See documentation for more information.",
+                                          "properties": {
+                                              "produce_pdfs": {
+                                                  "type": "boolean",
+                                                  "description": "Boolean to indicate whether to return the `Xreport` sheets as PDFs. Default is `true`."
+                                              },
+                                              "multiple_docs": {
+                                                  "type": "boolean",
+                                                  "description": "Boolean to indicate whether to return each `Xreport` sheet as a separate PDF. Default is `false`."
+                                              },
+                                              "page_numbers": {
+                                                  "type": "boolean",
+                                                  "description": "Boolean to indicate whether to include page numbers. Default is `true`."
+                                              }
+                                          },
+                                          "example": {
+                                              "produce_pdfs": true,
+                                              "multiple_docs": false,
+                                              "page_numbers": true
+                                          }
+                                      },
+                                      "call_purpose": {
+                                          "type": "string",
+                                          "description": "Tag API call. Can be queried in _API Call History_.",
+                                          "example": "admin system p"
+                                      },
+                                      "source_system": {
+                                          "type": "string",
+                                          "description": "Tag API call. Can be queried in _API Call History_.",
+                                          "example": "mycicd"
+                                      },
+                                      "correlation_id": {
+                                          "type": "string",
+                                          "description": "Tag API call. Can be queried in _API Call History_.",
+                                          "example": "456"
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "example": {
+                          "request_data": {
+                              "inputs": {
+                                  "Chain_a": 4,
+                                  "Chain_b": 2,
+                                  "Range_EF": [
+                                      {
+                                          "E": "A",
+                                          "F": 6
+                                      },
+                                      {
+                                          "E": "B",
+                                          "F": 8
+                                      }
+                                  ],
+                                  "Single_A": 2,
+                                  "Single_B": 4,
+                                  "Single_C": "sample text",
+                                  "Single_D": "2021-10-18",
+                                  "Single_J_Error": "Z",
+                                  "Solve_y_target": 0,
+                                  "Single_XJ_In_G": 3,
+                                  "Single_XJ_In_H": "",
+                                  "Single_XJ_In_I": 2,
+                                  "REPORT1": {
+                                      "FileName": null
+                                  }
+                              }
+                          },
+                          "request_meta": {
+                              "service_uri": "folders/API V3/services/Sample API Full",
+                              "service_id": "18c5a5fc-9949-4b1d-b802-ac367fc3599c",
+                              "version": "1.0.0",
+                              "version_id": "d5b2b3b3-8d79-41b1-a9c3-3d9652687204",
+                              "transaction_date": "2021-12-29T06:15:28.583Z",
+                              "call_purpose": "Spark - API Tester",
+                              "source_system": "SPARK",
+                              "correlation_id": null,
+                              "requested_output": null,
+                              "service_category": "#Default#",
+                              "compiler_type": "Neuron"
+                          }
+                      }
+                  }
+              }
           }
-        }
       },
-      "ValidationRequest": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["request_data", "request_meta"],
-        "properties": {
-          "request_data": {
-            "$ref": "#/components/schemas/ServiceRequestData"
-          },
-          "request_meta": {
-            "$ref": "#/components/schemas/ServiceRequestMeta",
-            "nullable": true,
-            "additionalProperties": true
+      "responses": {
+          "executeV3": {
+              "description": "OK",
+              "headers": {
+                  "spark_total_time": {
+                      "schema": {
+                          "type": "number",
+                          "description": "The time it took for Spark to process the inputs, perform the calculation, execute any `Ximage`, `Xreport`, `Xsolve` parameters in `ms`. This does not include any transit time.",
+                          "example": 50
+                      }
+                  },
+                  "X-RateLimit-Limit": {
+                      "schema": {
+                          "type": "number",
+                          "description": "Spark rate limiter value.",
+                          "example": 600
+                      }
+                  },
+                  "X-RateLimit-Remaining": {
+                      "schema": {
+                          "type": "number",
+                          "description": "Remaining calls for the rate limiter.",
+                          "example": 590
+                      }
+                  },
+                  "X-RateLimit-Reset": {
+                      "schema": {
+                          "type": "number",
+                          "description": "[Unix epoch time](https://en.wikipedia.org/wiki/Unix_time) representing when the rate limit is reset. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert to ISO 8601.",
+                          "example": 1768925455
+                      }
+                  }
+              },
+              "content": {
+                  "application/json": {
+                      "schema": {
+                          "type": "object",
+                          "properties": {
+                              "response_data": {
+                                  "type": "object",
+                                  "properties": {
+                                      "outputs": {
+                                          "description": "Returned outputs.",
+                                          "type": "object"
+                                      }
+                                  }
+                              },
+                              "response_meta": {
+                                  "type": "object",
+                                  "properties": {
+                                      "service_id": {
+                                          "type": "string",
+                                          "format": "uuid",
+                                          "description": "`service_id` of the resolved service.",
+                                          "example": "48a953cc-ed34-4454-b5c7-1141912f2f8d"
+                                      },
+                                      "version_id": {
+                                          "type": "string",
+                                          "format": "uuid",
+                                          "description": "`version_id` of the resolved service version.",
+                                          "example": "6bf49dca-5bc2-4144-9710-5988a0f44163"
+                                      },
+                                      "version": {
+                                          "type": "string",
+                                          "description": "Resolved service version number.",
+                                          "example": "4.15.2"
+                                      },
+                                      "process_time": {
+                                          "type": "integer",
+                                          "description": "Time for Spark to process the API call in `ms`.",
+                                          "example": 30
+                                      },
+                                      "call_id": {
+                                          "type": "string",
+                                          "format": "uuid",
+                                          "description": "Universally unique identifier for this API call. This can be referenced in the _API Call History_.",
+                                          "example": "f6123393-d33f-4ff6-86a4-a663111afd82"
+                                      },
+                                      "compiler_type": {
+                                          "type": "string",
+                                          "description": "Calculation engine used by Spark to process the request.",
+                                          "example": "Neuron"
+                                      },
+                                      "compiler_version": {
+                                          "type": "string",
+                                          "description": "Calculation engine by Spark to process the request.",
+                                          "example": "1.25.0"
+                                      },
+                                      "source_hash": {
+                                          "type": "string",
+                                          "example": null
+                                      },
+                                      "engine_id": {
+                                          "type": "string",
+                                          "description": "Hash generated for this service.",
+                                          "example": "64AFC7C321E5B97BAB090371DF1E9580"
+                                      },
+                                      "correlation_id": {
+                                          "type": "string",
+                                          "description": "Value from Request body."
+                                      },
+                                      "response_data_inputs": {
+                                          "type": "boolean",
+                                          "description": "Value from Request body."
+                                      },
+                                      "array_outputs": {
+                                          "type": "string",
+                                          "description": "Value from Request body."
+                                      },
+                                      "random_seed": {
+                                          "type": "integer",
+                                          "description": "Value from Request body."
+                                      },
+                                      "show_max_calc_chain": {
+                                          "type": "boolean",
+                                          "description": "Value from Request body."
+                                      },
+                                      "profile": {
+                                          "type": "boolean",
+                                          "description": "Value from Request body."
+                                      },
+                                      "trace": {
+                                          "type": "boolean",
+                                          "description": "Value from Request body."
+                                      },
+                                      "top_n_profile": {
+                                          "type": "integer",
+                                          "description": "Value from Request body."
+                                      },
+                                      "parameterset_version_id": {
+                                          "type": "string",
+                                          "format": "uuid",
+                                          "description": "Value from Request body."
+                                      },
+                                      "debug_xcall": {
+                                          "type": "boolean",
+                                          "description": "Value from Request body."
+                                      },
+                                      "debug_solve": {
+                                          "type": "boolean",
+                                          "description": "Value from Request body."
+                                      },
+                                      "manual_now": {
+                                          "type": "integer",
+                                          "description": "Value from Request body."
+                                      },
+                                      "system": {
+                                          "type": "string",
+                                          "description": "System that processed the request.",
+                                          "example": "SPARK"
+                                      },
+                                      "request_timestamp": {
+                                          "type": "string",
+                                          "format": "date-time",
+                                          "description": "Request timestamps.",
+                                          "example": "2020-10-29T09:53:18.831Z"
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "example": {
+                          "response_data": {
+                              "outputs": {
+                                  "CSV1": "\"A\",\"B\",\"C\"\n\"1\",\"2\",\"3\"\n",
+                                  "Chain_a": 4,
+                                  "Chain_b": 2,
+                                  "Range_EF_function": [
+                                      {
+                                          "E": "AB",
+                                          "F": 48
+                                      }
+                                  ],
+                                  "Single_AB_function": 20,
+                                  "Single_C_function": "SAMPLE TEXT",
+                                  "Single_D_function": "2022-10-18T00:00:00.000Z",
+                                  "Solve_x_calculated": 5.3579474132655,
+                                  "Single_XJ_Out_G": 3,
+                                  "Single_XJ_Out_H": "",
+                                  "Single_XJ_Out_I": 2,
+                                  "Solve1": {
+                                      "TargetValue": "0",
+                                      "ByChangingCellValue": "5.357947413265504",
+                                      "Comments": "Goal was reached on iteration 9."
+                                  },
+                                  "REPORT1": {
+                                      "PDFUrl": "https://excel.myenvironment.coherent.global/67a1a340-3f06-4db1-a4b8-316757d03d07.pdf",
+                                      "PDFName": "67a1a340-3f06-4db1-a4b8-316757d03d07.pdf",
+                                      "DocumentGenerationTime": "23",
+                                      "PDFGenerationTime": "7"
+                                  }
+                              },
+                              "warnings": [],
+                              "errors": [
+                                  {
+                                      "error_category": "validation_error",
+                                      "error_type": "error.VALIDATION",
+                                      "additional_details": "SimpleServiceAplusB",
+                                      "source_path": "$.Input.A",
+                                      "message": "Input Not Valid"
+                                  },
+                                  {
+                                      "error_category": "validation_error",
+                                      "error_type": "error.VALIDATION",
+                                      "additional_details": "Sample API Full",
+                                      "source_path": "$.Input.Xvalidate1",
+                                      "message": "I am an Xvalidate error"
+                                  }
+                              ]
+                          },
+                          "response_meta": {
+                              "service_id": "4bf0af24-0a24-49f1-bd02-c2a343eb8246",
+                              "version_id": "d5b2b3b3-8d79-41b1-a9c3-3d9652687204",
+                              "version": "1.0.0",
+                              "process_time": 2,
+                              "call_id": "372167af-ae77-4298-8f59-f45c0f98c4fe",
+                              "compiler_type": "Neuron",
+                              "compiler_version": "1.0.0",
+                              "source_hash": null,
+                              "engine_id": "B72FD22D775D5A9FA10BCFF183369BCB",
+                              "correlation_id": "",
+                              "system": "SPARK",
+                              "request_timestamp": "2021-12-29, 06:15:32 GMT+00:00"
+                          }
+                      }
+                  }
+              }
           }
-        }
-      },
-      "ValidationResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["status", "response_data", "response_meta", "error"],
-        "properties": {
-          "status": {
-            "type": "string",
-            "nullable": true,
-            "enum": ["Status", "Error"]
-          },
-          "response_data": {
-            "$ref": "#/components/schemas/ServiceResponseData"
-          },
-          "response_meta": {
-            "$ref": "#/components/schemas/ServiceResponseMeta"
-          },
-          "error": {
-            "$ref": "#/components/schemas/ApiV3ResponseError"
-          },
-          "traceEvents": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "type": "object"
-            }
-          }
-        }
       }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "description": "Bearer token to access this API.",
-        "scheme": "bearer"
-      },
-      "apiKeyAuth": {
-        "type": "apiKey",
-        "name": "x-synthetic-key",
-        "in": "header",
-        "description": "Provide the API key to access this API.\nWhen using this authentication method, please include the \"x-tenant-name\" header with the tenant name as its value.\n"
-      },
-      "oauth2Auth": {
-        "type": "oauth2",
-        "description": "For server-to-server authentication, see our user guide on\n[Client Credentials](https://docs.coherent.global/tenant-administration/user-authentication-services/client-credentials-grant-oauth-2.0)\n",
-        "flows": {
-          "clientCredentials": {
-            "tokenUrl": "https://keycloak.{env}.coherent.global/auth/realms/{tenant}/protocol/openid-connect/token",
-            "scopes": {}
-          }
-        }
-      }
-    }
-  },
-  "security": [
-    {
-      "bearerAuth": []
-    },
-    {
-      "apiKeyAuth": []
-    },
-    {
-      "oauth2Auth": []
-    }
-  ]
+  }
 }
