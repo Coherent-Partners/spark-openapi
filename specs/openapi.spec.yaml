@@ -1,15 +1,15 @@
-# 🙈 Currently being documented. Please check back soon for updates.
-openapi: 3.1.1
+openapi: 3.1.0
 info:
   title: Spark OpenAPI specification
-  description: This supplements the information in the [User Guide](https://docs.coherent.global).
+  summary: Documented APIs for Coherent Spark.
+  description: Supplement to the [User Guide](https://docs.coherent.global) documentation.
   termsOfService: https://www.coherent.global/terms-of-use
   contact:
     name: Coherent Support
     url: https://docs.coherent.global/support
+    email: sparksuppport@coherent.global
   license:
-    name: Apache-2.0
-    url: https://github.com/Coherent-Partners/spark-openapi/blob/main/LICENSE
+    name: Refer to your Coherent Master License Agreement.
   version: 0.1.0
 
 servers:
@@ -27,21 +27,26 @@ tags:
   - name: API Call History APIs
     description: APIs for accessing the _API Call History_.
   - name: Execute API (v3)
-    description: Execute the calculation from a Spark service. Depending on the desired reference parameter, different URI are available.
+    description:
+      Execute the calculation from a Spark service. Depending on the desired reference parameter, different URI are available. See the [documentation](https://docs.coherent.global/spark-apis/execute-api/execute-api-v3) for more details.<br><br>
+      The code snippet for your Spark service APIs can be found in the API Tester Code Snippets using the OpenAI.
+  - name: Execute API (v4)
+    description:
+      Execute multiple calculations from a Spark service. Supports synchronous batching enabling multiple requests to be submitted at the same time. See the [documentation](https://docs.coherent.global/spark-apis/execute-api/execute-api-v4) for more details.<br><br>
+      This endpoint should not be used for very large number of input records because there is an execution time limit of `55 s` and an error will be returned. For very large numbers of input records, we recommend using applications that utilize the [Batch APIs](https://docs.coherent.global/spark-apis/batch-apis).
   - name: Folder APIs
     description: APIs for managing Spark folders.
   - name: Service APIs
-    description: APIs for manager Spark services.
+    description: APIs for managing Spark services.
 
 paths:
-
-# API Call History
+  # API Call History
 
   /{tenant}/api/v3/log/getexecutionhistorybycallid/{callId}:
     get:
-      tags: ["API Call History APIs"]
+      tags: ['API Call History APIs']
       summary: Get Call ID
-      description: Get the details of an API call from the _API Call History_.
+      description: Get the details of an API call from the _API Call History_.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadAPILog.json` or `Spark.AllEncompassingProxy.json`.
       operationId: getLogGetExecutionHistoryByCallid
       security:
@@ -49,8 +54,8 @@ paths:
         - tenantName: []
           syntheticKey: []
       parameters:
-        - $ref: "#/components/parameters/tenant"
-        - $ref: "#/components/parameters/callId"
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/callId'
         - name: index
           in: query
           required: false
@@ -59,25 +64,28 @@ paths:
             type: integer
             minimum: 0
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: object
-              example:
-                status: Success
-                response_data: {\"EngineCallId\"...}
-                response_meta:
-                  system: SPARK
-                  request_timestamp: 2025-08-14T07:32:22.271Z
-                error: null
+              examples:
+                jsonBody:
+                  value:
+                    status: Success
+                    response_data: { \"EngineCallId\"... }
+                    response_meta:
+                      system: SPARK
+                      request_timestamp: 2025-08-14T07:32:22.271Z
+                    error: null
 
   /{tenant}/api/v3/folders/{folder}/services/{service}/download/xml/{callId}:
     post:
-      tags: ["API Call History APIs"]
+      tags: ['API Call History APIs']
       summary: Download as Excel
-      description: Get a copy of the original Excel file with inputs embedded with the _API Call History_ for an Execute API `call_id`.
+      description:
+        Get a copy of the original Excel file with inputs embedded with the _API Call History_ for an Execute API `call_id`.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadAPILog.json` or `Spark.AllEncompassingProxy.json`.
       operationId: getDownloadXML
       security:
@@ -85,10 +93,10 @@ paths:
         - tenantName: []
           syntheticKey: []
       parameters:
-        - $ref: "#/components/parameters/tenant"
-        - $ref: "#/components/parameters/folder"
-        - $ref: "#/components/parameters/service"
-        - $ref: "#/components/parameters/callId"
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/folder'
+        - $ref: '#/components/parameters/service'
+        - $ref: '#/components/parameters/callId'
       requestBody:
         required: true
         description: The request body should be empty or `{}`.
@@ -96,39 +104,44 @@ paths:
           application/json:
             schema:
               type: object
-            example: {}
+            examples:
+              jsonBody:
+                value: {}
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: object
-              example:
-                status:
-                response_data:
-                  download_url: https://excel.myenvironmentname.coherent.global/SparkService_CallLogDetails_a5c6a61f-06f8-499b-8a4d-818ce4e74d29.xlsx
-                response_meta:
-                  service_id: d160a776-01ba-433d-8cb4-60fa2710b085
-                  version_id: e778bbb1-288c-42f5-a4c3-d0a47f7d0463
-                  version: 0.2.0
-                  process_time: 0
-                  call_id: 18f53170-93d1-4b3c-88b6-04ae302b7e8d
-                  compiler_type: Neuron
-                  compiler_version:
-                  source_hash:
-                  engine_id: 53ACA991910FF82E1DF0B133D66A5A97
-                  correlation_id: null
-                  parameterset_version_id:
-                  system: SPARK
-                  request_timestamp: 2025-02-13T05:48:19.654Z
-                error:
+              examples:
+                jsonBody:
+                  value:
+                    status:
+                    response_data:
+                      download_url: https://excel.myenvironmentname.coherent.global/SparkService_CallLogDetails_a5c6a61f-06f8-499b-8a4d-818ce4e74d29.xlsx
+                    response_meta:
+                      service_id: d160a776-01ba-433d-8cb4-60fa2710b085
+                      version_id: e778bbb1-288c-42f5-a4c3-d0a47f7d0463
+                      version: 0.2.0
+                      process_time: 0
+                      call_id: 18f53170-93d1-4b3c-88b6-04ae302b7e8d
+                      compiler_type: Neuron
+                      compiler_version:
+                      source_hash:
+                      engine_id: 53ACA991910FF82E1DF0B133D66A5A97
+                      correlation_id: null
+                      parameterset_version_id:
+                      system: SPARK
+                      request_timestamp: 2025-02-13T05:48:19.654Z
+                    error:
 
   /{tenant}/api/v3/folders/{folder}/services/{service}/log/downloadcsv:
     post:
-      tags: ["API Call History APIs"]
+      tags: ['API Call History APIs']
       summary: Download Log as CSV post log job
-      description: Get a ZIP of CSV files from the _API Call History_ of a Spark service. This is equivalent to the _API Call History_ functionality to _Download all API calls_, _Download as CSV_.
+      description:
+        Get a ZIP of CSV files from the _API Call History_ of a Spark service. This is equivalent to the _API Call History_ functionality to _Download all API calls_, _Download as CSV_.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadCsvLog.json` or `Spark.AllEncompassingProxy.json`.
       operationId: postLogDownloadCSV
       security:
@@ -136,9 +149,9 @@ paths:
         - tenantName: []
           syntheticKey: []
       parameters:
-        - $ref: "#/components/parameters/tenant"
-        - $ref: "#/components/parameters/folder"
-        - $ref: "#/components/parameters/service"
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/folder'
+        - $ref: '#/components/parameters/service'
       requestBody:
         content:
           application/json:
@@ -152,74 +165,90 @@ paths:
                       type: integer
                       description: Number of hours to adjust the returned timestamps.
                     start_date:
-                      type: string
-                      format: date-time
+                      anyOf:
+                        - type: string
+                          format: date
+                        - type: string
+                          format: date-time
                       description: Timestamp for start log time filter. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601.
                       examples:
+                        - 2022-10-30
                         - 2022-10-30T18:30:00.853Z
                     end_date:
-                      type: string
-                      format: date-time
+                      anyOf:
+                        - type: 'null'
+                        - type: string
+                          format: date
+                        - type: string
+                          format: date-time
                       description: Timestamp for end log time filter. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601.
                       examples:
+                        - 2022-10-30
                         - 2022-10-30T18:30:00.853Z
                     call_ids:
-                      type: array
+                      type: ['null', array]
                       items:
                         type: string
                       description: Array containing `call_id`s, or single element `correlation_id`, or single element `source_system` to filter.
                       examples:
-                        - ["329700e6-0850-40cf-b61e-310c2f756b73", "fc01d941-bc29-4312-993a-c203913adcb8"]
-                        - ["correlation id for quotation"]
-                        - ["external source system "]
+                        - ['329700e6-0850-40cf-b61e-310c2f756b73', 'fc01d941-bc29-4312-993a-c203913adcb8']
+                        - ['correlation id for quotation']
+                        - ['external source system ']
                     callpurpose:
-                      type: string
-                      description: "`call_purpose` to filter."
+                      type: ['null', string]
+                      description: '`call_purpose` to filter.'
                     userName:
-                      type: string
-                      format: email
+                      type: ['null', string]
                       description: Username to filter.
-                      example: myname@mydomain.com
+                      examples:
+                        - myname@mydomain.com
                     has_warnings:
-                      type: boolean
+                      type: ['null', boolean]
                       description: Filter calls with warnings.
                     has_errors:
-                      type: boolean
+                      type: ['null', boolean]
                       description: Filter calls with errors.
                 request_meta:
                   type: object
                   properties:
                     version_id:
-                      type: string
-                      format: uuid
-                      description: "`version_id` to filter for a specific service version."
-                      example:
-                        7c3a51a3-a0ae-41ec-b78a-5b8f75376b2f
-            example:
-              request_data:
-                start_date: "2023-11-11"
-                end_date: ""
+                      oneOf:
+                        - type: 'null'
+                        - type: string
+                          format: uuid
+                      description: '`version_id` to filter for a specific service version.'
+                      examples:
+                        - 7c3a51a3-a0ae-41ec-b78a-5b8f75376b2f
+            examples:
+              jsonBody:
+                value:
+                  request_data:
+                    start_date: 2023-11-11
+                    end_date:
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: object
-              example:
-                status: null
-                response_data:
-                  job_id: ebcbf840-df82-472a-b9d4-073f14f4320b
-                response_meta:
-                  system: SPARK
-                  request_timestamp: 2023-11-14T07:59:43.050Z
-                error: null
+              examples:
+                jsonBody:
+                  value:
+                    status: null
+                    response_data:
+                      job_id: ebcbf840-df82-472a-b9d4-073f14f4320b
+                    response_meta:
+                      system: SPARK
+                      request_timestamp: 2023-11-14T07:59:43.050Z
+                    error: null
 
   /{tenant}/api/v3/folders/{folder}/services/{service}/log/downloadcsv/status/{jobId}:
     get:
-      tags: ["API Call History APIs"]
+      tags: ['API Call History APIs']
       summary: Download Log as CSV get log job status
-      description: Get a ZIP of CSV files from the _API Call History_ of a Spark service. This is equivalent to the _API Call History_ functionality to _Download all API calls_, _Download as CSV_.
+      description:
+        Get a ZIP of CSV files from the _API Call History_ of a Spark service. This is equivalent to the _API Call History_ functionality to _Download all API calls_, _Download as CSV_.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadCsvLog.json` or `Spark.AllEncompassingProxy.json`.
       operationId: getLogDownloadCSVStatus
       security:
@@ -227,32 +256,35 @@ paths:
         - tenantName: []
           syntheticKey: []
       parameters:
-        - $ref: "#/components/parameters/tenant"
-        - $ref: "#/components/parameters/folder"
-        - $ref: "#/components/parameters/service"
-        - $ref: "#/components/parameters/jobId"
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/folder'
+        - $ref: '#/components/parameters/service'
+        - $ref: '#/components/parameters/jobId'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: object
-              example:
-                status: null
-                response_data:
-                  progress: 100
-                  download_url: https://environment.coherent.global/SparkService_allRecords_2023_11_14_T_08_25_40.zip
-                response_meta:
-                  system: SPARK
-                  request_timestamp: 2023-11-14T08:25:40.762Z
-                error: null
+              examples:
+                jsonBody:
+                  value:
+                    status: null
+                    response_data:
+                      progress: 100
+                      download_url: https://environment.coherent.global/SparkService_allRecords_2023_11_14_T_08_25_40.zip
+                    response_meta:
+                      system: SPARK
+                      request_timestamp: 2023-11-14T08:25:40.762Z
+                    error: null
 
   /{tenant}/api/v3/folders/{folder}/services/{service}/log/downloadJSON:
     post:
-      tags: ["API Call History APIs"]
+      tags: ['API Call History APIs']
       summary: Download Log as JSON post log job
-      description: Get a ZIP of JSON files from the _API Call History_ of a Spark service. This is equivalent to the _API Call History_ functionality to _Download all API calls_, _Download as JSON_.
+      description:
+        Get a ZIP of JSON files from the _API Call History_ of a Spark service. This is equivalent to the _API Call History_ functionality to _Download all API calls_, _Download as JSON_.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadJSONLog.json` or `Spark.AllEncompassingProxy.json`.
       operationId: postLogDownloadJSON
       security:
@@ -260,9 +292,9 @@ paths:
         - tenantName: []
           syntheticKey: []
       parameters:
-        - $ref: "#/components/parameters/tenant"
-        - $ref: "#/components/parameters/folder"
-        - $ref: "#/components/parameters/service"
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/folder'
+        - $ref: '#/components/parameters/service'
       requestBody:
         content:
           application/json:
@@ -276,39 +308,48 @@ paths:
                       type: integer
                       description: Number of hours to adjust the returned timestamps.
                     start_date:
-                      type: string
-                      format: date-time
+                      anyOf:
+                        - type: string
+                          format: date
+                        - type: string
+                          format: date-time
                       description: Timestamp for start log time filter. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601.
                       examples:
+                        - 2022-10-30
                         - 2022-10-30T18:30:00.853Z
                     end_date:
-                      type: string
-                      format: date-time
+                      anyOf:
+                        - type: 'null'
+                        - type: string
+                          format: date
+                        - type: string
+                          format: date-time
                       description: Timestamp for end log time filter. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601.
                       examples:
+                        - 2022-10-30
                         - 2022-10-30T18:30:00.853Z
                     call_ids:
-                      type: array
+                      type: ['null', array]
                       items:
-                        type: string
+                        type: ['null', string]
                       description: Array containing `call_id`s, or single element `correlation_id`, or single element `source_system` to filter.
                       examples:
-                        - ["329700e6-0850-40cf-b61e-310c2f756b73", "fc01d941-bc29-4312-993a-c203913adcb8"]
-                        - ["correlation id for quotation"]
-                        - ["external source system "]
+                        - ['329700e6-0850-40cf-b61e-310c2f756b73', 'fc01d941-bc29-4312-993a-c203913adcb8']
+                        - ['correlation id for quotation']
+                        - ['external source system ']
                     callpurpose:
-                      type: string
-                      description: "`call_purpose` to filter."
+                      type: ['null', string]
+                      description: '`call_purpose` to filter.'
                     userName:
-                      type: string
-                      format: email
+                      type: ['null', string]
                       description: Username to filter.
-                      example: myname@mydomain.com
+                      examples:
+                        - myname@mydomain.com
                     has_warnings:
-                      type: boolean
+                      type: ['null', boolean]
                       description: Filter calls with warnings.
                     has_errors:
-                      type: boolean
+                      type: ['null', boolean]
                       description: Filter calls with errors.
                 request_meta:
                   type: object
@@ -316,34 +357,39 @@ paths:
                     version_id:
                       type: string
                       format: uuid
-                      description: "`version_id` to filter for a specific service version."
-                      example:
-                        7c3a51a3-a0ae-41ec-b78a-5b8f75376b2f
-            example:
-              request_data:
-                start_date: "2023-11-11"
-                end_date: ""
+                      description: '`version_id` to filter for a specific service version.'
+                      examples:
+                        - 7c3a51a3-a0ae-41ec-b78a-5b8f75376b2f
+            examples:
+              jsonBody:
+                value:
+                  request_data:
+                    start_date: 2023-11-11
+                    end_date:
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: object
-              example:
-                status: null
-                response_data:
-                  job_id: ebcbf840-df82-472a-b9d4-073f14f4320b
-                response_meta:
-                  system: SPARK
-                  request_timestamp: 2023-11-14T07:59:43.050Z
-                error: null
+              examples:
+                jsonBody:
+                  value:
+                    status: null
+                    response_data:
+                      job_id: ebcbf840-df82-472a-b9d4-073f14f4320b
+                    response_meta:
+                      system: SPARK
+                      request_timestamp: 2023-11-14T07:59:43.050Z
+                    error: null
 
   /{tenant}/api/v3/folders/{folder}/services/{service}/log/downloadJSON/status/{jobId}:
     get:
-      tags: ["API Call History APIs"]
+      tags: ['API Call History APIs']
       summary: Download Log as JSON get log job status
-      description: Get a ZIP of JSON files from the _API Call History_ of a Spark service. This is equivalent to the _API Call History_ functionality to _Download all API calls_, _Download as JSON_.
+      description:
+        Get a ZIP of JSON files from the _API Call History_ of a Spark service. This is equivalent to the _API Call History_ functionality to _Download all API calls_, _Download as JSON_.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadJSONLog.json` or `Spark.AllEncompassingProxy.json`.
       operationId: getLogDownloadJSONStatus
       security:
@@ -351,90 +397,92 @@ paths:
         - tenantName: []
           syntheticKey: []
       parameters:
-        - $ref: "#/components/parameters/tenant"
-        - $ref: "#/components/parameters/folder"
-        - $ref: "#/components/parameters/service"
-        - $ref: "#/components/parameters/jobId"
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/folder'
+        - $ref: '#/components/parameters/service'
+        - $ref: '#/components/parameters/jobId'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: object
-              example:
-                status: null
-                response_data:
-                  progress: 100
-                  download_url: https://environment.coherent.global/SparkService_allRecords_2023_11_14_T_08_25_40.zip
-                response_meta:
-                  system: SPARK
-                  request_timestamp: 2023-11-14T08:25:40.762Z
-                error: null
+              examples:
+                jsonBody:
+                  value:
+                    status: null
+                    response_data:
+                      progress: 100
+                      download_url: https://environment.coherent.global/SparkService_allRecords_2023_11_14_T_08_25_40.zip
+                    response_meta:
+                      system: SPARK
+                      request_timestamp: 2023-11-14T08:25:40.762Z
+                    error: null
 
-# Execute API (v3)
+  # Execute API (v3)
 
   /{tenant}/api/v3/folders/{folder}/services/{service}/execute:
     post:
-      tags: ["Execute API (v3)"]
+      tags: ['Execute API (v3)']
       summary: Reference by folder and service
-      description: "`request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution."
+      description: '`request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution.'
       operationId: postv3FoldersServicesExecute
       security:
         - bearerToken: []
         - tenantName: []
           syntheticKey: []
       parameters:
-        - $ref: "#/components/parameters/tenant"
-        - $ref: "#/components/parameters/folder"
-        - $ref: "#/components/parameters/service"
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/folder'
+        - $ref: '#/components/parameters/service'
       requestBody:
-        $ref: "#/components/requestBodies/executeV3"
+        $ref: '#/components/requestBodies/executeV3'
       responses:
-        "200":
-          $ref: "#/components/responses/executeV3"
+        '200':
+          $ref: '#/components/responses/executeV3'
 
   /{tenant}/api/v3/service/{serviceId}:
     post:
-      tags: ["Execute API (v3)"]
+      tags: ['Execute API (v3)']
       summary: Reference by service_id
-      description: "`request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution."
+      description: '`request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution.'
       operationId: postv3Service
       security:
         - bearerToken: []
         - tenantName: []
           syntheticKey: []
       parameters:
-        - $ref: "#/components/parameters/tenant"
-        - $ref: "#/components/parameters/serviceId"
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/serviceId'
       requestBody:
-        $ref: "#/components/requestBodies/executeV3"
+        $ref: '#/components/requestBodies/executeV3'
       responses:
-        "200":
-          $ref: "#/components/responses/executeV3"
+        '200':
+          $ref: '#/components/responses/executeV3'
 
   /{tenant}/api/v3/version/{versionId}:
     post:
-      tags: ["Execute API (v3)"]
+      tags: ['Execute API (v3)']
       summary: Reference by version_id
-      description: "`version_id` is the most direct service version reference."
+      description: '`version_id` is the most direct service version reference.'
       operationId: postv3Version
       security:
         - bearerToken: []
         - tenantName: []
           syntheticKey: []
       parameters:
-        - $ref: "#/components/parameters/tenant"
-        - $ref: "#/components/parameters/versionId"
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/versionId'
       requestBody:
-        $ref: "#/components/requestBodies/executeV3"
+        $ref: '#/components/requestBodies/executeV3'
       responses:
-        "200":
-          $ref: "#/components/responses/executeV3"
+        '200':
+          $ref: '#/components/responses/executeV3'
 
   /{tenant}/api/v3/execute:
     post:
-      tags: ["Execute API (v3)"]
+      tags: ['Execute API (v3)']
       summary: Generic execute endpoint
       description: Service reference must be defined in the `request_meta`.
       operationId: postv3Execute
@@ -443,90 +491,78 @@ paths:
         - tenantName: []
           syntheticKey: []
       parameters:
-        - $ref: "#/components/parameters/tenant"
+        - $ref: '#/components/parameters/tenant'
       requestBody:
-        $ref: "#/components/requestBodies/executeV3"
+        $ref: '#/components/requestBodies/executeV3'
       responses:
-        "200":
-          $ref: "#/components/responses/executeV3"
+        '200':
+          $ref: '#/components/responses/executeV3'
 
   /{tenant}/api/v3:
     post:
-      tags: ["Execute API (v3)"]
+      tags: ['Execute API (v3)']
       summary: Generic v3 endpoint
       description: Service reference must be defined in the request_meta.
       operationId: postv3
       security:
         - bearerToken: []
       parameters:
-        - $ref: "#/components/parameters/tenant"
+        - $ref: '#/components/parameters/tenant'
       requestBody:
-        $ref: "#/components/requestBodies/executeV3"
+        $ref: '#/components/requestBodies/executeV3'
       responses:
-        "200":
-          $ref: "#/components/responses/executeV3"
+        '200':
+          $ref: '#/components/responses/executeV3'
 
   /{tenant}/api/v3/public/folders/{folder}/services/{service}/execute:
     post:
-      tags: ["Execute API (v3)"]
+      tags: ['Execute API (v3)']
       summary: Public API reference by folder and service
-      description: "`request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution."
+      description: '`request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution.'
       operationId: postv3PublicFoldersServicesExecute
-      security:
-        - bearerToken: []
-        - tenantName: []
-          syntheticKey: []
       parameters:
-        - $ref: "#/components/parameters/tenant"
-        - $ref: "#/components/parameters/folder"
-        - $ref: "#/components/parameters/service"
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/folder'
+        - $ref: '#/components/parameters/service'
       requestBody:
-        $ref: "#/components/requestBodies/executeV3"
+        $ref: '#/components/requestBodies/executeV3'
       responses:
-        "200":
-          $ref: "#/components/responses/executeV3"
+        '200':
+          $ref: '#/components/responses/executeV3'
 
   /{tenant}/api/v3/public/service/{serviceId}:
     post:
-      tags: ["Execute API (v3)"]
+      tags: ['Execute API (v3)']
       summary: Public API reference by service_id
-      description: "`request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution."
+      description: '`request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution.'
       operationId: postv3PublicService
-      security:
-        - bearerToken: []
-        - tenantName: []
-          syntheticKey: []
       parameters:
-        - $ref: "#/components/parameters/tenant"
-        - $ref: "#/components/parameters/serviceId"
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/serviceId'
       requestBody:
-        $ref: "#/components/requestBodies/executeV3"
+        $ref: '#/components/requestBodies/executeV3'
       responses:
-        "200":
-          $ref: "#/components/responses/executeV3"
+        '200':
+          $ref: '#/components/responses/executeV3'
 
   /{tenant}/api/v3/public/version/{versionId}:
     post:
-      tags: ["Execute API (v3)"]
+      tags: ['Execute API (v3)']
       summary: Public API reference by version_id
-      description: "`version_id` is the most direct service version reference."
+      description: '`version_id` is the most direct service version reference.'
       operationId: postv3PublicVersion
-      security:
-        - bearerToken: []
-        - tenantName: []
-          syntheticKey: []
       parameters:
-        - $ref: "#/components/parameters/tenant"
-        - $ref: "#/components/parameters/versionId"
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/versionId'
       requestBody:
-        $ref: "#/components/requestBodies/executeV3"
+        $ref: '#/components/requestBodies/executeV3'
       responses:
-        "200":
-          $ref: "#/components/responses/executeV3"
+        '200':
+          $ref: '#/components/responses/executeV3'
 
   /{tenant}/api/v3/proxy/{urlsuffix}:
     post:
-      tags: ["Execute API (v3)"]
+      tags: ['Execute API (v3)']
       summary: Reference for custom endpoints
       description: The `request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution.
       operationId: postv3ProxyUrlsuffix
@@ -535,19 +571,57 @@ paths:
         - tenantName: []
           syntheticKey: []
       parameters:
-        - $ref: "#/components/parameters/tenant"
-        - $ref: "#/components/parameters/urlsuffix"
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/urlsuffix'
       requestBody:
-        $ref: "#/components/requestBodies/executeV3"
+        $ref: '#/components/requestBodies/executeV3'
       responses:
-        "200":
-          $ref: "#/components/responses/executeV3"
+        '200':
+          $ref: '#/components/responses/executeV3'
 
-# Folder APIs
+  # Execute API (v4)
+
+  /{tenant}/api/v4/execute:
+    post:
+      tags: ['Execute API (v4)']
+      summary: Generic execute endpoint
+      description:
+        The v4 specification of the Execute API supports synchronous batching enabling multiple requests to be submitted at the same time.<br><br>
+        If using an API key, the API key group must contain user groups that are also assigned to `Spark.SyncBatch.json` or `Spark.AllEncompassingProxy.json`.
+      operationId: postv4Execute
+      security:
+        - bearerToken: []
+        - tenantName: []
+          syntheticKey: []
+      parameters:
+        - $ref: '#/components/parameters/tenant'
+      requestBody:
+        $ref: '#/components/requestBodies/executeV4'
+      responses:
+        '200':
+          $ref: '#/components/responses/executeV4'
+
+  /{tenant}/api/v4/public/execute:
+    post:
+      tags: ['Execute API (v4)']
+      summary: Public API Generic execute endpoint
+      description:
+        The v4 specification of the Execute API supports synchronous batching enabling multiple requests to be submitted at the same time.<br><br>
+        If using an API key, the API key group must contain user groups that are also assigned to `Spark.SyncBatch.json` or `Spark.AllEncompassingProxy.json`.
+      operationId: postv4PublicExecute
+      parameters:
+        - $ref: '#/components/parameters/tenant'
+      requestBody:
+        $ref: '#/components/requestBodies/executeV4'
+      responses:
+        '200':
+          $ref: '#/components/responses/executeV4'
+
+  # Folder APIs
 
   /api/v1/product/create:
     post:
-      tags: ["Folder APIs"]
+      tags: ['Folder APIs']
       summary: Create folder
       description: Folders contain Spark services.
       operationId: postProductCreate
@@ -563,20 +637,24 @@ paths:
                 Name:
                   type: string
                   description: Folder name.
-                  example: myfoldername
+                  examples:
+                    - myfoldername
                 Category:
                   type: string
                   description: Folder category. Must be a valid folder category. The category names are managed in _Options_ _Folder categories_.
-                  example: Others
+                  examples:
+                    - Others
                 Description:
                   type: string
                   description: Folder description.
-                  example: My folder description.
+                  examples:
+                    - My folder description
                 Status:
                   type: string
                   default: Design
                   description: Status of the folder. `Design` is the default value.
-                  example: Design
+                  examples:
+                    - Design
                 CoverImage:
                   type: string
                   format: binary
@@ -587,25 +665,27 @@ paths:
                 - Description
                 - Status
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: object
-              example:
-                message: null
-                data:
-                  folderId: 66e9c8a9-335e-43b5-9353-39077d49d188
-                  get_product_url: https://excel.myenvironment.coherent.global/api/v1/product/GetProduct/folderstatus
-                errorCode: null
-                status: Success
+              examples:
+                jsonBody:
+                  value:
+                    message: null
+                    data:
+                      folderId: 66e9c8a9-335e-43b5-9353-39077d49d188
+                      get_product_url: https://excel.myenvironment.coherent.global/api/v1/product/GetProduct/folderstatus
+                    errorCode: null
+                    status: Success
 
   /api/v1/product/list:
     post:
-      tags: ["Folder APIs"]
+      tags: ['Folder APIs']
       summary: List folders
-      description: Returns folders that match the search filter.
+      description: Returns folders that match the search filter.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.FolderList.json` or `Spark.AllEncompassingProxy.json`.
       operationId: postProductList
       security:
@@ -628,72 +708,77 @@ paths:
                   minimum: 1
                   description: Number of records per page.
                 sort:
-                  type: string
+                  type: ['null', string]
                   description: String defining the sort order
-                  example: "`-updated`"
+                  examples:
+                    - '`-updated`'
                 search:
-                  type: array
+                  type: ['null', array]
                   description: Array of search filter objects.
                   items:
                     type: object
                     properties:
                       field:
-                        type: string
+                        type: ['null', string]
                         description: Name of the field to filter.
                       value:
                         description: Value of the `field` to filter for.
                       operator:
-                        type: string
+                        type: ['null', string]
                         description: Operator for numeric properties.
                   examples:
-                    - [{"field": "name", "name": "myfoldername"}]
-                    - [{"field": "isstarred", "isstarred": "true"}]
-            example:
-              page: 1
-              pageSize: 10
-              sort: "-updated"
-              search:
-                - field: "name"
-                  value: "Simon Testing"
+                    - [{ 'field': 'name', 'name': 'myfoldername' }]
+                    - [{ 'field': 'isstarred', 'isstarred': 'true' }]
+            examples:
+              jsonBody:
+                value:
+                  page: 1
+                  pageSize: 10
+                  sort: '-updated'
+                  search:
+                    - field: 'name'
+                      value: 'Simon Testing'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: object
-              example:
-                count: 1
-                next: null
-                previous: null
-                message: null
-                data:
-                  - id: 88018b91-6c91-4309-a70b-5bcacfc8a724
-                    name: myfolder
-                    status: Design
-                    category: Other
-                    description: myfolderdescription
-                    coverImagePath: 41f7dd49-8582-4f00-945c-b49242a52b0d.jpeg
-                    createdAt: 2020-12-18T02:04:03.610588Z
-                    createdBy: 0ec91ce3-52d2-41df-abf8-60b038cd7670
-                    lastModifiedDate: 2025-12-02T00:59:39.178648Z
-                    isStarred: true
-                    startDate: 2020-12-18T00:00:00Z
-                    launchDate: 2021-03-18T00:00:00Z
-                    totalServiceCount: 3
-                errorCode: null
-                status: Success
+              examples:
+                jsonBody:
+                  value:
+                    count: 1
+                    next: null
+                    previous: null
+                    message: null
+                    data:
+                      - id: 88018b91-6c91-4309-a70b-5bcacfc8a724
+                        name: myfolder
+                        status: Design
+                        category: Other
+                        description: myfolderdescription
+                        coverImagePath: 41f7dd49-8582-4f00-945c-b49242a52b0d.jpeg
+                        createdAt: 2020-12-18T02:04:03.610588Z
+                        createdBy: 0ec91ce3-52d2-41df-abf8-60b038cd7670
+                        lastModifiedDate: 2025-12-02T00:59:39.178648Z
+                        isStarred: true
+                        startDate: 2020-12-18T00:00:00Z
+                        launchDate: 2021-03-18T00:00:00Z
+                        totalServiceCount: 3
+                    errorCode: null
+                    status: Success
 
   /api/v1/product/getproduct/{folder}:
     get:
-      tags: ["Folder APIs"]
+      tags: ['Folder APIs']
       summary: Get folder
       description: Get folder details.
       operationId: getProductGetProduct
       security:
         - bearerToken: []
       parameters:
-        - $ref: "#/components/parameters/folder"
+        - $ref: '#/components/parameters/folder'
         - name: noOfCalculationEngines
           in: query
           required: false
@@ -701,67 +786,70 @@ paths:
           schema:
             type: integer
             minimum: 1
-            example: 5
+            examples:
+              - 5
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: object
-              example:
-                message: null
-                data:
-                  id: 7165e556-e149-4b37-a545-c62c84b35b1a
-                  name: Simple-Calculator
-                  category: Other
-                  description: CI-CD DEMO
-                  coverImagePath: 443630e8-bc2f-45a2-9a46-58433f1241a6.jpg
-                  createdAt: 2025-05-04T02:06:14.355639+00:00
-                  isStarred: false
-                  status: Design
-                  startDate: 2024-09-28T00:00:00Z
-                  launchDate: 2024-12-28T00:00:00Z
-                  calculationEngines:
-                    count: 1
-                    next: False
-                    previous: null
+              examples:
+                jsonBody:
+                  value:
                     message: null
                     data:
-                      - revision: 0.7.0
-                        serviceName: Formula
-                        originalFileName: Formula.xlsx
-                        isStarred: false
-                        serviceStatus: active
-                        versionId: 20827543-bdaf-44e1-bc7a-ac20a8431005
-                        lastModifiedDate: 2025-05-04T02:06:22.656084Z
-                        isLatestVersion: true
-                        createdAt: 2025-05-04T02:06:22.656084Z
-                        author: service-account-client-credentials
-                        size: 9
-                        defaultEngineType: neuron
-                        tags: null
-                        engineChains: []
-                        effectiveStartDate: 2003-06-26T23:47:00Z
-                        effectiveEndDate: 2003-07-26T23:47:00Z
+                      id: 7165e556-e149-4b37-a545-c62c84b35b1a
+                      name: Simple-Calculator
+                      category: Other
+                      description: CI-CD DEMO
+                      coverImagePath: 443630e8-bc2f-45a2-9a46-58433f1241a6.jpg
+                      createdAt: 2025-05-04T02:06:14.355639+00:00
+                      isStarred: false
+                      status: Design
+                      startDate: 2024-09-28T00:00:00Z
+                      launchDate: 2024-12-28T00:00:00Z
+                      calculationEngines:
+                        count: 1
+                        next: False
+                        previous: null
+                        message: null
+                        data:
+                          - revision: 0.7.0
+                            serviceName: Formula
+                            originalFileName: Formula.xlsx
+                            isStarred: false
+                            serviceStatus: active
+                            versionId: 20827543-bdaf-44e1-bc7a-ac20a8431005
+                            lastModifiedDate: 2025-05-04T02:06:22.656084Z
+                            isLatestVersion: true
+                            createdAt: 2025-05-04T02:06:22.656084Z
+                            author: service-account-client-credentials
+                            size: 9
+                            defaultEngineType: neuron
+                            tags: null
+                            engineChains: []
+                            effectiveStartDate: 2003-06-26T23:47:00Z
+                            effectiveEndDate: 2003-07-26T23:47:00Z
+                        errorCode: null
+                        status: Success
+                      sections: []
+                      lastModifiedDate: 2025-05-04T02:06:18.225895Z
+                      createdBy: service-account-client-credentials
                     errorCode: null
                     status: Success
-                  sections: []
-                  lastModifiedDate: 2025-05-04T02:06:18.225895Z
-                  createdBy: service-account-client-credentials
-                errorCode: null
-                status: Success
 
   /api/v1/product/update/{folderId}:
     post:
-      tags: ["Folder APIs"]
+      tags: ['Folder APIs']
       summary: Update folder
       description: Update folder details including category or description.
       operationId: postProductUpdate
       security:
         - bearerToken: []
       parameters:
-        - $ref: "#/components/parameters/folderId"
+        - $ref: '#/components/parameters/folderId'
       requestBody:
         required: true
         content:
@@ -778,61 +866,60 @@ paths:
                 shouldTrackUserAction:
                   type: boolean
                   default: true
-            example:
-              category: "Critical Illness"
-              name: "CI Partner PS"
-              shouldTrackUserAction: true
+            examples:
+              jsonBody:
+                value:
+                  category: 'Critical Illness'
+                  name: 'CI Partner PS'
+                  shouldTrackUserAction: true
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: object
-              example:
-                message: null
-                data: null
-                errorCode: null
-                status: Success
+              examples:
+                jsonBody:
+                  value:
+                    message: null
+                    data: null
+                    errorCode: null
+                    status: Success
 
   /api/v1/product/delete/{folderId}:
     delete:
-      tags: ["Folder APIs"]
+      tags: ['Folder APIs']
       summary: Delete folder
       description: Delete folder including all documents and services.
       operationId: deleteProductDelete
       security:
         - bearerToken: []
       parameters:
-        - $ref: "#/components/parameters/folderId"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-            example:
-              {}
+        - $ref: '#/components/parameters/folderId'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: object
-              example:
-                message: null
-                data: null
-                errorCode: null
-                status: Success
+              examples:
+                jsonBody:
+                  value:
+                    message: null
+                    data: null
+                    errorCode: null
+                    status: Success
 
-# Services APIs
+  # Service APIs
 
   /{tenant}/api/v3/folders/{folder}/services/{service}/upload:
     post:
-      tags: ["Service APIs"]
+      tags: ['Service APIs']
       summary: Upload Excel file to Spark
-      description: Returns `nodegen_compilation_jobid`, `original_file_documentid`, and `engine_file_documentid` which are needed to Publish service.
+      description:
+        Returns `nodegen_compilation_jobid`, `original_file_documentid`, and `engine_file_documentid` which are needed to Publish service.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.ServiceUpload.json` or `Spark.AllEncompassingProxy.json`.
       operationId: postFoldersServicesUpload
       security:
@@ -854,7 +941,8 @@ paths:
                   type: string
                   format: binary
                   description: Service file to be uploaded.
-                  example: "@/path/to/file"
+                  examples:
+                    - '@/path/to/file'
                 engineUploadRequestEntity:
                   type: object
                   description: Request parameters for the engine upload. These settings may be overridden during Publish.
@@ -863,23 +951,47 @@ paths:
                       type: object
                       properties:
                         version_difference:
-                          type: string
-                          enum: [major, minor, patch]
+                          anyOf:
+                            - type: 'null'
+                            - type: string
+                              enum: [major, minor, patch]
                           description: Parameter is required but ignored. Value is set in Publish service.
                           default: minor
-                          example: minor
+                          examples:
+                            - minor
                         effective_start_date:
-                          type: string
-                          format: date-time
+                          anyOf:
+                            - type: 'null'
+                            - type: string
+                              format: date
+                            - type: string
+                              format: date-time
                           description: Parameter is required but ignored. Value is set in Publish service.
                           default: 2000-01-01
-                          example: 2000-01-01
+                          examples:
+                            - 2000-01-01
                         effective_end_date:
-                          type: string
-                          format: date-time
+                          anyOf:
+                            - type: 'null'
+                            - type: string
+                              format: date
+                            - type: string
+                              format: date-time
                           description: Parameter is required but ignored. Value is set in Publish service.
                           default: 2100-01-01
-                          example: 2100-01-01
+                          examples:
+                            - 2100-01-01
+                        compiler_version:
+                          type: ['null', string]
+                          description: Neuron version to use for compilation if specified. Reference Neuron release history.
+                          examples:
+                            - Neuron_v1.25.0
+                        compiler_type:
+                          type: ['null', string]
+                          enum: [MaintainVersion, TenantDefault, StableLatest, ReleaseCandidate]
+                          description: Sets the default method to choose the Neuron version for the next upload.
+                          examples:
+                            - TenantDefault
                       required:
                         - version_difference
                         - effective_start_date
@@ -889,59 +1001,63 @@ paths:
               required:
                 - serviceFile
                 - engineUploadRequestEntity
-            example:
-              serviceFile: "@path/to/file"
-              engineUploadRequestEntity:
-                request_data:
-                  version_difference: minor
-                  effective_start_date: 2000-01-01
-                  effective_end_date: 2100-01-01
+            examples:
+              jsonBody:
+                value:
+                  serviceFile: '@path/to/file'
+                  engineUploadRequestEntity:
+                    request_data:
+                      version_difference: minor
+                      effective_start_date: 2000-01-01
+                      effective_end_date: 2100-01-01
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: object
-              example:
-                status: Success
-                response_data:
-                  lines_of_code: 11
-                  hours_saved: 0.02107043788185858
-                  nodegen_compilation_jobid: 19bd64d6-f567-0bd4-c73f-190ed4bc49c3
-                  original_file_documentid: 265ddaee-89b9-42ff-96af-3cf08ceaf344
-                  engine_file_documentid: f15269d5-0104-4269-8c46-ba5996b5b1c4
-                  hash_signature_chain: false
-                  warnings: []
-                  infos: []
-                  current_statistics:
-                  no_of_sheets: 1
-                  no_of_inputs: 2
-                  no_of_outputs: 1
-                  no_of_formulas: 1
-                  no_of_cellswithdata: 15
-                response_meta:
-                  service_id:
-                  version_id: b4555085-1535-4058-8335-212216c89044
-                  version: 0.1.0
-                  process_time: 1138
-                  call_id:
-                  compiler_type: Neuron
-                  compiler_version:
-                  source_hash:
-                  engine_id:
-                  correlation_id:
-                  parameterset_version_id:
-                  system: SPARK
-                  request_timestamp: '2026-01-19T12:49:16.092Z'
-                error:
+              examples:
+                jsonBody:
+                  value:
+                    status: Success
+                    response_data:
+                      lines_of_code: 11
+                      hours_saved: 0.02107043788185858
+                      nodegen_compilation_jobid: 19bd64d6-f567-0bd4-c73f-190ed4bc49c3
+                      original_file_documentid: 265ddaee-89b9-42ff-96af-3cf08ceaf344
+                      engine_file_documentid: f15269d5-0104-4269-8c46-ba5996b5b1c4
+                      hash_signature_chain: false
+                      warnings: []
+                      infos: []
+                      current_statistics:
+                      no_of_sheets: 1
+                      no_of_inputs: 2
+                      no_of_outputs: 1
+                      no_of_formulas: 1
+                      no_of_cellswithdata: 15
+                    response_meta:
+                      service_id:
+                      version_id: b4555085-1535-4058-8335-212216c89044
+                      version: 0.1.0
+                      process_time: 1138
+                      call_id:
+                      compiler_type: Neuron
+                      compiler_version:
+                      source_hash:
+                      engine_id:
+                      correlation_id:
+                      parameterset_version_id:
+                      system: SPARK
+                      request_timestamp: 2026-01-19T12:49:16.092Z
+                    error:
 
   /{tenant}/api/v3/folders/{folder}/services/{service}/getcompilationprogess/{jobId}:
     get:
-      tags: ["Service APIs"]
+      tags: ['Service APIs']
       summary: Check compilation status
-      description: Get the Neuron "Excel-to-code" compilation status of the Excel upload.
-        This can be run after Upload Excel file to Spark.
+      description:
+        Get the Neuron "Excel-to-code" compilation status of the Excel upload. This can be run after Upload Excel file to Spark.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.ServiceCompilationProgress.json` or `Spark.AllEncompassingProxy.json`.
       operationId: getFoldersServicesGetCompilationProgress
       security:
@@ -953,31 +1069,32 @@ paths:
         - $ref: '#/components/parameters/folder'
         - $ref: '#/components/parameters/service'
         - $ref: '#/components/parameters/jobId'
-          Description:
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: object
-              example:
-                status: Success
-                response_data:
-                  status: Success
-                  last_error_message: 'null'
-                  progress: 100
-                response_meta:
-                  system: SPARK
-                  request_timestamp: '2023-05-19T01:39:42.074Z'
-                error:
+              examples:
+                jsonBody:
+                  value:
+                    status: Success
+                    response_data:
+                      status: Success
+                      last_error_message: 'null'
+                      progress: 100
+                    response_meta:
+                      system: SPARK
+                      request_timestamp: 2023-05-19T01:39:42.074Z
+                    error:
 
   /{tenant}/api/v3/folders/{folder}/services/{service}/publish:
     post:
-      tags: ["Service APIs"]
+      tags: ['Service APIs']
       summary: Publish service
-      description: Complete the actions to create a Spark service after Upload Excel file to Spark.
-        Compilation must be completed before publishing, Check compilation status.
+      description:
+        Complete the actions to create a Spark service after Upload Excel file to Spark. Compilation must be completed before publishing, Check compilation status.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.ServicePublish.json` or `Spark.AllEncompassingProxy.json`.
       operationId: postFoldersServicesPublish
       security:
@@ -999,49 +1116,68 @@ paths:
                   type: object
                   properties:
                     original_file_documentid:
-                      type: string
-                      format: uuid
-                      description: "`id` from Upload Excel to Spark."
+                      oneOf:
+                        - type: 'null'
+                        - type: string
+                          format: uuid
+                      description: '`id` from Upload Excel to Spark.'
                     engine_file_documentid:
-                      type: string
-                      format: uuid
-                      description: "`id` from Upload Excel to Spark."
+                      oneOf:
+                        - type: 'null'
+                        - type: string
+                          format: uuid
+                      description: '`id` from Upload Excel to Spark.'
                     draft_service_name:
-                      type: string
+                      type: ['null', string]
                       description: Target service name overrides `service` from Upload Excel file to Spark.
                     version_label:
-                      type: string
-                      description: Version label for service version. This will appear in the user interface dropdowns.
-                    releasenote:
-                      type: string
-                      description: Release note for service version.
+                      type: ['null', string]
+                      description: Text field that attaches to version numbers across the Spark user interface.
+                    release_note:
+                      type: ['null', string]
+                      description: Text field to describe the purpose of the upload.
                     effective_start_date:
-                      type: string
-                      format: date-time
+                      anyOf:
+                        - type: 'null'
+                        - type: string
+                          format: date
+                        - type: string
+                          format: date-time
                       description: Timestamp to set the parameters for the version resolution capability. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601.
-                      example: 2026-01-19T16:05:23.517Z
+                      examples:
+                        - 2026-01-19T16:05:23.517Z
                     effective_end_date:
                       type: string
-                      format: date-time
+                      anyOf:
+                        - type: 'null'
+                        - type: string
+                          format: date
+                        - type: string
+                          format: date-time
                       description: Timestamp to set the parameters for the version resolution capability. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601.
-                      example: 2126-01-19T16:05:23.517Z
+                      examples:
+                        - 2126-01-19T16:05:23.517Z
                     version_difference:
-                      type: string
-                      enum: [major, minor, patch, custom]
-                      description: "`major`, `minor`, `patch` or `custom` method of updating [Semantic Versioning](https://semver.org/)."
+                      anyOf:
+                        - type: 'null'
+                        - type: string
+                          enum: [major, minor, patch, custom]
+                      description: '`major`, `minor`, `patch` or `custom` method of updating [Semantic Versioning](https://semver.org/).'
                     should_trck_user_action:
-                      type: string
-                      example: "true"
+                      type: boolean
+                      examples:
+                        - true
                       description: String boolean to set whether an event would be recorded for this action. Events are visible in the _Options_ _Event viewer_.
                     tags:
-                      type: string
-                      description: Comma separated string of tags.
-                      example: "abc,def"
+                      type: ['null', string]
+                      description: Comma separated list of tags. If tags are required, then at least one tag must be supplied.
+                      examples:
+                        - 'abc,def'
                     description:
-                      type: string
-                      description: Description for service version.
+                      type: ['null', string]
+                      description: Text field to describe the service version.
                     semantic_version:
-                      type: string
+                      type: ['null', string]
                       description: Semantic version needs to be popualted if `version_difference` is `custom`.
                   required:
                     - original_file_documentid
@@ -1049,39 +1185,85 @@ paths:
                     - draft_service_name
               required:
                 - request_data
-            example:
-              request_data:
-                draft_service_name: my service name
-                version_label: my service label
-                effective_start_date: 2024-01-19T12:12:00.000Z
-                effective_end_date: 2126-01-19T12:12:00.000Z
-                original_file_documentid: 4c4cef82-3f30-45ae-ade8-b43f4ab29779
-                engine_file_documentid: d84bf685-2ed6-4d95-8fb1-d01770a0e0d8
-                version_difference: minor
-                releasenote: my release note
-                description: my description
-                should_trck_user_action: "true"
+            examples:
+              jsonBody:
+                value:
+                  request_data:
+                    draft_service_name: my service name
+                    version_label: my service label
+                    effective_start_date: 2026-01-19T16:05:23.517Z
+                    effective_end_date: 2126-01-19T12:12:00.000Z
+                    original_file_documentid: 4c4cef82-3f30-45ae-ade8-b43f4ab29779
+                    engine_file_documentid: d84bf685-2ed6-4d95-8fb1-d01770a0e0d8
+                    version_difference: minor
+                    releasenote: my release note
+                    description: my description
+                    should_trck_user_action: true
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: object
-              example:
-                status: Success
-                response_data:
-                  version_id: 7004e077-153f-4561-97ee-eb8124f6eb72
-                response_meta:
-                  system: SPARK
-                  request_timestamp: '2023-05-18T21:20:42.498Z'
-                error: null
+              examples:
+                jsonBody:
+                  value:
+                    status: Success
+                    response_data:
+                      version_id: 7004e077-153f-4561-97ee-eb8124f6eb72
+                    response_meta:
+                      system: SPARK
+                      request_timestamp: 2023-05-18T21:20:42.498Z
+                    error: null
+
+  /{tenant}/api/v3/folders/{folder}/services/{service}/exists:
+    get:
+      tags: ['Service APIs']
+      summary: Check whether a service exists
+      description: Check whether a service exists.<br><br>
+        If using an API key, the API key group must contain user groups that are also assigned to `Spark.ServiceExists.json` or `Spark.AllEncompassingProxy.json`.
+      operationId: getFoldersServicesExists
+      security:
+        - bearerToken: []
+        - tenantName: []
+          syntheticKey: []
+      parameters:
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/folder'
+        - $ref: '#/components/parameters/service'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                jsonBody:
+                  value:
+                    status: Success
+                    response_data:
+                      id: 6845025a-3bb2-4dfe-b1dc-c3d6eb7f23e2
+                      name: AplusB
+                      is_exists: true
+                      version: 0.2.0
+                      last_modified_date: '2026-03-26T03:28:47.000Z'
+                      latest_version_id: 2d67f048-3cde-4801-b11f-cfd7e1702e5a
+                      effective_start_date: '2025-01-24T07:32:00Z'
+                      effective_end_date: '2125-01-24T07:32:00Z'
+                      tags: ''
+                      service_status: active
+                    response_meta:
+                      system: SPARK
+                      request_timestamp: '2026-04-23T05:36:44.788Z'
+                    error: null
 
   /api/v1/product/{folder}/engines/getversions/{service}:
     get:
-      tags: ["Service APIs"]
+      tags: ['Service APIs']
       summary: List service versions
-      description: Get details about every service version.
+      description: Get details about every service version.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.GetVersions.json` or `Spark.AllEncompassingProxy.json`.
       operationId: getProductEnginesGetVersions
       security:
@@ -1092,52 +1274,55 @@ paths:
         - $ref: '#/components/parameters/folder'
         - $ref: '#/components/parameters/service'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: object
-              example:
-                message: null
-                data:
-                  - id: 76629732-ec95-4ec1-a48b-9455ae1d06c0
-                    createdAt: '2024-08-12T05:59:41.267282+00:00'
-                    engine: SUMAB
-                    revision: 0.5.0
-                    effectiveStartDate: '2024-07-22T00:54:00Z'
-                    effectiveEndDate: '2124-07-22T00:54:00Z'
-                    isActive: true
-                    releaseNote: null
-                    childEngines: null
-                    versionLabel: null
-                    defaultEngineType: Neuron
-                    tags: ''
-                    product: Mathematics
-                    author: myuser@mydomain.com
-                    originalFileName: SUMAB.xlsx
-                  - id: 863b818a-63b5-4372-ae76-890a8d73e27f
-                    createdAt: '2024-08-12T05:58:33.719893+00:00'
-                    engine: SUMAB
-                    revision: 0.4.0
-                    effectiveStartDate: '2024-07-22T00:54:00Z'
-                    effectiveEndDate: '2124-07-22T00:54:00Z'
-                    isActive: false
-                    releaseNote: null
-                    childEngines: null
-                    versionLabel: null
-                    defaultEngineType: Neuron
-                    tags: ''
-                    product: Mathematics
-                    author: myuser@mydomain.com
-                    originalFileName: SUMAB.xlsx
+              examples:
+                jsonBody:
+                  value:
+                    message: null
+                    data:
+                      - id: 76629732-ec95-4ec1-a48b-9455ae1d06c0
+                        createdAt: 2024-08-12T05:59:41.267282+00:00
+                        engine: SUMAB
+                        revision: 0.5.0
+                        effectiveStartDate: 2024-07-22T00:54:00Z
+                        effectiveEndDate: 2124-07-22T00:54:00Z
+                        isActive: true
+                        releaseNote: null
+                        childEngines: null
+                        versionLabel: null
+                        defaultEngineType: Neuron
+                        tags: ''
+                        product: Mathematics
+                        author: myuser@mydomain.com
+                        originalFileName: SUMAB.xlsx
+                      - id: 863b818a-63b5-4372-ae76-890a8d73e27f
+                        createdAt: 2024-08-12T05:58:33.719893+00:00
+                        engine: SUMAB
+                        revision: 0.4.0
+                        effectiveStartDate: 2024-07-22T00:54:00Z
+                        effectiveEndDate: 2124-07-22T00:54:00Z
+                        isActive: false
+                        releaseNote: null
+                        childEngines: null
+                        versionLabel: null
+                        defaultEngineType: Neuron
+                        tags: ''
+                        product: Mathematics
+                        author: myuser@mydomain.com
+                        originalFileName: SUMAB.xlsx
 
   /api/v1/product/{folder}/engines/get/{service}/{versionId}:
     get:
-      tags: ["Service APIs"]
+      tags: ['Service APIs']
       summary: Get details for a service version
-      description: Returns detailed information about the Excel workbook, upload details, Neuron compilation outputs, mapped `Xinput`, `Xoutput`, and metadata, etc.
-                If using an API key, the API key group must contain user groups that are also assigned to `Spark.ServiceGet.json` or `Spark.AllEncompassingProxy.json`.
+      description:
+        Returns detailed information about the Excel workbook, upload details, Neuron compilation outputs, mapped `Xinput`, `Xoutput`, and metadata, etc.<br><br>
+        If using an API ke
       operationId: getProductEnginesGet
       security:
         - bearerToken: []
@@ -1148,387 +1333,509 @@ paths:
         - $ref: '#/components/parameters/service'
         - $ref: '#/components/parameters/versionId'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: object
-              example:
-                message: null
-                data:
-                  bookSummary:
-                    bookServiceName: AtimesB
-                    bookFileName: null
-                    bookFileHash: 394ED4529FAF3778D13C2AE6918DB9C2
-                    bookFileGUID: 986ef1ea-c0f0-4634-98e5-e58bc418b25e
-                    bookRevision: 0.1.0
-                    bookReleaseDate: '2026-01-19 16:05:23'
-                    bookDescription: null
-                    bookAuthor: myname@mydomain.com
-                    bookUploadDate: '2026-01-19 16:05:23'
-                    bookUploaderEmail: myname@mydomain.com
-                    bookVersionReleaseNotes: null
-                    docstoreSize: 11825
-                    timeExtractModel: 15125
-                    totalTime: 794
-                    uploadTime: 736
-                    versionId: c53d397f-af04-4b6a-9437-232c7bc30ea4
-                    product: Arithmetic
-                    isStarred: false
-                    universalFileHash: null
-                    versionLabel: null
-                    parametersetCompatibilityGroup: ''
-                    tags: ''
-                    originalServiceHash: 9D51F4327DD1B475BF7EE67FD6359466E57EE71CA2F48C0AF8522E2D13E6B22A
-                    compiledOutputHash: BC4646F5F42E1CAF54564448556CDA47DB986989A054E4D33115EF57A4EEC61D
-                    compilerVersion: Neuron_v1.25.0
-                    compilerVersionServiceUpdate: MaintainVersion
-                  bookProperties:
-                    - name: PublicAPI
-                      value: 'False'
-                    - name: PublicAPI
-                      value: 'False'
-                    - name: AllowToStoreHistory
-                      value: 'True'
-                    - name: Author
-                      value: myname@mydomain.com
-                    - name: BaseUrl
-                      value: 'https://excel.myenvironment.coherent.global'
-                    - name: BatchSizeOverride
-                      value: '0'
-                    - name: CalcMode
-                      value: AUTO
-                    - name: CompilerVersion
-                      value: Neuron_v1.25.0
-                    - name: CompilerVersionServiceUpdate
-                      value: MaintainVersion
-                    - name: DefaultEngineType
-                      value: Neuron
-                    - name: Description
-                      value: null
-                    - name: DirectAddressingOutputsEnabled
-                      value: 'False'
-                    - name: FileGUID
-                      value: 986ef1ea-c0f0-4634-98e5-e58bc418b25e
-                    - name: ForceInputsWriteBeforeCalcModeChanges
-                      value: 'True'
-                    - name: NoOfInstance
-                      value: '0'
-                    - name: OriginalFileName
-                      value: AtimesB.xlsx
-                    - name: ProductName
-                      value: Arithmetic
-                    - name: Provenance
-                      value: null
-                    - name: PublicAPI
-                      value: 'False'
-                    - name: ReleaseNote
-                      value: null
-                    - name: Revision
-                      value: 0.1.0
-                    - name: ServiceGUID
-                      value: null
-                    - name: ServiceName
-                      value: AtimesB
-                    - name: ServiceStatus
-                      value: active
-                    - name: ServiceVersionGUID
-                      value: c53d397f-af04-4b6a-9437-232c7bc30ea4
-                    - name: Tenant
-                      value: mytenant
-                    - name: UniversalServiceHash
-                      value: null
-                    - name: UploadDate
-                      value: '2026-01-19 16:05:23'
-                    - name: UploaderEmail
-                      value: myname@mydomain.com
-                    - name: VersionUpgradeAssert
-                      value: 'OFF'
-                    - name: XConnectorServiceName
-                      value: null
-                    - name: XConnectorTargetUrl
-                      value: null
-                    - name: DirectAddressingOutputsEnabled
-                      value: 'False'
-                    - name: VersionLabel
-                      value: null
-                    - name: ServiceUuid
-                      value: 8d438c34-d120-46b5-b82c-07278caefd6e
-                    - name: UpgradeType
-                      value: minor
-                    - name: BatchSizeOverride
-                      value: '0'
-                    - name: DirectAddressingOutputsEnabled
-                      value: 'False'
-                    - name: VersionLabel
-                      value: null
-                    - name: ServiceUuid
-                      value: 8d438c34-d120-46b5-b82c-07278caefd6e
-                    - name: UpgradeType
-                      value: minor
-                    - name: BatchSizeOverride
-                      value: '0'
-                  engineHash: 394ED4529FAF3778D13C2AE6918DB9C2
-                  engineID: 8d438c34-d120-46b5-b82c-07278caefd6e
-                  fetchTimeUTC: '2026-01-19T16:05:24.4846647Z'
-                  validationErrors: []
-                  xlInputs:
-                    - sheetIndex: 1
-                      value: 2
-                      rawValue: 2
-                      dataType: NUMBER
-                      numberFormatType: NUMBER
-                      numberFormat: ''
-                      rowIndex: 4
-                      columnIndex: 3
-                      rows: 1
-                      columns: 1
-                      textColor: null
-                      backGroundColor: null
-                      xjName: null
-                      validation:
-                        allow: wholeNumber
-                        data: between
-                        min: 1
-                        max: 5
-                        options: []
-                        ignoreEmptyCells: true
-                        errorBoxText: null
-                      type: XInput
-                      validationCol: 0
-                      validationRow: 0
-                      headerSpecs: []
-                      subServiceName: null
-                      name: A
-                      sheetName: Sheet1
-                      address: C4
-                      description: null
-                      cellCount: 1
+              examples:
+                jsonBody:
+                  value:
+                    message: null
+                    data:
+                      bookSummary:
+                        bookServiceName: AtimesB
+                        bookFileName: null
+                        bookFileHash: 394ED4529FAF3778D13C2AE6918DB9C2
+                        bookFileGUID: 986ef1ea-c0f0-4634-98e5-e58bc418b25e
+                        bookRevision: 0.1.0
+                        bookReleaseDate: 2026-01-19 16:05:23
+                        bookDescription: null
+                        bookAuthor: myname@mydomain.com
+                        bookUploadDate: 2026-01-19 16:05:23
+                        bookUploaderEmail: myname@mydomain.com
+                        bookVersionReleaseNotes: null
+                        docstoreSize: 11825
+                        timeExtractModel: 15125
+                        totalTime: 794
+                        uploadTime: 736
+                        versionId: c53d397f-af04-4b6a-9437-232c7bc30ea4
+                        product: Arithmetic
+                        isStarred: false
+                        universalFileHash: null
+                        versionLabel: null
+                        parametersetCompatibilityGroup: ''
+                        tags: ''
+                        originalServiceHash: 9D51F4327DD1B475BF7EE67FD6359466E57EE71CA2F48C0AF8522E2D13E6B22A
+                        compiledOutputHash: BC4646F5F42E1CAF54564448556CDA47DB986989A054E4D33115EF57A4EEC61D
+                        compilerVersion: Neuron_v1.25.0
+                        compilerVersionServiceUpdate: MaintainVersion
+                      bookProperties:
+                        - name: PublicAPI
+                          value: 'False'
+                        - name: PublicAPI
+                          value: 'False'
+                        - name: AllowToStoreHistory
+                          value: 'True'
+                        - name: Author
+                          value: myname@mydomain.com
+                        - name: BaseUrl
+                          value: https://excel.myenvironment.coherent.global
+                        - name: BatchSizeOverride
+                          value: '0'
+                        - name: CalcMode
+                          value: AUTO
+                        - name: CompilerVersion
+                          value: Neuron_v1.25.0
+                        - name: CompilerVersionServiceUpdate
+                          value: MaintainVersion
+                        - name: DefaultEngineType
+                          value: Neuron
+                        - name: Description
+                          value: null
+                        - name: DirectAddressingOutputsEnabled
+                          value: 'False'
+                        - name: FileGUID
+                          value: 986ef1ea-c0f0-4634-98e5-e58bc418b25e
+                        - name: ForceInputsWriteBeforeCalcModeChanges
+                          value: 'True'
+                        - name: NoOfInstance
+                          value: '0'
+                        - name: OriginalFileName
+                          value: AtimesB.xlsx
+                        - name: ProductName
+                          value: Arithmetic
+                        - name: Provenance
+                          value: null
+                        - name: PublicAPI
+                          value: 'False'
+                        - name: ReleaseNote
+                          value: null
+                        - name: Revision
+                          value: 0.1.0
+                        - name: ServiceGUID
+                          value: null
+                        - name: ServiceName
+                          value: AtimesB
+                        - name: ServiceStatus
+                          value: active
+                        - name: ServiceVersionGUID
+                          value: c53d397f-af04-4b6a-9437-232c7bc30ea4
+                        - name: Tenant
+                          value: mytenant
+                        - name: UniversalServiceHash
+                          value: null
+                        - name: UploadDate
+                          value: 2026-01-19 16:05:23
+                        - name: UploaderEmail
+                          value: myname@mydomain.com
+                        - name: VersionUpgradeAssert
+                          value: OFF
+                        - name: XConnectorServiceName
+                          value: null
+                        - name: XConnectorTargetUrl
+                          value: null
+                        - name: DirectAddressingOutputsEnabled
+                          value: 'False'
+                        - name: VersionLabel
+                          value: null
+                        - name: ServiceUuid
+                          value: 8d438c34-d120-46b5-b82c-07278caefd6e
+                        - name: UpgradeType
+                          value: minor
+                        - name: BatchSizeOverride
+                          value: '0'
+                        - name: DirectAddressingOutputsEnabled
+                          value: 'False'
+                        - name: VersionLabel
+                          value: null
+                        - name: ServiceUuid
+                          value: 8d438c34-d120-46b5-b82c-07278caefd6e
+                        - name: UpgradeType
+                          value: minor
+                        - name: BatchSizeOverride
+                          value: '0'
+                      engineHash: 394ED4529FAF3778D13C2AE6918DB9C2
+                      engineID: 8d438c34-d120-46b5-b82c-07278caefd6e
+                      fetchTimeUTC: 2026-01-19T16:05:24.4846647Z
                       validationErrors: []
-                    - sheetIndex: 1
-                      value: 3
-                      rawValue: 3
-                      dataType: NUMBER
-                      numberFormatType: NUMBER
-                      numberFormat: ''
-                      rowIndex: 5
-                      columnIndex: 3
-                      rows: 1
-                      columns: 1
-                      textColor: null
-                      backGroundColor: null
-                      xjName: null
-                      validation:
-                        allow: wholeNumber
-                        data: between
-                        min: 1
-                        max: 5
-                        options: []
-                        ignoreEmptyCells: true
-                        errorBoxText: null
-                      type: XInput
-                      validationCol: 0
-                      validationRow: 0
-                      headerSpecs: []
-                      subServiceName: null
-                      name: B
-                      sheetName: Sheet1
-                      address: C5
-                      description: null
-                      cellCount: 1
-                      validationErrors: []
-                  xOutput:
-                    - sheetIndex: 1
-                      value: null
-                      rawValue: null
-                      dataType: TEXT
-                      numberFormatType: TEXT
-                      numberFormat: ''
-                      rowIndex: 6
-                      columnIndex: 3
-                      rows: 1
-                      columns: 1
-                      textColor: null
-                      backGroundColor: null
-                      xjName: null
-                      validation: null
-                      type: XOutput
-                      validationCol: 0
-                      validationRow: 0
-                      headerSpecs: []
-                      subServiceName: null
-                      name: AtimesB
-                      sheetName: Sheet1
-                      address: C6
-                      description: null
-                      cellCount: 1
-                      validationErrors: []
-                  sizeOfUploadFile: 15456
-                  sizeOfCompressedFile: 15611
-                  success: true
-                  totalHiddenSheets: 0
-                  totalInputTables: 0
-                  totalOutputSolves: 0
-                  totalOutputTables: 0
-                  totalReports: 0
-                  totalSheets: 1
-                  totalXJInputs: 0
-                  totalXJOutputs: 0
-                  effectiveStartDate: '2026-01-19T16:05:00Z'
-                  effectiveEndDate: '2126-01-19T16:05:00Z'
-                  chainingEngines: []
-                  chainedEngines: []
-                  solveInputs: []
-                  reportInputs: []
-                  imageInputs: []
-                  serviceCategories: []
-                  engineWarnings: []
-                  engineType: Neuron
-                  lastCalcTime: 0
-                  totalTime: 20
-                  serviceStatus: active
-                  inputMetadata:
-                    solves: []
-                    reports: []
-                    single:
-                      - A
-                      - B
-                    images: []
-                    tables: []
-                    csv: []
-                  outputMetadata:
-                    csv: []
-                    solves: []
-                    reports: []
-                    single:
-                      - AtimesB
-                    images: []
-                    tables: []
-                  xParameter: {}
-                  nodeGenCompilerResult:
-                    Infos:
-                      - >-
-                        TEST: [Summary] Spark performs a self-test comparing the saved output
-                        values in the Excel file and a calculation of the formulas using Spark.
-                        The self-test can be used to understand and diagnose mismatches. For the
-                        mapped outputs in this workbook, there were 1 matches out of 1 (100.0%)
-                        assessed at 12 digits accuracy. The maximum difference has a
-                        significance of -∞ and magnitude of -∞. Self-test results may not match
-                        if the workbook includes external references, random functions, Xcall,
-                        Xrichoutput, Xsolve. The outputs that contain a mismatch are listed in
-                        the compiler messages. Read the Spark Neuron documentation for more
-                        information about the self-test.
-                    Warnings: []
-                    Errors: []
-                    TokenCnt:
-                      - RootRelative
-                      - 2
-                      - ImmutableRef
-                      - 2
-                      - Add
-                      - 1
-                    SourceXlsxMd5: dd55495f945dfbb596c2c03c36b685dd
-                    SourceLines: 199
-                    SourceBytes: 5737
-                    SourceFiles: 4
-                    CompilerVersion: 1.25.0
-                    Sheets: 1
-                    Cells: 27
-                    CellsWithData: 14
-                    Formulas: 1
-                    SelfTestCellMatches: 1
-                    SelfTestCellsInspected: 1
-                    SelfTestMaxSoe: '-Infinity'
-                    SelfTestMaxMoe: '-Infinity'
-                    SelfTestDigits: 12
-                    SelfTestProcessTimeMillis: 7
-                    CompilerStage1Millis: 70
-                    CompilerStage2Millis: 13619
-                    CompilerStage3Millis: 83
-                    CompilerStage4Millis: 93
-                    CompilerStage5Millis: 22
-                    CompilerDateTime: '2026-01-19T16:05:39.492Z'
-                    trace: null
-                  metadata:
-                    engineInformation:
-                      fileSize: 15456
-                      author: myname@mydomain.com
-                      productName: Arithmetic
-                      revision: 0.1.0
-                      description: null
-                      fileMD5Hash: 394ED4529FAF3778D13C2AE6918DB9C2
-                      universalFileHash: null
-                      releaseDate: '2026-01-19T16:05:58.3747957Z'
-                      serviceName: AtimesB
-                      noOfInstance: 0
-                      uploaderEmail: myname@mydomain.com
-                      defaultEngineType: Neuron
-                      originalFileName: AtimesB.xlsx
-                      sizeOfUploadedFile: 15456
-                      releaseNote: null
-                      isTypeScriptFile: false
-                      engineUpgradeType: minor
-                      publicAPI: false
-                      fileGuid: 986ef1ea-c0f0-4634-98e5-e58bc418b25e
-                      serviceGuid: null
-                      serviceVersionGuid: c53d397f-af04-4b6a-9437-232c7bc30ea4
-                      baseUrl: 'https://excel.myenvironment.coherent.global'
-                      tenant: mytenant
-                      allowToStoreHistory: true
-                      calcMode: AUTO
-                      forceInputsWriteBeforeCalcModeChanges: true
-                      provenance: null
-                      versionLabel: null
-                      explainerType: ''
-                      isXParameter: false
-                      parametersetCompatibilityGroup: ''
-                      xParameterSetVersionId: ''
-                      versionUpgradeAssert: 'OFF'
-                      xReportRanges: null
-                      tags: ''
-                      originalServiceHash: 9D51F4327DD1B475BF7EE67FD6359466E57EE71CA2F48C0AF8522E2D13E6B22A
-                      compiledOutputHash: BC4646F5F42E1CAF54564448556CDA47DB986989A054E4D33115EF57A4EEC61D
-                      compilerVersion: Neuron_v1.25.0
-                      compilerVersionServiceUpdate: MaintainVersion
-                      directAddressingOutputsEnabled: false
-                      xConnectorServiceName: null
-                      xConnectorTargetUrl: null
-                      batchSizeOverride: 0
+                      xlInputs:
+                        - sheetIndex: 1
+                          value: 2
+                          rawValue: 2
+                          dataType: NUMBER
+                          numberFormatType: NUMBER
+                          numberFormat: ''
+                          rowIndex: 4
+                          columnIndex: 3
+                          rows: 1
+                          columns: 1
+                          textColor: null
+                          backGroundColor: null
+                          xjName: null
+                          validation:
+                            allow: wholeNumber
+                            data: between
+                            min: 1
+                            max: 5
+                            options: []
+                            ignoreEmptyCells: true
+                            errorBoxText: null
+                          type: XInput
+                          validationCol: 0
+                          validationRow: 0
+                          headerSpecs: []
+                          subServiceName: null
+                          name: A
+                          sheetName: Sheet1
+                          address: C4
+                          description: null
+                          cellCount: 1
+                          validationErrors: []
+                        - sheetIndex: 1
+                          value: 3
+                          rawValue: 3
+                          dataType: NUMBER
+                          numberFormatType: NUMBER
+                          numberFormat: ''
+                          rowIndex: 5
+                          columnIndex: 3
+                          rows: 1
+                          columns: 1
+                          textColor: null
+                          backGroundColor: null
+                          xjName: null
+                          validation:
+                            allow: wholeNumber
+                            data: between
+                            min: 1
+                            max: 5
+                            options: []
+                            ignoreEmptyCells: true
+                            errorBoxText: null
+                          type: XInput
+                          validationCol: 0
+                          validationRow: 0
+                          headerSpecs: []
+                          subServiceName: null
+                          name: B
+                          sheetName: Sheet1
+                          address: C5
+                          description: null
+                          cellCount: 1
+                          validationErrors: []
+                      xOutput:
+                        - sheetIndex: 1
+                          value: null
+                          rawValue: null
+                          dataType: TEXT
+                          numberFormatType: TEXT
+                          numberFormat: ''
+                          rowIndex: 6
+                          columnIndex: 3
+                          rows: 1
+                          columns: 1
+                          textColor: null
+                          backGroundColor: null
+                          xjName: null
+                          validation: null
+                          type: XOutput
+                          validationCol: 0
+                          validationRow: 0
+                          headerSpecs: []
+                          subServiceName: null
+                          name: AtimesB
+                          sheetName: Sheet1
+                          address: C6
+                          description: null
+                          cellCount: 1
+                          validationErrors: []
+                      sizeOfUploadFile: 15456
+                      sizeOfCompressedFile: 15611
+                      success: true
+                      totalHiddenSheets: 0
+                      totalInputTables: 0
+                      totalOutputSolves: 0
+                      totalOutputTables: 0
+                      totalReports: 0
+                      totalSheets: 1
+                      totalXJInputs: 0
+                      totalXJOutputs: 0
+                      effectiveStartDate: 2026-01-19T16:05:00Z
+                      effectiveEndDate: 2126-01-19T16:05:00Z
+                      chainingEngines: []
+                      chainedEngines: []
+                      solveInputs: []
+                      reportInputs: []
+                      imageInputs: []
+                      serviceCategories: []
+                      engineWarnings: []
+                      engineType: Neuron
+                      lastCalcTime: 0
+                      totalTime: 20
                       serviceStatus: active
-                      skipMetadata: false
-                      skipCompile: false
-                    xInputTable:
-                      - Input Name: A
-                        Description: null
-                        Address: C4
-                      - Input Name: B
-                        Description: null
-                        Address: C5
-                    xOutputTable:
-                      - Output Name: AtimesB
-                        Description: null
-                        Address: C6
-                    formsService: null
-                    staticService: null
-                    versionId: c53d397f-af04-4b6a-9437-232c7bc30ea4
-                    hasSignatureChain: null
-                  totalUsedRowsAndCells: 15
-                  isLambdaExist: false
-                  parameterset_version_id: ''
-                  isAutoJsonFormExists: true
-                  engineInfos:
-                    - key: The compiler used for this service version was  Neuron_v1.25.0.
-                      value: []
-                  engineErrors: null
-                  hasSignatureChain: null
-                  isSameServiceOwner: true
-                errorCode: null
-                status: Success
+                      inputMetadata:
+                        solves: []
+                        reports: []
+                        single:
+                          - A
+                          - B
+                        images: []
+                        tables: []
+                        csv: []
+                      outputMetadata:
+                        csv: []
+                        solves: []
+                        reports: []
+                        single:
+                          - AtimesB
+                        images: []
+                        tables: []
+                      xParameter: {}
+                      nodeGenCompilerResult:
+                        Infos:
+                          - TEST: '[Summary] Spark performs a self-test comparing the saved output values in the Excel file and a calculation of the formulas using Spark. The self-test can be used to understand and diagnose mismatches. For the mapped outputs in this workbook, there were 1 matches out of 1 (100.0%) assessed at 12 digits accuracy. The maximum difference has a significance of -∞ and magnitude of -∞. Self-test results may not match if the workbook includes external references, random functions, Xcall, Xrichoutput, Xsolve. The outputs that contain a mismatch are listed in the compiler messages. Read the Spark Neuron documentation for more information about the self-test.'
+                        Warnings: []
+                        Errors: []
+                        TokenCnt:
+                          - RootRelative
+                          - 2
+                          - ImmutableRef
+                          - 2
+                          - Add
+                          - 1
+                        SourceXlsxMd5: dd55495f945dfbb596c2c03c36b685dd
+                        SourceLines: 199
+                        SourceBytes: 5737
+                        SourceFiles: 4
+                        CompilerVersion: 1.25.0
+                        Sheets: 1
+                        Cells: 27
+                        CellsWithData: 14
+                        Formulas: 1
+                        SelfTestCellMatches: 1
+                        SelfTestCellsInspected: 1
+                        SelfTestMaxSoe: -Infinity
+                        SelfTestMaxMoe: -Infinity
+                        SelfTestDigits: 12
+                        SelfTestProcessTimeMillis: 7
+                        CompilerStage1Millis: 70
+                        CompilerStage2Millis: 13619
+                        CompilerStage3Millis: 83
+                        CompilerStage4Millis: 93
+                        CompilerStage5Millis: 22
+                        CompilerDateTime: 2026-01-19T16:05:39.492Z
+                        trace: null
+                      metadata:
+                        engineInformation:
+                          fileSize: 15456
+                          author: myname@mydomain.com
+                          productName: Arithmetic
+                          revision: 0.1.0
+                          description: null
+                          fileMD5Hash: 394ED4529FAF3778D13C2AE6918DB9C2
+                          universalFileHash: null
+                          releaseDate: 2026-01-19T16:05:58.3747957Z
+                          serviceName: AtimesB
+                          noOfInstance: 0
+                          uploaderEmail: myname@mydomain.com
+                          defaultEngineType: Neuron
+                          originalFileName: AtimesB.xlsx
+                          sizeOfUploadedFile: 15456
+                          releaseNote: null
+                          isTypeScriptFile: false
+                          engineUpgradeType: minor
+                          publicAPI: false
+                          fileGuid: 986ef1ea-c0f0-4634-98e5-e58bc418b25e
+                          serviceGuid: null
+                          serviceVersionGuid: c53d397f-af04-4b6a-9437-232c7bc30ea4
+                          baseUrl: https://excel.myenvironment.coherent.global
+                          tenant: mytenant
+                          allowToStoreHistory: true
+                          calcMode: AUTO
+                          forceInputsWriteBeforeCalcModeChanges: true
+                          provenance: null
+                          versionLabel: null
+                          explainerType: ''
+                          isXParameter: false
+                          parametersetCompatibilityGroup: ''
+                          xParameterSetVersionId: ''
+                          versionUpgradeAssert: OFF
+                          xReportRanges: null
+                          tags: ''
+                          originalServiceHash: 9D51F4327DD1B475BF7EE67FD6359466E57EE71CA2F48C0AF8522E2D13E6B22A
+                          compiledOutputHash: BC4646F5F42E1CAF54564448556CDA47DB986989A054E4D33115EF57A4EEC61D
+                          compilerVersion: Neuron_v1.25.0
+                          compilerVersionServiceUpdate: MaintainVersion
+                          directAddressingOutputsEnabled: false
+                          xConnectorServiceName: null
+                          xConnectorTargetUrl: null
+                          batchSizeOverride: 0
+                          serviceStatus: active
+                          skipMetadata: false
+                          skipCompile: false
+                        xInputTable:
+                          - Input Name: A
+                            Description: null
+                            Address: C4
+                          - Input Name: B
+                            Description: null
+                            Address: C5
+                        xOutputTable:
+                          - Output Name: AtimesB
+                            Description: null
+                            Address: C6
+                        formsService: null
+                        staticService: null
+                        versionId: c53d397f-af04-4b6a-9437-232c7bc30ea4
+                        hasSignatureChain: null
+                      totalUsedRowsAndCells: 15
+                      isLambdaExist: false
+                      parameterset_version_id: ''
+                      isAutoJsonFormExists: true
+                      engineInfos:
+                        - key: The compiler used for this service version was  Neuron_v1.25.0.
+                          value: []
+                      engineErrors: null
+                      hasSignatureChain: null
+                      isSameServiceOwner: true
+                    errorCode: null
+                    status: Success
+
+  /{tenant}/api/v3/folders/{folder}/services/{service}/updateversion/{versionId}:
+    put:
+      tags: ['Service APIs']
+      summary: Edit an existing service version without creating a new version
+      description:
+      operationId: putFoldersServicesUpdateversion
+      security:
+        - bearerToken: []
+      parameters:
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/folder'
+        - $ref: '#/components/parameters/service'
+        - $ref: '#/components/parameters/versionId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                request_data:
+                  type: object
+                  properties:
+                    description:
+                      type: ['null', string]
+                      description: Text field to describe the service version.
+                    release_note:
+                      type: ['null', string]
+                      description: Text field to describe the purpose of the upload..
+                    version_label:
+                      type: ['null', string]
+                      description: Text field that attaches to version numbers across the Spark user interface.
+                    tags:
+                      type: ['null', string]
+                      description: Comma separated list of tags. If tags are required, then at least one tag must be supplied.
+                      examples:
+                        - 'abc,def'
+                    effective_start_date:
+                      anyOf:
+                        - type: 'null'
+                        - type: string
+                          format: date
+                        - type: string
+                          format: date-time
+                      description: Timestamp to set the parameters for the version resolution capability. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601.
+                      examples:
+                        - 2026-01-19T16:05:23.517Z
+                    effective_end_date:
+                      type: string
+                      anyOf:
+                        - type: 'null'
+                        - type: string
+                          format: date
+                        - type: string
+                          format: date-time
+                      description: Timestamp to set the parameters for the version resolution capability. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601.
+                      examples:
+                        - 2126-01-19T16:05:23.517Z
+                    book_properties:
+                      anyOf:
+                        - type: 'null'
+                        - type: array
+                      description: Array of objects containing property `name` and `value` to modify.
+                  required:
+                    - description
+                    - release_note
+                    - version_label
+                    - tags
+                    - effective_start_date
+                    - effective_end_date
+              required:
+                - request_data
+            examples:
+              jsonBody:
+                value:
+                  request_data:
+                    description: My description
+                    release_note: My release note
+                    version_label: My version label
+                    tags: tag1,tag2
+                    effective_start_date: 2026-01-19T16:05:23.517Z
+                    effective_end_date: 2126-01-19T12:12:00.000Z
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                jsonBody:
+                  value:
+                    status: Success
+                    response_data:
+                      version_id: 7004e077-153f-4561-97ee-eb8124f6eb72
+                      revision: 1.2.0
+                      jobid: null
+                    response_meta:
+                      system: SPARK
+                      request_timestamp: 2026-07-21T05:50:07.141Z
+                    error: null
+
+  /{tenant}/api/v3/folders/{folder}/services/{service}/version/{versionId}:
+    delete:
+      tags: ['Service APIs']
+      summary: Delete an intermediate service version
+      description: The first and latest versions of a service cannot be deleted. Deleting a version also makes data associated with that version unavailable, including its Excel file, API Call History entries, and testbed results.
+      operationId: deleteFoldersServicesVersion
+      security:
+        - bearerToken: []
+      parameters:
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/folder'
+        - $ref: '#/components/parameters/service'
+        - $ref: '#/components/parameters/versionId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                jsonBody:
+                  value:
+                    message: null
+                    data: null
+                    errorCode: null
+                    status: Success
 
   /api/v1/product/{folder}/engines/{service}/download/{versionId}:
     get:
-      tags: ["Service APIs"]
+      tags: ['Service APIs']
       summary: Download the Excel file from a Spark service
       description: If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadServiceByVersionId.json` or `Spark.AllEncompassingProxy.json`.
       operationId: getProductEnginesDownload
@@ -1547,24 +1854,25 @@ paths:
             type: string
         - name: type
           in: query
-          description: "`ca` returns the Coherent Assistant enhanced version of the workbook. If not provided, the original workbook will be downloaded."
+          description: '`ca` returns the Coherent Assistant enhanced version of the workbook. If not provided, the original workbook will be downloaded.'
           schema:
-            type: string
-            enum: [ca, null]
+            type: ['null', string]
+            enum: ['ca', 'null']
       responses:
-        "200":
+        '200':
           description: OK
           content:
-            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+            application/json:
               schema:
                 type: string
                 format: binary
 
   /{tenant}/api/v3/folders/{folder}/services/{service}/downloadswagger/{category}/{isDownload}/{versionId}:
     get:
-      tags: ["Service APIs"]
+      tags: ['Service APIs']
       summary: Download Swagger
-      description: Get [Swagger](https://swagger.io/specification/v2/) (OpenAPI 2.0) documentation for a Spark service.
+      description:
+        Get [Swagger](https://swagger.io/specification/v2/) (OpenAPI 2.0) documentation for a Spark service.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadSwagger.json` or `Spark.AllEncompassingProxy.json`.
       operationId: getFoldersServicesDownloadSwagger
       security:
@@ -1578,34 +1886,63 @@ paths:
         - name: category
           in: path
           required: true
-          description: "`All` for all subservices or a list of the requested subservices."
+          description: '`All` for all subservices or a list of the requested subservices.'
           schema:
             type: string
-            example: All
+            examples:
+              - All
         - name: isDownload
           in: path
           required: true
-          description: "`true` for integrating with this endpoint."
+          description: '`true` for integrating with this endpoint.'
           schema:
             type: boolean
-            example: true
+            examples:
+              - true
         - $ref: '#/components/parameters/versionId'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: object
 
-components:
+  /api/v1/product/{folder}/engines/delete/{service}:
+    delete:
+      tags: ['Service APIs']
+      summary: Delete service
+      description: If using an API key, the API key group must contain user groups that are also assigned to `Spark.ServiceDelete.json` or `Spark.AllEncompassingProxy.json`.
+      operationId: deleteProductEnginesDelete
+      security:
+        - bearerToken: []
+        - tenantName: []
+          syntheticKey: []
+      parameters:
+        - $ref: '#/components/parameters/folder'
+        - $ref: '#/components/parameters/service'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                jsonBody:
+                  value:
+                    message:
+                    data:
+                    errorCode:
+                    status: Success
 
+components:
   securitySchemes:
     bearerToken:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: 'Bearer token can be accessed from the user menu.'
+      description: Bearer token can be accessed from the user menu.
     tenantName:
       type: apiKey
       in: header
@@ -1626,7 +1963,8 @@ components:
       schema:
         type: string
         format: uuid
-        example: a5c6a61f-06f8-499b-8a4d-818be4e74d29
+        examples:
+          - a5c6a61f-06f8-499b-8a4d-818be4e74d29
     folder:
       name: folder
       in: path
@@ -1634,7 +1972,8 @@ components:
       description: Folder associated with the API call.
       schema:
         type: string
-        example: myfoldername
+        examples:
+          - myfoldername
     folderId:
       name: folderId
       in: path
@@ -1643,16 +1982,18 @@ components:
       schema:
         type: string
         format: uuid
-        example: 9efb97d3-59b5-4ab1-b138-525797d58a91
+        examples:
+          - 9efb97d3-59b5-4ab1-b138-525797d58a91
     jobId:
       name: jobId
       in: path
       required: true
-      description: "`job_id` associated from `POST` job."
+      description: '`job_id` associated from `POST` job.'
       schema:
         type: string
         format: uuid
-        example: b13a5526-60c8-43cc-840f-2c76dca701d9
+        examples:
+          - b13a5526-60c8-43cc-840f-2c76dca701d9
     service:
       name: service
       in: path
@@ -1660,16 +2001,18 @@ components:
       description: Service associated with the API call.
       schema:
         type: string
-        example: myservicename
+        examples:
+          - myservicename
     serviceId:
       name: serviceId
       in: path
       required: true
-      description: "`service_id` of the requested service."
+      description: '`service_id` of the requested service.'
       schema:
         type: string
         format: uuid
-        example: 4bab4cc7-fde1-4315-871d-17a72c4c39a2
+        examples:
+          - 4bab4cc7-fde1-4315-871d-17a72c4c39a2
     tenant:
       name: tenant
       in: path
@@ -1677,7 +2020,8 @@ components:
       description: Tenant is part of your login URL and also available in the user menu.
       schema:
         type: string
-        example: mytenantname
+        examples:
+          - mytenantname
     urlsuffix:
       name: urlsuffix
       in: path
@@ -1689,203 +2033,675 @@ components:
       name: versionId
       in: path
       required: true
-      description: "`version_id` of the requested service."
+      description: '`version_id` of the requested service.'
       schema:
         type: string
         format: uuid
-        example: 0fb13c76-8b9b-43da-b664-2b11eb11d5c3
+        examples:
+          - 0fb13c76-8b9b-43da-b664-2b11eb11d5c3
+
+  schemas:
+    v3EngineApiRequestEntity:
+      type: object
+      properties:
+        request_data:
+          $ref: '#/components/schemas/v3EngineRequestData'
+        request_meta:
+          $ref: '#/components/schemas/v3EngineRequestMeta'
+      additionalProperties: false
+    v3EngineRequestData:
+      type: ['null', object]
+      properties:
+        inputs:
+          $ref: '#/components/schemas/v3ServiceInputs'
+      additionalProperties: false
+    v3ServiceInputs:
+      type: ['null', object]
+      description: Object that contains key value pairs that will be passed to the fields identified as Xinput in the workbook. See documentation for more information.
+    v3EngineRequestMeta:
+      type: ['null', object]
+      properties:
+        service_uri:
+          type: ['null', string]
+          description: Reference to service location in the format of `folders/{folder}/services/{service}`. This does not specify the version of the service returned. This can be done so by including `transaction_date` or `version`.
+          examples:
+            - folders/API V3/services/Sample API
+        service_id:
+          oneOf:
+            - type: 'null'
+            - type: string
+              format: uuid
+          description: '`service_id` of the requested service. This does not specify the version of the service returned. This can be done so by using `transaction_date` or `version`.'
+          examples:
+            - 0c9deaad-bd33-49dd-9404-14f9303c531e
+        version:
+          type: ['null', string]
+          description: Semantic version number which corresponds to the version number shown in the Spark user interface `{Major revision}.{Minor revision}.{Patch revision}`.
+          examples:
+            - 4.15.2
+            - 1.4
+            - 1
+        version_id:
+          oneOf:
+            - type: 'null'
+            - type: string
+              format: uuid
+          description: '`version_id` of the requested service version. This takes precedence over `service_uri`, `service_id`, `transaction_date`, `version`.'
+          examples:
+            - e5a86ccb-b53b-47c7-86e7-25c228b211f4
+        transaction_date:
+          oneOf:
+            - type: 'null'
+            - type: string
+              format: date
+            - type: string
+              format: date-time
+          description: Timestamp to resolve the service version. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601. When a call to a service is made using the `service_uri` or `service_id` this is used to determine the latest version of a service which have effective start and effective end dates that bound `transaction_date`. If omitted, the current date and time is used. If the `transaction_date` does not fall within the effective start and effective end dates of any versions, then the response will be an error. When calling a specific version using `version` or `version_id` this field has no effect.
+        requested_output:
+          oneOf:
+            - type: 'null'
+            - type: string
+            - type: array
+              items:
+                type: ['null', string]
+          description: Array of strings to denote the outputs to keep in the response. `*` can be used to identify wildcard characters. Alternatively direct refences to Excel ranges are possible. For `Neuron_v1.17.0` and later this can be enabled In Excel by adding a Named Range referenced to a cell called `xBuildParams`. The cell contents must contain `'--direct_addressing=true`. Furthermore if `#SparkFormulaValueVector` is added to these requests, only the calculated results would be returned.
+          examples:
+            - ['price*', '*nut', 'Boeing7*7', 'calc']
+            - ['@Sheet1!B2:D4']
+            - ['@MyNamedRange']
+            - 'first,second,third'
+        service_category:
+          type: ['null', string]
+          description: Comma separated string of subservice names. When this is not specified or set as `#Default#`, outputs not related to subservices are shown.
+          examples:
+            - subservice1
+            - subservice1,subservice2
+            - '#Default#,subservice2'
+        compiler_type:
+          type: ['null', string]
+          description: Calculation engine for the request. By default this uses the setting defined in _Service Documentation_ _Default service type_.
+          enum: [Neuron, XConnector]
+          examples:
+            - Neuron
+        array_outputs:
+          type: ['null', string]
+          description: This is a string list of `Xoutput` ranges to return in the JSON array format. Using `*` can be used to denote all of the outputs.
+          examples:
+            - '*'
+            - list1, list2
+        response_data_inputs:
+          type: ['null', boolean]
+          description: Boolean to enable the echo of request_data.inputs into response_data.inputs. This is useful for consuming systems that want to store and analyze the API request and response data together.
+          examples:
+            - true
+        parameterset_version_id:
+          oneOf:
+            - type: 'null'
+            - type: string
+              format: uuid
+          description: '`version_id` the XParameters to use with the Spark service.'
+          examples:
+            - e5a86ccb-b53b-47c7-86e7-25c228b211f4
+        excel_file:
+          type: ['null', boolean]
+          description: When set to `true`, this returns a copy of the source Excel file with the `request_data` `input`s populated into the `Xinput` cells. The output is the same as the _Download as Excel (Legacy)_. For security, the use of this feature with API keys can be managed through the `Spark.DownloadServiceByCallId.json` feature permission. This is not a feature that is recommended for extensive use. Response times when using this feature will be inconsistent call to call due to the need to generate and populate the Excel file.
+          examples:
+            - false
+        xreport_options:
+          $ref: '#/components/schemas/v3XReportOptions'
+        call_purpose:
+          type: ['null', string]
+          description: Tag API call. Can be queried in _API Call History_.
+          examples:
+            - admin system p
+        source_system:
+          type: ['null', string]
+          description: Tag API call. Can be queried in _API Call History_.
+          examples:
+            - mycicd
+        correlation_id:
+          type: ['null', string]
+          description: Tag API call. Can be queried in _API Call History_.
+          examples:
+            - '456'
+        debug_solve:
+          type: ['null', boolean]
+          description: Boolean to return `outputs.additional_outputs.solve_log` which contains the iterations for each `Xsolve` in the service.
+          examples:
+            - true
+        debug_xcall:
+          type: ['null', boolean]
+          description: Boolean to return `outputs.additional_outputs.xcall_log` which contains the tracing for the `Xcall` used in the execution of the service.
+          examples:
+            - true
+        manual_now:
+          type: ['null', integer]
+          description: Default behavior for Excel `NOW()` and `TODAY()` functions are to return the value based upon server time. If a [Unix epoch time](https://en.wikipedia.org/wiki/Unix_time) is provided, then that will be used to derive the current time and date instead.
+          examples:
+            - 1650593119
+        profile:
+          type: ['null', boolean]
+          description: Boolean to enable performance tracing. See documentation for more information.
+          examples:
+            - true
+        random_seed:
+          type: ['null', integer]
+          description: Number for random number generation seed. This ensures that each API call generates the same sequence of random numbers.
+          examples:
+            - 123
+        requested_output_regex:
+          type: ['null', string]
+          description: Regular expression string to denote the outputs to keep in the response. This is an advancement of `requested_output`. If both `requested_output` and `requested_output_regex` are specified, then an error will be raised.
+          examples:
+            - solve
+            - price_
+        show_max_calc_chain:
+          type: ['null', boolean]
+          description: When the debug build is used, this is used to identify the longest calculation chain. See documentation for more information.
+          examples:
+            - true
+          default: false
+        top_n_profile:
+          type: ['null', integer]
+          description: When the debug build is used, this is used to adjust the of records returned from the performance tracing output.
+          examples:
+            - 20
+      additionalProperties: true
+    v3XReportOptions:
+      type: object
+      properties:
+        multiple_docs:
+          type: ['null', boolean]
+          description: Boolean to indicate whether to return each `Xreport` sheet as a separate PDF. Default is `true`. If no `xreport_options` are used in the request, the default is `true`. If `xreport_options` are used in the request, then the default is `false`.
+          default: true
+          examples:
+            - false
+        page_numbers:
+          type: ['null', boolean]
+          description: Boolean to indicate whether to include page numbers. Default is `true`.
+          default: true
+          examples:
+            - false
+        produce_pdfs:
+          type: ['null', boolean]
+          description: Boolean to indicate whether to return the `Xreport` sheets as PDFs. Default is `true`.
+          default: true
+          examples:
+            - false
+        render_chart_texture_bars_as_images:
+          type: ['null', boolean]
+          description: Boolean to resolve an issue with borders appearing for dynamic chart images.
+          default: false
+          examples:
+            - false
+      additionalProperties: false
+      examples:
+        - {
+            'multiple_docs': false,
+            'page_numbers': false,
+            'produce_pdfs': false,
+            'render_chart_texture_bars_as_images': false,
+          }
+    v3EngineApiResponseEntity:
+      type: object
+      properties:
+        status:
+          type: ['null', string]
+          description: API response status.
+          examples:
+            - Success
+        response_data:
+          $ref: '#/components/schemas/v3EngineResponseData'
+        response_meta:
+          $ref: '#/components/schemas/v3EngineResponseMetadata'
+        error:
+          $ref: '#/components/schemas/v3ResponseError'
+        traceEvents:
+          type: ['null', array]
+          description: 'Trace event data returned when "`profile": true`.'
+          items:
+            type: object
+      additionalProperties: false
+    v3EngineResponseData:
+      type: object
+      properties:
+        outputs:
+          $ref: '#/components/schemas/v3ServiceOutputs'
+        warnings:
+          type: ['null', array]
+          items:
+            $ref: '#/components/schemas/v3EngineExecutionValidation'
+          description: Array of warnings.
+        errors:
+          type: ['null', array]
+          items:
+            $ref: '#/components/schemas/v3EngineExecutionError'
+          description: Array of errors.
+        inputs:
+          type: ['null', object]
+          description: Inputs from the request will be returned in the response if the `request_meta` `response_data_inputs` is `true`.
+        trace:
+          type: ['null', object]
+      additionalProperties: false
+    v3ServiceOutputs:
+      type: object
+      description: Object that contains key value pairs returned from the Spark service. See documentation for more information.
+    v3EngineExecutionValidation:
+      type: object
+      description: Object for describing validation warnings.
+      properties:
+        source_path:
+          type: ['null', string]
+          description: Source path of the validation message.
+          examples:
+            - Default Values
+        message:
+          type: ['null', string]
+          description: Validation message.
+          examples:
+            - Input parameter missing for 'Name.Name1'. API request processed using the default values saved into the file.
+      additionalProperties: false
+    v3EngineExecutionError:
+      type: object
+      description: Object for describing errors.
+      properties:
+        source_path:
+          type: ['null', string]
+          description: Source path of the error.
+          examples:
+            - inputs.Table
+        message:
+          type: ['null', string]
+          description: Error message.
+          examples:
+            - Expected array
+        error_category:
+          type: ['null', string]
+          description: Error category.
+          examples:
+            - bad_request
+        error_type:
+          type: ['null', string]
+          description: Error type.
+          examples:
+            - error.VALIDATION
+        additional_details:
+          type: ['null', string]
+          description: Additional error details.
+          examples:
+            - SampleAsyncBatchTest
+      additionalProperties: false
+    v3EngineResponseMetadata:
+      type: object
+      properties:
+        system:
+          type: ['null', string]
+          description: System that processed the request.
+          examples:
+            - SPARK
+        request_timestamp:
+          oneOf:
+            - type: 'null'
+            - type: string
+              format: date-time
+          description: Request timestamp.
+          examples:
+            - 2020-10-29T09:53:18.8314052Z
+        service_id:
+          oneOf:
+            - type: 'null'
+            - type: string
+              format: uuid
+          description: '`service_id` of the resolved service.'
+          examples:
+            - 48a953cc-ed34-4454-b5c7-1141912f2f8d
+        version_id:
+          oneOf:
+            - type: 'null'
+            - type: string
+              format: uuid
+          description: '`version_id` of the resolved service version.'
+          examples:
+            - 6bf49dca-5bc2-4144-9710-5988a0f44163
+        version:
+          type: ['null', string]
+          description: Resolved service version number.
+          examples:
+            - 4.15.2
+        process_time:
+          type: ['null', integer]
+          description: Time for Spark to process the API call in `ms`.
+          examples:
+            - 30
+        call_id:
+          oneOf:
+            - type: 'null'
+            - type: string
+              format: uuid
+          description: Universally unique identifier for this API call. This can be referenced in the _API Call History_.
+          examples:
+            - f6123393-d33f-4ff6-86a4-a663111afd82
+        compiler_type:
+          type: ['null', string]
+          description: Calculation engine used by Spark to process the request.
+          examples:
+            - Neuron
+        compiler_version:
+          type: ['null', string]
+          description: Calculation engine by Spark to process the request.
+          examples:
+            - 1.25.0
+        source_hash:
+          type: ['null', string]
+          examples:
+            - null
+        engine_id:
+          type: ['null', string]
+          description: Hash generated for this service.
+          examples:
+            - 64AFC7C321E5B97BAB090371DF1E9580
+        correlation_id:
+          type: ['null', string]
+          description: Value from Request body.
+        response_data_inputs:
+          type: ['null', boolean]
+          description: Value from Request body.
+        array_outputs:
+          type: ['null', string]
+          description: Value from Request body.
+        random_seed:
+          type: ['null', integer]
+          description: Value from Request body.
+        show_max_calc_chain:
+          type: ['null', boolean]
+          description: Value from Request body.
+        profile:
+          type: ['null', boolean]
+          description: Value from Request body.
+        trace:
+          type: ['null', boolean]
+          description: Value from Request body.
+        debug_build:
+          type: ['null', boolean]
+          description: Indicate if this service was compiled using the debug build.
+        top_n_profile:
+          type: ['null', integer]
+          description: Value from Request body.
+        parameterset_version_id:
+          oneOf:
+            - type: 'null'
+            - type: string
+              format: uuid
+          description: Value from Request body.
+        debug_xcall:
+          type: ['null', boolean]
+          description: Value from Request body.
+        debug_solve:
+          type: ['null', boolean]
+          description: Value from Request body.
+        manual_now:
+          type: ['null', integer]
+          description: Value from Request body.
+      additionalProperties: true
+    v3ResponseError:
+      type: object
+      description: Object for describing errors.
+      properties:
+        error_category:
+          type: ['null', string]
+          description: Error category.
+          examples:
+            - application_error
+        error_type:
+          type: ['null', string]
+          description: Error type.
+          examples:
+            - error.application_error
+        message:
+          type: ['null', string]
+          description: Error message.
+          examples:
+            - TENANT_MISMATCH
+        additional_details:
+          type: ['null', object]
+          description: Additional error details.
+          examples:
+            - null
+      additionalProperties: false
+    ErrorResponseEntity:
+      type: object
+      description: Object for describing errors.
+      properties:
+        error_category:
+          type: ['null', string]
+          description: Error category.
+          examples:
+            - access_error
+        error_type:
+          type: ['null', string]
+          description: Error type.
+          examples:
+            - error.UNAUTHORIZED
+        message:
+          type: ['null', string]
+          description: Error message.
+          examples:
+            - INVALID_TOKEN
+      additionalProperties: false
 
   requestBodies:
     executeV3:
       content:
         application/json:
           schema:
+            $ref: '#/components/schemas/v3EngineApiRequestEntity'
+          examples:
+            jsonBody:
+              value:
+                request_data:
+                  inputs:
+                    Chain_a: 4
+                    Chain_b: 2
+                    Range_EF:
+                      - E: A
+                        F: 6
+                      - E: B
+                        F: 8
+                    Single_A: 2
+                    Single_B: 4
+                    Single_C: sample text
+                    Single_D: 2021-10-18
+                    Single_J_Error: Z
+                    Solve_y_target: 0
+                    Single_XJ_In_G: 3
+                    Single_XJ_In_H: ''
+                    Single_XJ_In_I: 2
+                    REPORT1:
+                      FileName:
+                request_meta:
+                  service_uri: folders/API V3/services/Sample API Full
+                  service_id: 18c5a5fc-9949-4b1d-b802-ac367fc3599c
+                  version: 1.0.0
+                  version_id: d5b2b3b3-8d79-41b1-a9c3-3d9652687204
+                  transaction_date: 2021-12-29T06:15:28.583Z
+                  call_purpose: Spark - API Tester
+                  source_system: SPARK
+                  correlation_id:
+                  requested_output:
+                  service_category: '#Default#'
+                  compiler_type: Neuron
+    executeV4:
+      content:
+        application/json:
+          schema:
             type: object
             properties:
-              request_data:
-                type: object
-                properties:
-                  inputs:
-                    type: object
-                    description: Object that contains key value pairs that will be passed to the fields identified as Xinput in the workbook. See documentation for more information.
-              request_meta:
-                type: object
-                properties:
-                  service_uri:
-                    type: string
-                    description: Reference to service location in the format of `folders/{folder}/services/{service}`.
-                      This does not specify the version of the service returned.
-                      This can be done so by including `transaction_date` or `version`.
-                    example: folders/API V3/services/Sample API
-                  service_id:
-                    type: string
-                    format: uuid
-                    description: "`service_id` of the requested service.
-                      This does not specify the version of the service returned.
-                      This can be done so by using `transaction_date` or `version`."
-                    example: 0c9deaad-bd33-49dd-9404-14f9303c531e
-                  version:
-                    type: string
-                    description: Semantic version number which corresponds to the version number shown in the Spark user interface `{Major revision}.{Minor revision}.{Patch revision}`.
-                    examples:
-                      - 4.15.2
-                      - 1.4 takes the latest version starting with 1.4.
-                      - 1 take the latest version starting with 1.
-                  version_id:
-                    type: string
-                    format: uuid
-                    description: "`version_id` of the requested service version.
-                      This takes precedence over `service_uri`, `service_id`, `transaction_date`, `version`."
-                    example: e5a86ccb-b53b-47c7-86e7-25c228b211f4
-                  transaction_date:
-                    type: string
-                    format: date-time
-                    description: Timestamp to resolve the service version. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601.
-                      When call to a service is made using the `service_uri` or `service_id` this is used to determine the latest version of a service which have effective start and effective end dates that bound `transaction_date`.
-                      If omitted, the current date and time is used.
-                      If the `transaction_date` does not fall within the effective start and effective end dates of any versions, then the response will be an error.
-                      When calling a specific version using `version` or `version_id` this field has no effect.
-                    examples:
-                      - 2022-10-30
-                      - 2022-10-30T18:30:00.853Z
-                  debug_solve:
-                    type: boolean
-                    description: Boolean to return `outputs.additional_outputs.solve_log` which contains the iterations for each `Xsolve` in the service.
-                    example: true
-                  debug_xcall:
-                    type: boolean
-                    description: Boolean to return `outputs.additional_outputs.xcall_log` which contains the tracing for the `Xcall` used in the execution of the service.
-                    example: true
-                  manual_now:
-                    type: integer
-                    description: Default behavior for Excel `NOW()` and `TODAY()` functions are to return the value based upon server time. If a [Unix epoch time](https://en.wikipedia.org/wiki/Unix_time) is provided, then that will be used to derive the current time and date instead.
-                    example: 1650593119
-                  profile:
-                    type: boolean
-                    description: Boolean to enable performance tracing. See documentation for more information.
-                    example: true
-                  random_seed:
-                    type: integer
-                    description: Number for random number generation seed. This ensures that each API call generates the same sequence of random numbers.
-                    example: 123
-                  requested_output_regex:
-                    type: string
-                    description: Regular expression string to denote the outputs to keep in the response.
-                      This is an advancement of `requested_output`.
-                      If both `requested_output` and `requested_output_regex` are specified, then an error will be raised.
-                    examples:
-                      - solve will return all outputs that contain solve.
-                      - price_ will return all outputs that begin with price_.
-                  show_max_calc_chain:
-                    type: boolean
-                    description: When the debug build is used, this is used to identify the longest calculation chain. See documentation for more information.
-                    example: true
-                    default: false
-                  top_n_profile:
-                    type: integer
-                    description: When the debug build is used, this is used to adjust the of records returned from the performance tracing output.
-                    example: 20
-                  requested_output:
-                    anyOf:
-                      - type: string
-                      - type: array
-                        items: {type: string}
-                    description: Array of strings to denote the outputs to keep in the response. `*` can be used to identify wildcard characters.
-                      For `Neuron_v1.17.0` and later this can be enabled In Excel by adding a Named Range referenced to a cell called `xBuildParams`.
-                      The cell contents must contain `'--direct_addressing=true`.
-                      Furthermore if \#SparkFormulaValueVector is added to these requests, only the calculated results would be returned.
-                    examples:
-                      - ["price*","*nut","Boeing7*7", "calc"]
-                      - ["@Sheet1!B2:D4"]
-                      - ["@MyNamedRange"]
-                      - "first,second,third"
-                  service_category:
-                    type: string
-                    description: Comma separated string of subservice names.
-                      When this is not specified or set as `#Default#`, outputs not related to subservices are shown.
-                    examples:
-                      - subservice1 will only show the the outputs from subservice1.
-                      - subservice1,subservice2 will only show the outputs from subservice1 and subservice2.
-                      - \#Default\#,subservice2 will show outputs not relating to subservices and from subservice2.
-                  compiler_type:
-                    type: string
-                    description: Calculation engine for the request. By default this uses the setting defined in _Service Documentation_ _Default service type_.
-                    enum: [Neuron, XConnector]
-                    example: Neuron
-                  array_outputs:
-                    type: string
-                    description: This is a string list of `Xoutput` ranges to return in the JSON array format. Using `*` can be used to denote all of the outputs.
-                    examples:
-                      - '*'
-                      - list1, list2
-                  response_data_inputs:
-                    type: boolean
-                    description: Boolean to enable the echo of `request_data.inputs` into `response_data.inputs`. This is useful for consuming systems that want to store and analyze the API request and response data together.
-                  excel_file:
-                    type: boolean
-                    description: When set to `true`, this returns a copy of the source Excel file with the `request_data` `input`s populated into the `Xinput` cells.
-                      The output is the same as the _Download as Excel (Legacy)_.
-                      For security, the use of this feature with API keys can be managed through the `Spark.DownloadServiceByCallId.json` feature permission.
-                      This is not a feature that is recommended for extensive use. Response times when using this feature will be inconsistent call to call due to the need to generate and populate the Excel file.
-                  xreport_options:
-                    type: object
-                    description: Parameters to control how `Xreport`s are produced. See documentation for more information.
-                    properties:
-                      produce_pdfs:
-                        type: boolean
-                        description: Boolean to indicate whether to return the `Xreport` sheets as PDFs. Default is `true`.
-                      multiple_docs:
-                        type: boolean
-                        description: Boolean to indicate whether to return each `Xreport` sheet as a separate PDF. Default is `false`.
-                      page_numbers:
-                        type: boolean
-                        description: Boolean to indicate whether to include page numbers. Default is `true`.
-                    example: { "produce_pdfs": true, "multiple_docs": false, "page_numbers": true }
-                  call_purpose:
-                    type: string
-                    description: Tag API call. Can be queried in _API Call History_.
-                    example: admin system p
-                  source_system:
-                    type: string
-                    description: Tag API call. Can be queried in _API Call History_.
-                    example: mycicd
-                  correlation_id:
-                    type: string
-                    description: Tag API call. Can be queried in _API Call History_.
-                    example: "456"
-          example:
-            request_data:
               inputs:
-                Chain_a: 4
-                Chain_b: 2
-                Range_EF:
-                - E: A
-                  F: 6
-                - E: B
-                  F: 8
-                Single_A: 2
-                Single_B: 4
-                Single_C: sample text
-                Single_D: '2021-10-18'
-                Single_J_Error: Z
-                Solve_y_target: 0
-                Single_XJ_In_G: 3
-                Single_XJ_In_H: ''
-                Single_XJ_In_I: 2
-                REPORT1:
-                  FileName:
-            request_meta:
-              service_uri: folders/API V3/services/Sample API Full
-              service_id: 18c5a5fc-9949-4b1d-b802-ac367fc3599c
-              version: 1.0.0
-              version_id: d5b2b3b3-8d79-41b1-a9c3-3d9652687204
-              transaction_date: 2021-12-29T06:15:28.583Z
-              call_purpose: Spark - API Tester
-              source_system: SPARK
+                type: ['null', array]
+                items:
+                  oneOf:
+                    - type: array
+                      items: {}
+                      description: For JSON arrays format, the first row contains the name of the inputs in an array, and subsequent rows define the values for the corresponding records.
+                    - type: object
+                      description: For JSON objects format, each element is an object containing key-value pairs that will be passed to the fields identified as Xinput in the workbook.
+                description: Array of input records.
+                examples:
+                  - - A: 1
+                      B:
+                        - B1: 6
+                          B2: 3
+                        - B1: 9
+                          B2: 4
+                    - A: 7
+                      B:
+                        - B1: 0
+                          B2: 2
+                  - - ['A', 'B']
+                    - - 1
+                      - - ['B1', 'B2']
+                        - [6, 3]
+                        - [9, 4]
+                    - - 7
+                      - - ['B1', 'B2']
+                        - [0, 2]
+              service:
+                type: ['null', string]
+                description: URI or `service_id` of the service being called.
+                examples:
+                  - stocks/NVDA
+                  - stocks/NVDA[1.4.3]
+                  - stocks/NVDA[1.4] take the latest version starting with 1.4.
+                  - stocks/NVDA[1] take the latest version starting with 1.
+                  - /folders/stocks/services/NVDA
+                  - a5e3f03a-57ca-4889-adae-0630be54bd87
+              version_id:
+                oneOf:
+                  - type: 'null'
+                  - type: string
+                    format: uuid
+                description: version_id of the requested service version. This will be resolved by Spark the quickest.
+                examples:
+                  - 8183f03a-57ca-4889-adae-0630be54bd87
+              version_by_timestamp:
+                type: ['null', string]
+                anyOf:
+                  - type: 'null'
+                  - type: string
+                    format: date
+                  - type: string
+                    format: date-time
+                description:
+                  Timestamp to resolve the service version. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601.
+                  When call to a service is made using the `service_uri` or `service_id` this is used to determine the latest version of a service which have effective start and effective end dates that bound `transaction_date`.
+                  If omitted, the current date and time is used.
+                  If the `transaction_date` does not fall within the effective start and effective end dates of any versions, then the response will be an error.
+                  When calling a specific version using `version` or `version_id` this field has no effect.
+                examples:
+                  - 2022-10-30
+                  - 2022-10-30T18:30:00.853Z
+              output:
+                type: ['null', array]
+                items:
+                  type: ['null', string]
+                description:
+                  Array of strings to denote the outputs to keep in the response. `*` can be used to identify wildcard characters.
+                  Alternatively direct refences to Excel ranges are possible.
+                  For `Neuron_v1.17.0` and later this can be enabled In Excel by adding a Named Range referenced to a cell called `xBuildParams`.
+                  The cell contents must contain `'--direct_addressing=true`.
+                  Furthermore if `#SparkFormulaValueVector` is added to these requests, only the calculated results would be returned.
+                examples:
+                  - ['value_*', 'valuation_by_*']
+                  - ['@Sheet1!B2:D4']
+                  - ['@MyNamedRange']
+              subservice:
+                type: ['null', string]
+                description: Comma separated string of subservice names.
+                  When this is not specified or set as `#Default#`, outputs not related to subservices are shown.
+                examples:
+                  - subservice1 will only show the the outputs from subservice1.
+                  - subservice1,subservice2 will only show the outputs from subservice1 and subservice2.
+                  - \#Default\#,subservice2 will show outputs not relating to subservices and from subservice2.
+                  - '* all subservices will be included.'
+              source_system:
+                type: ['null', string]
+                description: Tag API call. Can be queried in _API Call History_.
+                examples:
+                  - mycicd
               correlation_id:
-              requested_output:
-              service_category: "#Default#"
-              compiler_type: Neuron
+                type: ['null', string]
+                description: Tag API call. Can be queried in _API Call History_.
+                examples:
+                  - '456'
+              call_purpose:
+                type: ['null', string]
+                description: Tag API call. Can be queried in _API Call History_.
+                examples:
+                  - admin system p
+              compiler_type:
+                type: ['null', string]
+                description: Calculation engine for the request. By default this uses the setting defined in _Service Documentation_ _Default service type_.
+                enum: [Neuron, XConnector]
+                examples:
+                  - Neuron
+              manual_now:
+                type: ['null', integer]
+                description: Default behavior for Excel `NOW()` and `TODAY()` functions are to return the value based upon server time. If a [Unix epoch time](https://en.wikipedia.org/wiki/Unix_time) is provided, then that will be used to derive the current time and date instead.
+                examples:
+                  - 1650593119
+          examples:
+            jsonBody:
+              value:
+                inputs:
+                  - - A11
+                    - A33
+                    - A44
+                  - - 10
+                    - - - A1
+                        - A2
+                        - A3
+                      - - 10
+                        - 20
+                        - 30
+                      - - 110
+                        - 120
+                        - 130
+                    - - - A1
+                        - B.B1
+                        - B.B2
+                        - C1
+                      - - 10
+                        - 20
+                        - 30
+                        - 40
+                      - - 110
+                        - 120
+                        - 130
+                        - 140
+                  - - 20
+                    - - - A1
+                        - A2
+                        - A3
+                      - - 20
+                        - 40
+                        - 60
+                      - - 220
+                        - 240
+                        - 260
+                    - - - A1
+                        - B.B1
+                        - B.B2
+                        - C1
+                      - - 20
+                        - 40
+                        - 60
+                        - 80
+                      - - 220
+                        - 240
+                        - 260
+                        - 280
+                service: MyFolder/BlockParty
+                call_purpose: Array of JSON arrays
 
   responses:
     executeV3:
@@ -1895,169 +2711,258 @@ components:
           schema:
             type: number
             description: The time it took for Spark to process the inputs, perform the calculation, execute any `Ximage`, `Xreport`, `Xsolve` parameters in `ms`. This does not include any transit time.
-            example: 50
+            examples:
+              - 50
         X-RateLimit-Limit:
           schema:
             type: number
             description: Spark rate limiter value.
-            example: 600
+            examples:
+              - 600
         X-RateLimit-Remaining:
           schema:
             type: number
             description: Remaining calls for the rate limiter.
-            example: 590
+            examples:
+              - 590
         X-RateLimit-Reset:
           schema:
             type: number
-            description: "[Unix epoch time](https://en.wikipedia.org/wiki/Unix_time) representing when the rate limit is reset. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert to ISO 8601."
-            example: 1768925455
+            description: '[Unix epoch time](https://en.wikipedia.org/wiki/Unix_time) representing when the rate limit is reset. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert to ISO 8601.'
+            examples:
+              - 1768925455
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              response_data:
-                type: object
-                properties:
+            $ref: '#/components/schemas/v3EngineApiResponseEntity'
+          examples:
+            jsonBody:
+              value:
+                response_data:
                   outputs:
-                    description: Returned outputs.
-                    type: object
-              response_meta:
-                type: object
-                properties:
-                  service_id:
-                    type: string
-                    format: uuid
-                    description: "`service_id` of the resolved service."
-                    example: 48a953cc-ed34-4454-b5c7-1141912f2f8d
-                  version_id:
-                    type: string
-                    format: uuid
-                    description: "`version_id` of the resolved service version."
-                    example: 6bf49dca-5bc2-4144-9710-5988a0f44163
-                  version:
-                    type: string
-                    description: Resolved service version number.
-                    example: 4.15.2
-                  process_time:
-                    type: integer
-                    description: Time for Spark to process the API call in `ms`.
-                    example: 30
-                  call_id:
-                    type: string
-                    format: uuid
-                    description: Universally unique identifier for this API call. This can be referenced in the _API Call History_.
-                    example: f6123393-d33f-4ff6-86a4-a663111afd82
-                  compiler_type:
-                    type: string
-                    description: Calculation engine used by Spark to process the request.
-                    example: Neuron
-                  compiler_version:
-                    type: string
-                    description: Calculation engine by Spark to process the request.
-                    example: 1.25.0
+                    CSV1: |
+                      "A","B","C"
+                      "1","2","3"
+                    Chain_a: 4
+                    Chain_b: 2
+                    Range_EF_function:
+                      - E: AB
+                        F: 48
+                    Single_AB_function: 20
+                    Single_C_function: SAMPLE TEXT
+                    Single_D_function: 2022-10-18
+                    Solve_x_calculated: 5.3579474132655
+                    Single_XJ_Out_G: 3
+                    Single_XJ_Out_H: ''
+                    Single_XJ_Out_I: 2
+                    Solve1:
+                      TargetValue: '0'
+                      ByChangingCellValue: '5.357947413265504'
+                      Comments: Goal was reached on iteration 9.
+                    REPORT1:
+                      PDFUrl: https://excel.myenvironment.coherent.global/67a1a340-3f06-4db1-a4b8-316757d03d07.pdf
+                      PDFName: 67a1a340-3f06-4db1-a4b8-316757d03d07.pdf
+                      DocumentGenerationTime: '23'
+                      PDFGenerationTime: '7'
+                  warnings: []
+                  errors:
+                    - error_category: validation_error
+                      error_type: error.VALIDATION
+                      additional_details: SimpleServiceAplusB
+                      source_path: '$.Input.A'
+                      message: Input Not Valid
+                    - error_category: validation_error
+                      error_type: error.VALIDATION
+                      additional_details: Sample API Full
+                      source_path: '$.Input.Xvalidate1'
+                      message: I am an Xvalidate error
+                response_meta:
+                  service_id: 4bf0af24-0a24-49f1-bd02-c2a343eb8246
+                  version_id: d5b2b3b3-8d79-41b1-a9c3-3d9652687204
+                  version: 1.0.0
+                  process_time: 2
+                  call_id: 372167af-ae77-4298-8f59-f45c0f98c4fe
+                  compiler_type: Neuron
+                  compiler_version: 1.0.0
                   source_hash:
-                    type: string
-                    example: null
-                  engine_id:
-                    type: string
-                    description: Hash generated for this service.
-                    example: 64AFC7C321E5B97BAB090371DF1E9580
-                  correlation_id:
-                    type: string
-                    description: Value from Request body.
-                  response_data_inputs:
-                    type: boolean
-                    description: Value from Request body.
-                  array_outputs:
-                    type: string
-                    description: Value from Request body.
-                  random_seed:
-                    type: integer
-                    description: Value from Request body.
-                  show_max_calc_chain:
-                    type: boolean
-                    description: Value from Request body.
-                  profile:
-                    type: boolean
-                    description: Value from Request body.
-                  trace:
-                    type: boolean
-                    description: Value from Request body.
-                  top_n_profile:
-                    type: integer
-                    description: Value from Request body.
-                  parameterset_version_id:
-                    type: string
-                    format: uuid
-                    description: Value from Request body.
-                  debug_xcall:
-                    type: boolean
-                    description: Value from Request body.
-                  debug_solve:
-                    type: boolean
-                    description: Value from Request body.
-                  manual_now:
-                    type: integer
-                    description: Value from Request body.
-                  system:
-                    type: string
-                    description: System that processed the request.
-                    example: SPARK
-                  request_timestamp:
-                    type: string
-                    format: date-time
-                    description: Request timestamps.
-                    example: 2020-10-29T09:53:18.8314052Z
-          example:
-            response_data:
+                  engine_id: B72FD22D775D5A9FA10BCFF183369BCB
+                  correlation_id: ''
+                  system: SPARK
+                  request_timestamp: 2021-12-29T06:15:32Z
+    executeV4:
+      description: OK
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: number
+            description: Spark rate limiter value.
+            examples:
+              - 600
+        X-RateLimit-Remaining:
+          schema:
+            type: number
+            description: Remaining calls for the rate limiter.
+            examples:
+              - 590
+        X-RateLimit-Reset:
+          schema:
+            type: number
+            description: '[Unix epoch time](https://en.wikipedia.org/wiki/Unix_time) representing when the rate limit is reset. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert to ISO 8601.'
+            examples:
+              - 1768925455
+      content:
+        application/json:
+          schema:
+            properties:
               outputs:
-                CSV1: |
-                  "A","B","C"
-                  "1","2","3"
-                Chain_a: 4
-                Chain_b: 2
-                Range_EF_function:
-                - E: AB
-                  F: 48
-                Single_AB_function: 20
-                Single_C_function: SAMPLE TEXT
-                Single_D_function: 2022-10-18
-                Solve_x_calculated: 5.3579474132655
-                Single_XJ_Out_G: 3
-                Single_XJ_Out_H: ''
-                Single_XJ_Out_I: 2
-                Solve1:
-                  TargetValue: '0'
-                  ByChangingCellValue: '5.357947413265504'
-                  Comments: Goal was reached on iteration 9.
-                REPORT1:
-                  PDFUrl: https://excel.myenvironment.coherent.global/67a1a340-3f06-4db1-a4b8-316757d03d07.pdf
-                  PDFName: 67a1a340-3f06-4db1-a4b8-316757d03d07.pdf
-                  DocumentGenerationTime: '23'
-                  PDFGenerationTime: '7'
-              warnings: []
+                type: ['null', array]
+                items:
+                  oneOf:
+                    - type: array
+                      items: {}
+                      description: Array of JSON arrays.
+                    - type: object
+                      description: Array of JSON objects.
+                description: Array of outputs. The elements of the array correspond to the input request records.
+                  Outputs will be formatted in a similar way to the inputs. The layout of outputs depends on whether the inputs comprised of an array of JSON objects or JSON arrays.
+              process_time:
+                type: ['null', array]
+                items:
+                  type: number
+                description: Time for Spark to process the API call in `ms`. The elements of the array correspond to the input request records.
+                examples:
+                  - [39, 24]
+              warnings:
+                type: ['null', array]
+                items:
+                  type: ['null', array]
+                  items:
+                    type: ['null', object]
+                description: Array of warnings. The elements of the array correspond to the input request records.
               errors:
-              - error_category: validation_error
-                error_type: error.VALIDATION
-                additional_details: SimpleServiceAplusB
-                source_path: "$.Input.A"
-                message: Input Not Valid
-              - error_category: validation_error
-                error_type: error.VALIDATION
-                additional_details: Sample API Full
-                source_path: "$.Input.Xvalidate1"
-                message: I am an Xvalidate error
-            response_meta:
-              service_id: 4bf0af24-0a24-49f1-bd02-c2a343eb8246
-              version_id: d5b2b3b3-8d79-41b1-a9c3-3d9652687204
-              version: 1.0.0
-              process_time: 2
-              call_id: 372167af-ae77-4298-8f59-f45c0f98c4fe
-              compiler_type: Neuron
-              compiler_version: 1.0.0
-              source_hash:
-              engine_id: B72FD22D775D5A9FA10BCFF183369BCB
-              correlation_id: ''
-              system: SPARK
-              request_timestamp: 2021-12-29, 06:15:32 GMT+00:00
+                type: ['null', array]
+                items:
+                  type: ['null', array]
+                  items:
+                    type: ['null', object]
+                description: Array of errors. The elements of the array correspond to the input request records.
+              service_id:
+                oneOf:
+                  - type: 'null'
+                  - type: string
+                    format: uuid
+                description: '`service_id` of the resolved service.'
+                examples:
+                  - 48a953cc-ed34-4454-b5c7-1141912f2f8d
+              version_id:
+                oneOf:
+                  - type: 'null'
+                  - type: string
+                    format: uuid
+                description: '`version_id` of the resolved service version.'
+                examples:
+                  - 6bf49dca-5bc2-4144-9710-5988a0f44163
+              version:
+                type: ['null', string]
+                description: Resolved service version number.
+                examples:
+                  - 4.15.2
+              call_id:
+                oneOf:
+                  - type: 'null'
+                  - type: string
+                    format: uuid
+                description: Universally unique identifier for this API call. This can be referenced in the _API Call History_.
+                examples:
+                  - f6123393-d33f-4ff6-86a4-a663111afd82
+              compiler_version:
+                type: ['null', string]
+                description: Calculation engine by Spark to process the request.
+                examples:
+                  - 1.25.0
+              correlation_id:
+                type: ['null', string]
+                description: Value from Request body.
+              request_timestamp:
+                oneOf:
+                  - type: 'null'
+                  - type: string
+                    format: date-time
+                description: Request timestamp.
+                examples:
+                  - 2020-10-29T09:53:18.8314052Z
+          examples:
+            jsonBody:
+              value:
+                outputs:
+                  - - A11
+                    - A33
+                    - A44
+                  - - 20
+                    - - - A1
+                        - A2
+                        - A3
+                      - - 20
+                        - 40
+                        - 60
+                      - - 220
+                        - 240
+                        - 260
+                    - - - A1
+                        - B.B1
+                        - B.B2
+                        - C1
+                      - - 20
+                        - 40
+                        - 60
+                        - 80
+                      - - 220
+                        - 240
+                        - 260
+                        - 280
+                  - - 40
+                    - - - A1
+                        - A2
+                        - A3
+                      - - 40
+                        - 80
+                        - 120
+                      - - 440
+                        - 480
+                        - 520
+                    - - - A1
+                        - B.B1
+                        - B.B2
+                        - C1
+                      - - 40
+                        - 80
+                        - 120
+                        - 160
+                      - - 440
+                        - 480
+                        - 520
+                        - 560
+                process_time:
+                  - 1
+                  - 1
+                warnings:
+                  - null
+                  - null
+                errors:
+                  - - source_path: $.Input.A11
+                      error_category: validation_error
+                      error_type: error.VALIDATION
+                      message: Input Not Valid
+                      additional_details: BlockParty
+                  - - source_path: $.Input.A11
+                      error_category: validation_error
+                      error_type: error.VALIDATION
+                      message: Input Not Valid
+                      additional_details: BlockParty
+                service_id: daa1ed5f-6a41-43dd-99ff-20bceca73f81
+                version_id: f3849415-0d2d-44b8-afbd-aab27ce73b43
+                version: 0.1.0
+                call_id: bb4cf8fb-358e-4fc8-9a0b-19dbdb219e81
+                compiler_version: 1.16.0
+                correlation_id: null
+                request_timestamp: 2024-03-12T05:14:37.912Z
