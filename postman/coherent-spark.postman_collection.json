@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "2d00a93a-0ff7-4245-a6db-1afc144604f9",
-    "name": "Coherent Spark",
+    "name": "Coherent Spark v1.2",
     "description": "This Postman collection covers all the APIs documented on the [Coherent Spark User Guide](https://docs.coherent.global) page.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "26663095"
@@ -1385,11 +1385,16 @@
           "name": "finds folder by name",
           "request": {
             "auth": {
-              "type": "bearer",
-              "bearer": [
+              "type": "apikey",
+              "apikey": [
                 {
-                  "key": "token",
-                  "value": "{{access_token}}",
+                  "key": "value",
+                  "value": "{{api_key}}",
+                  "type": "string"
+                },
+                {
+                  "key": "key",
+                  "value": "x-synthetic-key",
                   "type": "string"
                 }
               ]
@@ -1427,7 +1432,7 @@
                 "list"
               ]
             },
-            "description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/folder-apis/find-folder) to learn more.\n\n**NOTE**: This endpoint cannot be authorized with API Keys."
+            "description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/folder-apis/find-folder) to learn more.\n\n**NOTE**: If using an API key, the API key group must contain user groups that are also assigned to `Spark.FolderList.json` or `Spark.AllEncompassingProxy.json`."
           },
           "response": []
         },
@@ -1579,7 +1584,7 @@
                 "{{folder_id}}"
               ]
             },
-            "description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/folder-apis/delete-folder) to learn more.\n\n**NOTE**: This endpoint cannot be authorized with API Keys."
+            "description": "Deletes the folder including all documents, services, and transforms.\n\nCheck out the [API Reference](https://docs.coherent.global/spark-apis/folder-apis/delete-folder) to learn more.\n\n**NOTE**: This endpoint cannot be authorized with API Keys."
           },
           "response": []
         },
@@ -1806,7 +1811,7 @@
                 {
                   "type": "text",
                   "key": "engineUploadRequestEntity",
-                  "value": "{\"request_data\":{\"version_difference\":\"minor\",\"effective_start_date\":\"2025-01-31T00:00:00.000Z\",\"effective_end_date\":\"2035-01-31T00:00:00.000Z\",\"compiler_version\":\"StableLatest\", \"compiler_type\":\"StableLatest\"}}"
+                  "value": "{\"request_data\":{\"version_difference\":\"minor\",\"effective_start_date\":\"2025-01-31T00:00:00.000Z\",\"effective_end_date\":\"2035-01-31T00:00:00.000Z\",\"compiler_version\":null, \"compiler_type\":\"StableLatest\"}}"
                 },
                 {
                   "type": "file",
@@ -1918,7 +1923,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"request_data\": {\n        \"draft_service_name\": \"{{service}}\",\n        \"effective_start_date\":\"2025-01-31T00:00:00.000Z\",\n        \"effective_end_date\":\"2035-01-31T00:00:00.000Z\",\n        \"original_file_documentid\": \"{{upload_file_id}}\",\n        \"engine_file_documentid\": \"{{upload_engine_id}}\",\n        \"version_difference\": \"minor\",\n        \"should_trck_user_action\": \"true\",\n        \"version_label\": \"initial release\",\n        \"release_note\": \"Uploaded via Postman\",\n        \"tags\": null\n    }\n}",
+              "raw": "{\n    \"request_data\": {\n        \"draft_service_name\": \"{{service}}\",\n        \"effective_start_date\":\"2025-01-31T00:00:00.000Z\",\n        \"effective_end_date\":\"2035-01-31T00:00:00.000Z\",\n        \"original_file_documentid\": \"{{upload_file_id}}\",\n        \"engine_file_documentid\": \"{{upload_engine_id}}\",\n        \"version_difference\": \"minor\",\n        \"should_trck_user_action\": true,\n        \"version_label\": \"initial release\",\n        \"release_note\": \"Uploaded via Postman\",\n        \"tags\": null\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1992,6 +1997,38 @@
                 "engines",
                 "getversions",
                 "{{service}}"
+              ],
+              "query": [
+                {
+                  "key": "createdAt",
+                  "value": "gt:2026-01-01",
+                  "description": "Filter by the created date of the service version. Supports `=`, `lt:`, `lte:`, `gt:`, `gte:`; repeat the key to set a range.",
+                  "disabled": true
+                },
+                {
+                  "key": "createdAt",
+                  "value": "lt:2027-01-01",
+                  "description": "Filter by the created date of the service version.",
+                  "disabled": true
+                },
+                {
+                  "key": "effectiveStartDate",
+                  "value": "gt:2026-01-01",
+                  "description": "Filter by the Effective from date of the service version.",
+                  "disabled": true
+                },
+                {
+                  "key": "effectiveEndDate",
+                  "value": "lt:2127-01-01",
+                  "description": "Filter by the Effective until date of the service version.",
+                  "disabled": true
+                },
+                {
+                  "key": "revision",
+                  "value": "0.1.0",
+                  "description": "Filter by the version number.",
+                  "disabled": true
+                }
               ]
             },
             "description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/service-apis/retrieve-all-version-ids) to learn more."
@@ -2111,6 +2148,56 @@
           "response": []
         },
         {
+          "name": "gets service version by version id",
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "value",
+                  "value": "{{api_key}}",
+                  "type": "string"
+                },
+                {
+                  "key": "key",
+                  "value": "x-synthetic-key",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-tenant-name",
+                "value": "{{tenant}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://excel.{{environment}}.coherent.global/api/v1/product/{{folder}}/engines/get/{{service}}/{{version_id}}",
+              "protocol": "https",
+              "host": [
+                "excel",
+                "{{environment}}",
+                "coherent",
+                "global"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "product",
+                "{{folder}}",
+                "engines",
+                "get",
+                "{{service}}",
+                "{{version_id}}"
+              ]
+            },
+            "description": "Get detailed information about the Excel workbook, upload details, Neuron compilation outputs, mapped `Xinput`, `Xoutput`, and metadata, etc."
+          },
+          "response": []
+        },
+        {
           "name": "downloads a service (latest)",
           "request": {
             "auth": {
@@ -2203,6 +2290,20 @@
                 "{{service}}",
                 "download",
                 "{{version_id}}"
+              ],
+              "query": [
+                {
+                  "key": "filename",
+                  "value": "{{service}}.xlsx",
+                  "description": "Name of the downloaded file. If not provided, Spark will use an appropriate name.",
+                  "disabled": true
+                },
+                {
+                  "key": "type",
+                  "value": "ca",
+                  "description": "`ca` downloads the Coherent Assistant-enhanced version of the workbook. If not provided, the original workbook will be downloaded.",
+                  "disabled": true
+                }
               ]
             },
             "description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/service-apis/download-service) to learn more."
@@ -2364,6 +2465,107 @@
                 "recompilenodgen"
               ]
             }
+          },
+          "response": []
+        },
+        {
+          "name": "edits a service version by version id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "x-tenant-name",
+                "value": "{{tenant}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"request_data\": {\n        \"description\": \"Updated via Postman\",\n        \"release_note\": \"Updated via Postman\",\n        \"version_label\": \"updated release\",\n        \"tags\": null,\n        \"effective_start_date\":\"2025-01-31T00:00:00.000Z\",\n        \"effective_end_date\":\"2035-01-31T00:00:00.000Z\"\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/updateversion/{{version_id}}",
+              "protocol": "https",
+              "host": [
+                "excel",
+                "{{environment}}",
+                "coherent",
+                "global"
+              ],
+              "path": [
+                "{{tenant}}",
+                "api",
+                "v3",
+                "folders",
+                "{{folder}}",
+                "services",
+                "{{service}}",
+                "updateversion",
+                "{{version_id}}"
+              ]
+            },
+            "description": "Edit service version properties without creating a new version.\n\n**NOTE**: This endpoint cannot be authorized with API Keys."
+          },
+          "response": []
+        },
+        {
+          "name": "deletes an intermediate service version by version id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "x-tenant-name",
+                "value": "{{tenant}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/version/{{version_id}}",
+              "protocol": "https",
+              "host": [
+                "excel",
+                "{{environment}}",
+                "coherent",
+                "global"
+              ],
+              "path": [
+                "{{tenant}}",
+                "api",
+                "v3",
+                "folders",
+                "{{folder}}",
+                "services",
+                "{{service}}",
+                "version",
+                "{{version_id}}"
+              ]
+            },
+            "description": "The first and latest versions of a service cannot be deleted. Deleting a version also makes data associated with that version unavailable, including its Excel file, API Call History entries, and testbed results.\n\n**NOTE**: This endpoint cannot be authorized with API Keys."
           },
           "response": []
         },
@@ -2600,6 +2802,55 @@
               "body": "{\n    \"status\": \"Success\",\n    \"response_data\": [\n        {\n            \"id\": \"bd700ccb-1e90-4d37-870c-8e6155bc03d2\",\n            \"folderName\": \"Postman\",\n            \"fileName\": \"volume-cube\",\n            \"version\": \"0.3.1\",\n            \"modifiedDate\": \"2026-01-15T16:22:07.454972Z\"\n        },\n        {\n            \"id\": \"6c390795-216b-4251-986d-b840d0541cc7\",\n            \"folderName\": \"Postman\",\n            \"fileName\": \"volume-prism\",\n            \"version\": \"0.1.0\",\n            \"modifiedDate\": \"2026-01-13T16:15:53.954412Z\"\n        },\n        {\n            \"id\": \"441c6c77-4acc-4afe-aa14-ed32c650a016\",\n            \"folderName\": \"Postman\",\n            \"fileName\": \"volume-cylinder\",\n            \"version\": \"0.2.0\",\n            \"modifiedDate\": \"2026-01-13T15:51:25.698464Z\"\n        }\n    ],\n    \"response_meta\": {\n        \"count\": 3,\n        \"page\": 1,\n        \"page_total\": 1,\n        \"page_size\": 15,\n        \"next\": null,\n        \"previous\": null,\n        \"system\": \"SPARK\",\n        \"request_timestamp\": \"2026-12-18T22:15:54.020Z\"\n    },\n    \"error\": null\n}"
             }
           ]
+        },
+        {
+          "name": "deletes a service",
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "value",
+                  "value": "{{api_key}}",
+                  "type": "string"
+                },
+                {
+                  "key": "key",
+                  "value": "x-synthetic-key",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "x-tenant-name",
+                "value": "{{tenant}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://excel.{{environment}}.coherent.global/api/v1/product/{{folder}}/engines/delete/{{service}}",
+              "protocol": "https",
+              "host": [
+                "excel",
+                "{{environment}}",
+                "coherent",
+                "global"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "product",
+                "{{folder}}",
+                "engines",
+                "delete",
+                "{{service}}"
+              ]
+            },
+            "description": "Delete a service and all of its versions."
+          },
+          "response": []
         }
       ]
     },
@@ -3887,7 +4138,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\n    \"request_data\": {},\n    \"request_meta\": {\n        \"array_outputs\": null,\n        \"compiler_type\": \"Neuron\",\n        \"debug_solve\": false,\n        \"debug_xcall\": false,\n        \"excel_file\": false,\n        \"manual_now\": null,\n        \"random_seed\": null,\n        \"requested_output\": null,\n        \"requested_output_regex\": null,\n        \"response_data_inputs\": null,\n        \"service_category\": null,\n        \"xreport_options\": null\n    }\n}",
+                      "raw": "{\n    \"request_data\": {},\n    \"request_meta\": {\n        \"array_outputs\": null,\n        \"compiler_type\": \"Neuron\",\n        \"debug_solve\": false,\n        \"debug_xcall\": false,\n        \"excel_file\": false,\n        \"manual_now\": null,\n        \"random_seed\": null,\n        \"requested_output\": null,\n        \"requested_output_regex\": null,\n        \"response_data_inputs\": null,\n        \"service_category\": null,\n        \"xconnector_parse_mode\": null, // 1 enables proper table parsing for XConnector responses.\n        \"xreport_options\": null\n    }\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -4613,7 +4864,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\n    \"version_id\": \"{{version_id}}\",\n    \"output\": null,\n    \"compiler_type\": \"Neuron\",\n    \"manual_now\": null,\n    \"subservice\": null\n}",
+                      "raw": "{\n    \"version_id\": \"{{version_id}}\",\n    \"output\": null,\n    \"compiler_type\": \"Neuron\",\n    \"manual_now\": null,\n    \"subservice\": null,\n    \"xconnector_parse_mode\": null // 1 enables proper table parsing for XConnector responses.\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -4788,7 +5039,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"request_data\": {\n        \"version_id\": \"{{version_id}}\",\n        \"timezone_offset\": null,\n        \"start_date\": \"2025-01-31\", // short format if needed\n        \"end_date\": \"2025-02-28T00:00:00.000Z\",\n        \"has_warnings\": false,\n        \"has_errors\": false,\n        \"call_ids\": [] // call IDs or correlation ID or source system (mutually exclusive).\n    }\n}",
+                  "raw": "{\n    \"request_data\": {\n        \"timezone_offset\": null,\n        \"start_date\": \"2025-01-31\", // short format if needed\n        \"end_date\": \"2025-02-28T00:00:00.000Z\",\n        \"has_warnings\": false,\n        \"has_errors\": false,\n        \"call_ids\": [], // call IDs or correlation ID or source system (mutually exclusive).\n        \"partition_columns\": null, // e.g. \"callPurpose,correlationId,sourceSystem\" to keep only the latest entry per value.\n        \"include_inputs\": true,\n        \"include_outputs\": true,\n        \"heading_order\": \"DataOrder\", // or \"AlphabeticalOrder\"\n        \"requested_outputs\": null // names of outputs to keep.\n    },\n    \"request_meta\": {\n        \"version_id\": \"{{version_id}}\"\n    }\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -4814,6 +5065,14 @@
                     "{{service}}",
                     "log",
                     "downloadcsv"
+                  ],
+                  "query": [
+                    {
+                      "key": "CsvExpanded",
+                      "value": "true",
+                      "description": "CSV output includes expanded tables.",
+                      "disabled": true
+                    }
                   ]
                 },
                 "description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/api-call-history-apis/download-log-as-csv) to learn more."
@@ -4834,15 +5093,6 @@
                     "type": "text"
                   }
                 ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n    \"request_data\": {\n        \"version_id\": \"{{version_id}}\",\n        \"timezone_offset\": null,\n        \"start_date\": \"2025-01-31\", // short format if needed\n        \"end_date\": \"2025-02-28T00:00:00.000Z\",\n        \"has_warnings\": false,\n        \"has_errors\": false,\n        \"call_ids\": [] // call IDs or correlation ID or source system (mutually exclusive).\n    }\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
                 "url": {
                   "raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v3/folders/{{folder}}/services/{{service}}/log/downloadcsv/status/{{log_download_job_id}}",
                   "protocol": "https",
@@ -4905,7 +5155,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"request_data\": {\n        \"version_id\": \"{{version_id}}\",\n        \"timezone_offset\": null,\n        \"start_date\": \"2025-01-31\", // short format if needed\n        \"end_date\": \"2025-02-28T00:00:00.000Z\",\n        \"has_warnings\": false,\n        \"has_errors\": false,\n        \"call_ids\": [\"0badcffd-6af0-4ff7-b5a3-176c43e73b44\"] // call IDs or correlation ID or source system (mutually exclusive).\n    }\n}",
+                  "raw": "{\n    \"request_data\": {\n        \"timezone_offset\": null,\n        \"start_date\": \"2025-01-31\", // short format if needed\n        \"end_date\": \"2025-02-28T00:00:00.000Z\",\n        \"has_warnings\": false,\n        \"has_errors\": false,\n        \"call_ids\": [\"0badcffd-6af0-4ff7-b5a3-176c43e73b44\"], // call IDs or correlation ID or source system (mutually exclusive).\n        \"partition_columns\": null, // e.g. \"callPurpose,correlationId,sourceSystem\" to keep only the latest entry per value.\n        \"include_inputs\": true,\n        \"include_outputs\": true,\n        \"heading_order\": \"DataOrder\", // or \"AlphabeticalOrder\"\n        \"requested_outputs\": null // names of outputs to keep.\n    },\n    \"request_meta\": {\n        \"version_id\": \"{{version_id}}\"\n    }\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -4971,7 +5221,7 @@
                     "{{log_download_job_id}}"
                   ]
                 },
-                "description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/api-call-history-apis/download-log-as-csv) to learn more."
+                "description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/api-call-history-apis/download-log-as-json) to learn more."
               },
               "response": []
             }
@@ -5004,6 +5254,15 @@
                 "log",
                 "getexecutionhistorybycallid",
                 "{{call_id}}"
+              ],
+              "query": [
+                {
+                  "key": "index",
+                  "value": "1",
+                  "description": "Index number for the record to get, if the API call was done via Execute APIv4.",
+                  "type": "text",
+                  "disabled": true
+                }
               ]
             },
             "description": "Check out the [API Reference](https://docs.coherent.global/spark-apis/api-call-history-apis/get-call-id) to learn more."
@@ -5119,6 +5378,123 @@
               ]
             },
             "description": "This endpoint returns the download URL valid for roughly 5 minutes since the generated Excel file is temporary.\n\n**NOTE**: This is marked as `legacy` because its rehydration process relies on a deprecated algorithm.\n\nCheck out the [API Reference](https://docs.coherent.global/spark-apis/api-call-history-apis/download-as-excel-legacy) to learn more."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Events API",
+      "item": [
+        {
+          "name": "1. initiates events download job",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Update events download job id whenever a download job gets created.",
+                  "const response = pm.response.json();",
+                  "if (response && response.id) {",
+                  "    pm.environment.set(\"events_download_job_id\", response.id);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-tenant-name",
+                "value": "{{tenant}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"page_no\": 1,\n    \"page_size\": 100,\n    \"sort_column\": null,\n    \"sort_order\": \"desc\",\n    \"search\": [\n        { \"column\": \"event_start_date\", \"value\": \"2026-01-01\" },\n        { \"column\": \"event_end_date\", \"value\": \"2026-12-31\" }\n        // other columns: folder_id, event_types, service_name, user_name\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/events/download",
+              "protocol": "https",
+              "host": [
+                "excel",
+                "{{environment}}",
+                "coherent",
+                "global"
+              ],
+              "path": [
+                "{{tenant}}",
+                "api",
+                "v4",
+                "events",
+                "download"
+              ]
+            },
+            "description": "Get an Excel file with the user events logged in Spark. This is equivalent to the _Options_, _Event viewer_, _Download events_.\n\n**NOTE**: This endpoint cannot be authorized with API Keys."
+          },
+          "response": []
+        },
+        {
+          "name": "2. checks events download job status",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-tenant-name",
+                "value": "{{tenant}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://excel.{{environment}}.coherent.global/{{tenant}}/api/v4/events/download/{{events_download_job_id}}/status",
+              "protocol": "https",
+              "host": [
+                "excel",
+                "{{environment}}",
+                "coherent",
+                "global"
+              ],
+              "path": [
+                "{{tenant}}",
+                "api",
+                "v4",
+                "events",
+                "download",
+                "{{events_download_job_id}}",
+                "status"
+              ]
+            },
+            "description": "Make sure to trigger an events download job first to generate the `events_download_job_id` as this is required to perform status check.\n\n**NOTE**: This endpoint cannot be authorized with API Keys."
           },
           "response": []
         }

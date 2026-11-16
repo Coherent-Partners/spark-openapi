@@ -25,19 +25,19 @@ security:
 
 tags:
   - name: API Call History APIs
-    description: APIs for accessing the _API Call History_.
-  - name: Execute API (v3)
+    description: Access the _API Call History_.
+  - name: Events APIs
+    description: Access the Spark events.
+  - name: Execute APIs
     description:
-      Execute the calculation from a Spark service. Depending on the desired reference parameter, different URI are available. See the [documentation](https://docs.coherent.global/spark-apis/execute-api/execute-api-v3) for more details.<br><br>
-      The code snippet for your Spark service APIs can be found in the API Tester Code Snippets using the OpenAI.
-  - name: Execute API (v4)
-    description:
-      Execute multiple calculations from a Spark service. Supports synchronous batching enabling multiple requests to be submitted at the same time. See the [documentation](https://docs.coherent.global/spark-apis/execute-api/execute-api-v4) for more details.<br><br>
-      This endpoint should not be used for very large number of input records because there is an execution time limit of `55 s` and an error will be returned. For very large numbers of input records, we recommend using applications that utilize the [Batch APIs](https://docs.coherent.global/spark-apis/batch-apis).
+      Execute the calculation from a Spark service. Depending on the desired reference parameter, different URIs are available. See the [documentation](https://docs.coherent.global/spark-apis/execute-api/) for more details.<br><br>
+      The code snippet for your Spark service APIs can be found in the _API Tester_ _Code Snippets_.
   - name: Folder APIs
-    description: APIs for managing Spark folders.
+    description: Manage Spark folders.
   - name: Service APIs
-    description: APIs for managing Spark services.
+    description: Manage Spark services.
+  - name: WebAssembly module APIs
+    description: Get the WebAssembly module (Wasm) `ZIP` bundle for a Spark service. This can be used to run Spark services locally.
 
 paths:
   # API Call History
@@ -46,7 +46,7 @@ paths:
     get:
       tags: ['API Call History APIs']
       summary: Get Call ID
-      description: Get the details of an API call from the _API Call History_.<br><br>
+      description: Get details of an API call. This is equivalent to _Inspect detailed log_.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadAPILog.json` or `Spark.AllEncompassingProxy.json`.
       operationId: getLogGetExecutionHistoryByCallid
       security:
@@ -85,7 +85,7 @@ paths:
       tags: ['API Call History APIs']
       summary: Download as Excel
       description:
-        Get a copy of the original Excel file with inputs embedded with the _API Call History_ for an Execute API `call_id`.<br><br>
+        Get the original Excel file with inputs embedded from an Execute API `call_id`. This is equivalent to _Download as Excel_.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadAPILog.json` or `Spark.AllEncompassingProxy.json`.
       operationId: getDownloadXML
       security:
@@ -139,9 +139,9 @@ paths:
   /{tenant}/api/v3/folders/{folder}/services/{service}/log/downloadcsv:
     post:
       tags: ['API Call History APIs']
-      summary: Download Log as CSV post log job
+      summary: Download API calls as CSV post job
       description:
-        Get a ZIP of CSV files from the _API Call History_ of a Spark service. This is equivalent to the _API Call History_ functionality to _Download all API calls_, _Download as CSV_.<br><br>
+        Get a `ZIP` of `CSV` files of the API calls. This is equivalent to _Download all API calls_, _Download as CSV_.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadCsvLog.json` or `Spark.AllEncompassingProxy.json`.
       operationId: postLogDownloadCSV
       security:
@@ -152,6 +152,7 @@ paths:
         - $ref: '#/components/parameters/tenant'
         - $ref: '#/components/parameters/folder'
         - $ref: '#/components/parameters/service'
+        - $ref: '#/components/parameters/CsvExpanded'
       requestBody:
         content:
           application/json:
@@ -163,7 +164,7 @@ paths:
                   properties:
                     timezone_offset:
                       type: integer
-                      description: Number of hours to adjust the returned timestamps.
+                      description: Number of minutes to adjust the returned timestamps.
                     start_date:
                       anyOf:
                         - type: string
@@ -208,6 +209,34 @@ paths:
                     has_errors:
                       type: ['null', boolean]
                       description: Filter calls with errors.
+                    partition_columns:
+                      type: ['null', string]
+                      description: Comma-separated string that includes callPurpose, correlationId, sourceSystem. When multiple API calls have the same value for the selected field(s), only the latest entry will be retained.
+                      examples:
+                        - 'callPurpose,correlationId'
+                    include_inputs:
+                      type: ['null', boolean]
+                      description: Include inputs with download.
+                      examples:
+                        - true
+                    include_outputs:
+                      type: ['null', boolean]
+                      description: Include outputs with download.
+                      examples:
+                        - true
+                    heading_order:
+                      type: ['null', string]
+                      enum: [AlphabeticalOrder, DataOrder]
+                      description: Order in which the inputs and outputs will be written.
+                      examples:
+                        - DataOrder
+                    requested_outputs:
+                      type: ['null', array]
+                      items:
+                        type: string
+                      description: Array containing names of outputs to filter.
+                      examples:
+                        - ['output1', 'output2']
                 request_meta:
                   type: object
                   properties:
@@ -246,9 +275,9 @@ paths:
   /{tenant}/api/v3/folders/{folder}/services/{service}/log/downloadcsv/status/{jobId}:
     get:
       tags: ['API Call History APIs']
-      summary: Download Log as CSV get log job status
+      summary: Download API calls as CSV get job status
       description:
-        Get a ZIP of CSV files from the _API Call History_ of a Spark service. This is equivalent to the _API Call History_ functionality to _Download all API calls_, _Download as CSV_.<br><br>
+        Get a `ZIP` of `CSV` files of the API calls. This is equivalent to _Download all API calls_, _Download as CSV_.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadCsvLog.json` or `Spark.AllEncompassingProxy.json`.
       operationId: getLogDownloadCSVStatus
       security:
@@ -282,9 +311,9 @@ paths:
   /{tenant}/api/v3/folders/{folder}/services/{service}/log/downloadJSON:
     post:
       tags: ['API Call History APIs']
-      summary: Download Log as JSON post log job
+      summary: Download API calls as JSON post job
       description:
-        Get a ZIP of JSON files from the _API Call History_ of a Spark service. This is equivalent to the _API Call History_ functionality to _Download all API calls_, _Download as JSON_.<br><br>
+        Get a `ZIP` of `JSON` files of the API calls. This is equivalent to _Download all API calls_, _Download as JSON_.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadJSONLog.json` or `Spark.AllEncompassingProxy.json`.
       operationId: postLogDownloadJSON
       security:
@@ -306,7 +335,7 @@ paths:
                   properties:
                     timezone_offset:
                       type: integer
-                      description: Number of hours to adjust the returned timestamps.
+                      description: Number of minutes to adjust the returned timestamps.
                     start_date:
                       anyOf:
                         - type: string
@@ -351,12 +380,42 @@ paths:
                     has_errors:
                       type: ['null', boolean]
                       description: Filter calls with errors.
+                    partition_columns:
+                      type: ['null', string]
+                      description: Comma-separated string that includes callPurpose, correlationId, sourceSystem. When multiple API calls have the same value for the selected field(s), only the latest entry will be retained.
+                      examples:
+                        - 'callPurpose,correlationId'
+                    include_inputs:
+                      type: ['null', boolean]
+                      description: Include inputs with download.
+                      examples:
+                        - true
+                    include_outputs:
+                      type: ['null', boolean]
+                      description: Include outputs with download.
+                      examples:
+                        - true
+                    heading_order:
+                      type: ['null', string]
+                      enum: [AlphabeticalOrder, DataOrder]
+                      description: Order in which the inputs and outputs will be written.
+                      examples:
+                        - DataOrder
+                    requested_outputs:
+                      type: ['null', array]
+                      items:
+                        type: string
+                      description: Array containing names of outputs to filter.
+                      examples:
+                        - ['output1', 'output2']
                 request_meta:
                   type: object
                   properties:
                     version_id:
-                      type: string
-                      format: uuid
+                      oneOf:
+                        - type: 'null'
+                        - type: string
+                          format: uuid
                       description: '`version_id` to filter for a specific service version.'
                       examples:
                         - 7c3a51a3-a0ae-41ec-b78a-5b8f75376b2f
@@ -387,9 +446,9 @@ paths:
   /{tenant}/api/v3/folders/{folder}/services/{service}/log/downloadJSON/status/{jobId}:
     get:
       tags: ['API Call History APIs']
-      summary: Download Log as JSON get log job status
+      summary: Download API calls as JSON get job status
       description:
-        Get a ZIP of JSON files from the _API Call History_ of a Spark service. This is equivalent to the _API Call History_ functionality to _Download all API calls_, _Download as JSON_.<br><br>
+        Get a `ZIP` of `JSON` files of the API calls. This is equivalent to the _API Call History_ functionality to _Download all API calls_, _Download as JSON_.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadJSONLog.json` or `Spark.AllEncompassingProxy.json`.
       operationId: getLogDownloadJSONStatus
       security:
@@ -420,11 +479,110 @@ paths:
                       request_timestamp: 2023-11-14T08:25:40.762Z
                     error: null
 
-  # Execute API (v3)
+  # Events APIs
+
+  /{tenant}/api/v4/events/download:
+    post:
+      tags: ['Events APIs']
+      summary: Download events post job
+      description: Get an Excel file with the user events logged in Spark. This is equivalent to the _Options_, _Event viewer_, _Download events_.
+      operationId: postEventsDownload
+      security:
+        - bearerToken: []
+      parameters:
+        - $ref: '#/components/parameters/tenant'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                page_no:
+                  type: ['null', integer]
+                  description: Page number of the list to get.
+                  examples:
+                    - 1
+                page_size:
+                  type: ['null', integer]
+                  description: Number of records per page.
+                  examples:
+                    - 100
+                sort_column:
+                  type: ['null', string]
+                  description: String defining the sort column.
+                  examples:
+                    - event_date
+                sort_order:
+                  type: ['null', string]
+                  enum: [asc, desc]
+                  description: Set the sort order for `sort_column`.
+                  examples:
+                    - desc
+                search:
+                  type: ['null', array]
+                  description: Array of search filter objects.
+                  items:
+                    type: object
+                    properties:
+                      column:
+                        type: ['null', string]
+                        enum: [folder_id, event_types, service_name, user_name, event_start_date, event_end_date]
+                        description: Name of the column to filter.
+                      value:
+                        type: ['null', string, array]
+                        description: Values of the `column` to filter for.
+                  examples:
+                    - [{ 'column': 'service_name', 'value': 'myservicename' }]
+                    - [{ 'column': 'event_start_date', 'value': '2026-01-01' }, { 'column': 'event_end_date', 'value': '2026-12-31' }]
+            examples:
+              jsonBody:
+                value:
+                  page_no: 1
+                  page_size: 100
+                  sort_order: desc
+                  search:
+                    - column: event_start_date
+                      value: '2026-01-01'
+                    - column: event_end_date
+                      value: '2026-12-31'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                jsonBody:
+                  value:
+                    object: events
+                    id: 19caf63c-76e7-3c8c-b624-9a8a6c8a7293
+                    status_url: https://excel.myenvironmentname.coherent.global/mytenantname/api/v4/events/download/19caf63c-76e7-3c8c-b624-9a8a6c8a7293/status
+
+  /{tenant}/api/v4/events/download/{jobId}/status:
+    get:
+      tags: ['Events APIs']
+      summary: Download events get job status
+      description: Get an Excel file with the user events logged in Spark. This is equivalent to the _Options_, _Event viewer_, _Download events_.
+      operationId: getEventsDownloadStatus
+      security:
+        - bearerToken: []
+      parameters:
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/jobId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+
+  # Execute APIs
 
   /{tenant}/api/v3/folders/{folder}/services/{service}/execute:
     post:
-      tags: ['Execute API (v3)']
+      tags: ['Execute APIs']
       summary: Reference by folder and service
       description: '`request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution.'
       operationId: postv3FoldersServicesExecute
@@ -444,7 +602,7 @@ paths:
 
   /{tenant}/api/v3/service/{serviceId}:
     post:
-      tags: ['Execute API (v3)']
+      tags: ['Execute APIs']
       summary: Reference by service_id
       description: '`request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution.'
       operationId: postv3Service
@@ -463,7 +621,7 @@ paths:
 
   /{tenant}/api/v3/version/{versionId}:
     post:
-      tags: ['Execute API (v3)']
+      tags: ['Execute APIs']
       summary: Reference by version_id
       description: '`version_id` is the most direct service version reference.'
       operationId: postv3Version
@@ -482,9 +640,9 @@ paths:
 
   /{tenant}/api/v3/execute:
     post:
-      tags: ['Execute API (v3)']
+      tags: ['Execute APIs']
       summary: Generic execute endpoint
-      description: Service reference must be defined in the `request_meta`.
+      description: '`request_meta` must define the service reference.'
       operationId: postv3Execute
       security:
         - bearerToken: []
@@ -500,9 +658,9 @@ paths:
 
   /{tenant}/api/v3:
     post:
-      tags: ['Execute API (v3)']
+      tags: ['Execute APIs']
       summary: Generic v3 endpoint
-      description: Service reference must be defined in the request_meta.
+      description: '`request_meta` must define the service reference.'
       operationId: postv3
       security:
         - bearerToken: []
@@ -516,7 +674,7 @@ paths:
 
   /{tenant}/api/v3/public/folders/{folder}/services/{service}/execute:
     post:
-      tags: ['Execute API (v3)']
+      tags: ['Execute APIs']
       summary: Public API reference by folder and service
       description: '`request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution.'
       operationId: postv3PublicFoldersServicesExecute
@@ -532,7 +690,7 @@ paths:
 
   /{tenant}/api/v3/public/service/{serviceId}:
     post:
-      tags: ['Execute API (v3)']
+      tags: ['Execute APIs']
       summary: Public API reference by service_id
       description: '`request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution.'
       operationId: postv3PublicService
@@ -547,7 +705,7 @@ paths:
 
   /{tenant}/api/v3/public/version/{versionId}:
     post:
-      tags: ['Execute API (v3)']
+      tags: ['Execute APIs']
       summary: Public API reference by version_id
       description: '`version_id` is the most direct service version reference.'
       operationId: postv3PublicVersion
@@ -562,9 +720,9 @@ paths:
 
   /{tenant}/api/v3/proxy/{urlsuffix}:
     post:
-      tags: ['Execute API (v3)']
+      tags: ['Execute APIs']
       summary: Reference for custom endpoints
-      description: The `request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution.
+      description: '`request_meta` `version_id`, `version`, and `transaction_date` can be used for version resolution.'
       operationId: postv3ProxyUrlsuffix
       security:
         - bearerToken: []
@@ -579,14 +737,13 @@ paths:
         '200':
           $ref: '#/components/responses/executeV3'
 
-  # Execute API (v4)
-
   /{tenant}/api/v4/execute:
     post:
-      tags: ['Execute API (v4)']
-      summary: Generic execute endpoint
+      tags: ['Execute APIs']
+      summary: Generic v4 execute endpoint
       description:
         The v4 specification of the Execute API supports synchronous batching enabling multiple requests to be submitted at the same time.<br><br>
+        This endpoint should not be used for a very large number of input records because there is an execution time limit of `55 s` and an error will be returned. For very large numbers of input records, we recommend using applications that utilize the [Batch APIs](https://docs.coherent.global/spark-apis/batch-apis).<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.SyncBatch.json` or `Spark.AllEncompassingProxy.json`.
       operationId: postv4Execute
       security:
@@ -603,7 +760,7 @@ paths:
 
   /{tenant}/api/v4/public/execute:
     post:
-      tags: ['Execute API (v4)']
+      tags: ['Execute APIs']
       summary: Public API Generic execute endpoint
       description:
         The v4 specification of the Execute API supports synchronous batching enabling multiple requests to be submitted at the same time.<br><br>
@@ -685,7 +842,7 @@ paths:
     post:
       tags: ['Folder APIs']
       summary: List folders
-      description: Returns folders that match the search filter.<br><br>
+      description: List folders that match the search filter.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.FolderList.json` or `Spark.AllEncompassingProxy.json`.
       operationId: postProductList
       security:
@@ -709,7 +866,7 @@ paths:
                   description: Number of records per page.
                 sort:
                   type: ['null', string]
-                  description: String defining the sort order
+                  description: String defining the sort order.
                   examples:
                     - '`-updated`'
                 search:
@@ -727,8 +884,8 @@ paths:
                         type: ['null', string]
                         description: Operator for numeric properties.
                   examples:
-                    - [{ 'field': 'name', 'name': 'myfoldername' }]
-                    - [{ 'field': 'isstarred', 'isstarred': 'true' }]
+                    - [{ 'field': 'name', 'value': 'myfoldername' }]
+                    - [{ 'field': 'isstarred', 'value': 'true' }]
             examples:
               jsonBody:
                 value:
@@ -844,7 +1001,7 @@ paths:
     post:
       tags: ['Folder APIs']
       summary: Update folder
-      description: Update folder details including category or description.
+      description: Update folder details.
       operationId: postProductUpdate
       security:
         - bearerToken: []
@@ -891,7 +1048,7 @@ paths:
     delete:
       tags: ['Folder APIs']
       summary: Delete folder
-      description: Delete folder including all documents and services.
+      description: Delete folder including all documents, services, and transforms.
       operationId: deleteProductDelete
       security:
         - bearerToken: []
@@ -1094,7 +1251,7 @@ paths:
       tags: ['Service APIs']
       summary: Publish service
       description:
-        Complete the actions to create a Spark service after Upload Excel file to Spark. Compilation must be completed before publishing, Check compilation status.<br><br>
+        Publish the service to complete the actions to create a Spark service. Compilation must be completed before publishing.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.ServicePublish.json` or `Spark.AllEncompassingProxy.json`.
       operationId: postFoldersServicesPublish
       security:
@@ -1147,7 +1304,6 @@ paths:
                       examples:
                         - 2026-01-19T16:05:23.517Z
                     effective_end_date:
-                      type: string
                       anyOf:
                         - type: 'null'
                         - type: string
@@ -1167,10 +1323,10 @@ paths:
                       type: boolean
                       examples:
                         - true
-                      description: String boolean to set whether an event would be recorded for this action. Events are visible in the _Options_ _Event viewer_.
+                      description: Boolean whether to record an event for this action. Events are visible in the _Options_ _Event viewer_.
                     tags:
                       type: ['null', string]
-                      description: Comma separated list of tags. If tags are required, then at least one tag must be supplied.
+                      description: Comma-separated list of tags. If tags are required, then at least one tag must be supplied.
                       examples:
                         - 'abc,def'
                     description:
@@ -1178,7 +1334,7 @@ paths:
                       description: Text field to describe the service version.
                     semantic_version:
                       type: ['null', string]
-                      description: Semantic version needs to be popualted if `version_difference` is `custom`.
+                      description: Semantic version needs to be populated if `version_difference` is `custom`.
                   required:
                     - original_file_documentid
                     - engine_file_documentid
@@ -1220,8 +1376,8 @@ paths:
   /{tenant}/api/v3/folders/{folder}/services/{service}/exists:
     get:
       tags: ['Service APIs']
-      summary: Check whether a service exists
-      description: Check whether a service exists.<br><br>
+      summary: Check if service exists
+      description: Check if service exists.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.ServiceExists.json` or `Spark.AllEncompassingProxy.json`.
       operationId: getFoldersServicesExists
       security:
@@ -1263,7 +1419,10 @@ paths:
     get:
       tags: ['Service APIs']
       summary: List service versions
-      description: Get details about every service version.<br><br>
+      description:
+        List service versions.<br><br>
+        Supported query operators are equal `=`, less than `lt:`, less than equal `lte:`, greater than `gt:`, and greater than equals `gte:`.<br><br>
+        Rendered examples for `createdAt`, `effectiveStartDate`, `effectiveEndDate` might be incorrect. Sample URI `https://excel.myenvironmentname.coherent.global/api/v1/product/myfoldername/engines/getversions/myservicename?createdAt=gt%3A2026-01-01&createdAt=lt%3A2027-01-01&effectiveStartDate=gt%3A2026-01-01&effectiveStartDate=lt%3A2027-01-01&effectiveEndDate=gt%3A2026-01-01&effectiveEndDate=lt%3A2027-01-01`.<br><br>
         If using an API key, the API key group must contain user groups that are also assigned to `Spark.GetVersions.json` or `Spark.AllEncompassingProxy.json`.
       operationId: getProductEnginesGetVersions
       security:
@@ -1273,6 +1432,10 @@ paths:
       parameters:
         - $ref: '#/components/parameters/folder'
         - $ref: '#/components/parameters/service'
+        - $ref: '#/components/parameters/createdAt'
+        - $ref: '#/components/parameters/effectiveStartDate'
+        - $ref: '#/components/parameters/effectiveEndDate'
+        - $ref: '#/components/parameters/revision'
       responses:
         '200':
           description: OK
@@ -1319,10 +1482,10 @@ paths:
   /api/v1/product/{folder}/engines/get/{service}/{versionId}:
     get:
       tags: ['Service APIs']
-      summary: Get details for a service version
+      summary: Get service version
       description:
-        Returns detailed information about the Excel workbook, upload details, Neuron compilation outputs, mapped `Xinput`, `Xoutput`, and metadata, etc.<br><br>
-        If using an API ke
+        Get detailed information about the Excel workbook, upload details, Neuron compilation outputs, mapped `Xinput`, `Xoutput`, and metadata, etc.<br><br>
+        If using an API key, the API key group must contain user groups that are also assigned to `Spark.ServiceGet.json` or `Spark.AllEncompassingProxy.json`.
       operationId: getProductEnginesGet
       security:
         - bearerToken: []
@@ -1706,8 +1869,8 @@ paths:
   /{tenant}/api/v3/folders/{folder}/services/{service}/updateversion/{versionId}:
     put:
       tags: ['Service APIs']
-      summary: Edit an existing service version without creating a new version
-      description:
+      summary: Edit service version
+      description: Edit service version properties.
       operationId: putFoldersServicesUpdateversion
       security:
         - bearerToken: []
@@ -1737,7 +1900,7 @@ paths:
                       description: Text field that attaches to version numbers across the Spark user interface.
                     tags:
                       type: ['null', string]
-                      description: Comma separated list of tags. If tags are required, then at least one tag must be supplied.
+                      description: Comma-separated list of tags. If tags are required, then at least one tag must be supplied.
                       examples:
                         - 'abc,def'
                     effective_start_date:
@@ -1751,7 +1914,6 @@ paths:
                       examples:
                         - 2026-01-19T16:05:23.517Z
                     effective_end_date:
-                      type: string
                       anyOf:
                         - type: 'null'
                         - type: string
@@ -1808,7 +1970,7 @@ paths:
   /{tenant}/api/v3/folders/{folder}/services/{service}/version/{versionId}:
     delete:
       tags: ['Service APIs']
-      summary: Delete an intermediate service version
+      summary: Delete intermediate service version
       description: The first and latest versions of a service cannot be deleted. Deleting a version also makes data associated with that version unavailable, including its Excel file, API Call History entries, and testbed results.
       operationId: deleteFoldersServicesVersion
       security:
@@ -1836,8 +1998,10 @@ paths:
   /api/v1/product/{folder}/engines/{service}/download/{versionId}:
     get:
       tags: ['Service APIs']
-      summary: Download the Excel file from a Spark service
-      description: If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadServiceByVersionId.json` or `Spark.AllEncompassingProxy.json`.
+      summary: Download service
+      description:
+        Get the Excel file from a Spark service.<br><br>
+        If using an API key, the API key group must contain user groups that are also assigned to `Spark.DownloadServiceByVersionId.json` or `Spark.AllEncompassingProxy.json`.
       operationId: getProductEnginesDownload
       security:
         - bearerToken: []
@@ -1854,15 +2018,15 @@ paths:
             type: string
         - name: type
           in: query
-          description: '`ca` returns the Coherent Assistant enhanced version of the workbook. If not provided, the original workbook will be downloaded.'
+          description: '`ca` downloads the Coherent Assistant-enhanced version of the workbook. If not provided, the original workbook will be downloaded.'
           schema:
             type: ['null', string]
-            enum: ['ca', 'null']
+            enum: ['ca']
       responses:
         '200':
           description: OK
           content:
-            application/json:
+            application/octet-stream:
               schema:
                 type: string
                 format: binary
@@ -1936,6 +2100,75 @@ paths:
                     errorCode:
                     status: Success
 
+  # WebAssembly module APIs
+
+  /{tenant}/api/v3/nodegen/getnodegenzipbyId/folders/{folder}/services/{service}:
+    get:
+      tags: ['WebAssembly module APIs']
+      summary: Reference by folder and service
+      description: If using an API key, the API key group must contain user groups that are also assigned to `Spark.GetNodegenZip.json` or `Spark.AllEncompassingProxy.json`.
+      operationId: getNodegenZipByIdFoldersServices
+      security:
+        - bearerToken: []
+        - tenantName: []
+          syntheticKey: []
+      parameters:
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/folder'
+        - $ref: '#/components/parameters/service'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+
+  /{tenant}/api/v3/nodegen/getnodegenzipbyId/service/{serviceId}:
+    get:
+      tags: ['WebAssembly module APIs']
+      summary: Reference by service_id
+      description: If using an API key, the API key group must contain user groups that are also assigned to `Spark.GetNodegenZip.json` or `Spark.AllEncompassingProxy.json`.
+      operationId: getNodegenZipByService
+      security:
+        - bearerToken: []
+        - tenantName: []
+          syntheticKey: []
+      parameters:
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/serviceId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+
+  /{tenant}/api/v3/nodegen/getnodegenzipbyId/version/{versionId}:
+    get:
+      tags: ['WebAssembly module APIs']
+      summary: Reference by version_id
+      description: If using an API key, the API key group must contain user groups that are also assigned to `Spark.GetNodegenZip.json` or `Spark.AllEncompassingProxy.json`.
+      operationId: getNodegenZipByVersion
+      security:
+        - bearerToken: []
+        - tenantName: []
+          syntheticKey: []
+      parameters:
+        - $ref: '#/components/parameters/tenant'
+        - $ref: '#/components/parameters/versionId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+
 components:
   securitySchemes:
     bearerToken:
@@ -1965,6 +2198,51 @@ components:
         format: uuid
         examples:
           - a5c6a61f-06f8-499b-8a4d-818be4e74d29
+    createdAt:
+      name: createdAt
+      in: query
+      required: false
+      description: Filter by the created date of the service version.
+      schema:
+        type: array
+        items:
+          type: string
+        examples:
+          - ['gt:2026-01-01', 'lt:2027-01-01']
+      explode: true
+    CsvExpanded:
+      name: CsvExpanded
+      in: query
+      required: false
+      description: CSV output includes expanded tables.
+      schema:
+        type: boolean
+        examples:
+          - true
+    effectiveEndDate:
+      name: effectiveEndDate
+      in: query
+      required: false
+      description: Filter by the Effective until date of the service version.
+      schema:
+        type: array
+        items:
+          type: string
+        examples:
+          - ['gt:2026-01-01', 'lt:2027-01-01']
+      explode: true
+    effectiveStartDate:
+      name: effectiveStartDate
+      in: query
+      required: false
+      description: Filter by the Effective from date of the service version.
+      schema:
+        type: array
+        items:
+          type: string
+        examples:
+          - ['gt:2026-01-01', 'lt:2027-01-01']
+      explode: true
     folder:
       name: folder
       in: path
@@ -1978,7 +2256,7 @@ components:
       name: folderId
       in: path
       required: true
-      description: Folder `id` which can be found from List folders or Get folder.
+      description: Folder `id` which can be found from _List folders_ or _Get folder_.
       schema:
         type: string
         format: uuid
@@ -1994,6 +2272,15 @@ components:
         format: uuid
         examples:
           - b13a5526-60c8-43cc-840f-2c76dca701d9
+    revision:
+      name: revision
+      in: query
+      required: false
+      description: Filter by the version number.
+      schema:
+        type: string
+        examples:
+          - 0.5.0
     service:
       name: service
       in: path
@@ -2017,7 +2304,7 @@ components:
       name: tenant
       in: path
       required: true
-      description: Tenant is part of your login URL and also available in the user menu.
+      description: Tenant is part of your sign-in URL and also available in the user menu.
       schema:
         type: string
         examples:
@@ -2063,7 +2350,7 @@ components:
       properties:
         service_uri:
           type: ['null', string]
-          description: Reference to service location in the format of `folders/{folder}/services/{service}`. This does not specify the version of the service returned. This can be done so by including `transaction_date` or `version`.
+          description: Reference to service location in the format of `folders/{folder}/services/{service}`. This does not specify the version of the service. This can be done so by including `transaction_date` or `version`.
           examples:
             - folders/API V3/services/Sample API
         service_id:
@@ -2071,7 +2358,7 @@ components:
             - type: 'null'
             - type: string
               format: uuid
-          description: '`service_id` of the requested service. This does not specify the version of the service returned. This can be done so by using `transaction_date` or `version`.'
+          description: '`service_id` of the requested service. This does not specify the version of the service. This can be done so by using `transaction_date` or `version`.'
           examples:
             - 0c9deaad-bd33-49dd-9404-14f9303c531e
         version:
@@ -2096,7 +2383,7 @@ components:
               format: date
             - type: string
               format: date-time
-          description: Timestamp to resolve the service version. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601. When a call to a service is made using the `service_uri` or `service_id` this is used to determine the latest version of a service which have effective start and effective end dates that bound `transaction_date`. If omitted, the current date and time is used. If the `transaction_date` does not fall within the effective start and effective end dates of any versions, then the response will be an error. When calling a specific version using `version` or `version_id` this field has no effect.
+          description: Timestamp to resolve the service version. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601. When a call to a service is made using the `service_uri` or `service_id` this is used to determine the latest version of a service which has effective start and effective until dates that bound `transaction_date`. If omitted, the current date and time is used. If the `transaction_date` does not fall within the effective start and effective until dates of any versions, then the response will be an error. When calling a specific version using `version` or `version_id` this field has no effect.
         requested_output:
           oneOf:
             - type: 'null'
@@ -2112,20 +2399,20 @@ components:
             - 'first,second,third'
         service_category:
           type: ['null', string]
-          description: Comma separated string of subservice names. When this is not specified or set as `#Default#`, outputs not related to subservices are shown.
+          description: Comma-separated string of subservice names. When this is not specified or set as `#Default#`, outputs not related to subservices are shown.
           examples:
             - subservice1
             - subservice1,subservice2
             - '#Default#,subservice2'
         compiler_type:
           type: ['null', string]
-          description: Calculation engine for the request. By default this uses the setting defined in _Service Documentation_ _Default service type_.
+          description: Calculation engine for the request. By default, this uses the setting defined in _Service Documentation_ _Version details_ _Default service type_.
           enum: [Neuron, XConnector]
           examples:
             - Neuron
         array_outputs:
           type: ['null', string]
-          description: This is a string list of `Xoutput` ranges to return in the JSON array format. Using `*` can be used to denote all of the outputs.
+          description: Comma-separated string of `Xoutput` ranges to return in the JSON array format. Use `*` to denote all of the outputs.
           examples:
             - '*'
             - list1, list2
@@ -2144,11 +2431,17 @@ components:
             - e5a86ccb-b53b-47c7-86e7-25c228b211f4
         excel_file:
           type: ['null', boolean]
-          description: When set to `true`, this returns a copy of the source Excel file with the `request_data` `input`s populated into the `Xinput` cells. The output is the same as the _Download as Excel (Legacy)_. For security, the use of this feature with API keys can be managed through the `Spark.DownloadServiceByCallId.json` feature permission. This is not a feature that is recommended for extensive use. Response times when using this feature will be inconsistent call to call due to the need to generate and populate the Excel file.
+          description: When set to `true`, this returns a copy of the source Excel file with the `request_data` `input`s populated into the `Xinput` cells. The output is the same as the _Download as Excel (Legacy)_. For security, the use of this feature with API keys can be managed through the `Spark.DownloadServiceByCallId.json` feature permission. This is not a feature that is recommended for extensive use. Response times when using this feature will be inconsistent from call to call due to the need to generate and populate the Excel file.
           examples:
             - false
         xreport_options:
           $ref: '#/components/schemas/v3XReportOptions'
+        xconnector_parse_mode:
+          type: ['null', integer]
+          enum: [0, 1]
+          description: Integer to define the mode in which `XConnector` response are parsed. `null` or `0` is the first implementation, `1` supports proper table parsing.
+          examples:
+            - 1
         call_purpose:
           type: ['null', string]
           description: Tag API call. Can be queried in _API Call History_.
@@ -2176,7 +2469,7 @@ components:
             - true
         manual_now:
           type: ['null', integer]
-          description: Default behavior for Excel `NOW()` and `TODAY()` functions are to return the value based upon server time. If a [Unix epoch time](https://en.wikipedia.org/wiki/Unix_time) is provided, then that will be used to derive the current time and date instead.
+          description: Default behavior for Excel `NOW()` and `TODAY()` functions is to return the value based upon server time. If a [Unix epoch time](https://en.wikipedia.org/wiki/Unix_time) is provided, then that will be used to derive the current time and date instead.
           examples:
             - 1650593119
         profile:
@@ -2203,7 +2496,7 @@ components:
           default: false
         top_n_profile:
           type: ['null', integer]
-          description: When the debug build is used, this is used to adjust the of records returned from the performance tracing output.
+          description: When the debug build is used, this is used to adjust the number of records returned from the performance tracing output.
           examples:
             - 20
       additionalProperties: true
@@ -2402,46 +2695,49 @@ components:
             - 64AFC7C321E5B97BAB090371DF1E9580
         correlation_id:
           type: ['null', string]
-          description: Value from Request body.
+          description: Value from request body.
         response_data_inputs:
           type: ['null', boolean]
-          description: Value from Request body.
+          description: Value from request body.
         array_outputs:
           type: ['null', string]
-          description: Value from Request body.
+          description: Value from request body.
         random_seed:
           type: ['null', integer]
-          description: Value from Request body.
+          description: Value from request body.
         show_max_calc_chain:
           type: ['null', boolean]
-          description: Value from Request body.
+          description: Value from request body.
         profile:
           type: ['null', boolean]
-          description: Value from Request body.
+          description: Value from request body.
         trace:
           type: ['null', boolean]
-          description: Value from Request body.
+          description: Value from request body.
         debug_build:
           type: ['null', boolean]
           description: Indicate if this service was compiled using the debug build.
         top_n_profile:
           type: ['null', integer]
-          description: Value from Request body.
+          description: Value from request body.
         parameterset_version_id:
           oneOf:
             - type: 'null'
             - type: string
               format: uuid
-          description: Value from Request body.
+          description: Value from request body.
+        xconnector_parse_mode:
+          type: ['null', integer]
+          description: Value from request body.
         debug_xcall:
           type: ['null', boolean]
-          description: Value from Request body.
+          description: Value from request body.
         debug_solve:
           type: ['null', boolean]
-          description: Value from Request body.
+          description: Value from request body.
         manual_now:
           type: ['null', integer]
-          description: Value from Request body.
+          description: Value from request body.
       additionalProperties: true
     v3ResponseError:
       type: object
@@ -2593,9 +2889,9 @@ components:
                     format: date-time
                 description:
                   Timestamp to resolve the service version. Use [Timestamp converter](https://www.timestamp-converter.com/) to convert dates to ISO 8601.
-                  When call to a service is made using the `service_uri` or `service_id` this is used to determine the latest version of a service which have effective start and effective end dates that bound `transaction_date`.
+                  When call to a service is made using the `service_uri` or `service_id` this is used to determine the latest version of a service which has effective start and effective until dates that bound `transaction_date`.
                   If omitted, the current date and time is used.
-                  If the `transaction_date` does not fall within the effective start and effective end dates of any versions, then the response will be an error.
+                  If the `transaction_date` does not fall within the effective start and effective until dates of any versions, then the response will be an error.
                   When calling a specific version using `version` or `version_id` this field has no effect.
                 examples:
                   - 2022-10-30
@@ -2606,8 +2902,8 @@ components:
                   type: ['null', string]
                 description:
                   Array of strings to denote the outputs to keep in the response. `*` can be used to identify wildcard characters.
-                  Alternatively direct refences to Excel ranges are possible.
-                  For `Neuron_v1.17.0` and later this can be enabled In Excel by adding a Named Range referenced to a cell called `xBuildParams`.
+                  Alternatively, direct refences to Excel ranges are possible.
+                  For `Neuron_v1.17.0` and later, this can be enabled in Excel by adding a Named Range referenced to a cell called `xBuildParams`.
                   The cell contents must contain `'--direct_addressing=true`.
                   Furthermore if `#SparkFormulaValueVector` is added to these requests, only the calculated results would be returned.
                 examples:
@@ -2616,7 +2912,7 @@ components:
                   - ['@MyNamedRange']
               subservice:
                 type: ['null', string]
-                description: Comma separated string of subservice names.
+                description: Comma-separated string of subservice names.
                   When this is not specified or set as `#Default#`, outputs not related to subservices are shown.
                 examples:
                   - subservice1 will only show the the outputs from subservice1.
@@ -2640,15 +2936,21 @@ components:
                   - admin system p
               compiler_type:
                 type: ['null', string]
-                description: Calculation engine for the request. By default this uses the setting defined in _Service Documentation_ _Default service type_.
+                description: Calculation engine for the request. By default, this uses the setting defined in _Service Documentation_ _Version details_ _Default service type_.
                 enum: [Neuron, XConnector]
                 examples:
                   - Neuron
               manual_now:
                 type: ['null', integer]
-                description: Default behavior for Excel `NOW()` and `TODAY()` functions are to return the value based upon server time. If a [Unix epoch time](https://en.wikipedia.org/wiki/Unix_time) is provided, then that will be used to derive the current time and date instead.
+                description: Default behavior for Excel `NOW()` and `TODAY()` functions is to return the value based upon server time. If a [Unix epoch time](https://en.wikipedia.org/wiki/Unix_time) is provided, then that will be used to derive the current time and date instead.
                 examples:
                   - 1650593119
+              xconnector_parse_mode:
+                type: ['null', integer]
+                enum: [0, 1]
+                description: Integer to define the mode in which `XConnector` response are parsed. `null` or `0` is the first implementation, `1` supports proper table parsing.
+                examples:
+                  - 1
           examples:
             jsonBody:
               value:
@@ -2824,7 +3126,7 @@ components:
                     - type: object
                       description: Array of JSON objects.
                 description: Array of outputs. The elements of the array correspond to the input request records.
-                  Outputs will be formatted in a similar way to the inputs. The layout of outputs depends on whether the inputs comprised of an array of JSON objects or JSON arrays.
+                  Outputs will be formatted in a similar way to the inputs. The layout of outputs depends on whether the inputs consisted of an array of JSON objects or JSON arrays.
               process_time:
                 type: ['null', array]
                 items:
@@ -2882,7 +3184,7 @@ components:
                   - 1.25.0
               correlation_id:
                 type: ['null', string]
-                description: Value from Request body.
+                description: Value from request body.
               request_timestamp:
                 oneOf:
                   - type: 'null'
@@ -2891,6 +3193,9 @@ components:
                 description: Request timestamp.
                 examples:
                   - 2020-10-29T09:53:18.8314052Z
+              xconnector_parse_mode:
+                type: ['null', string]
+                description: Value from request body.
           examples:
             jsonBody:
               value:

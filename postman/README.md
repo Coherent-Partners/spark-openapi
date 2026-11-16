@@ -10,10 +10,11 @@ Opinionated Postman collection and environment for exploring Coherent Spark APIs
 | --- | --- |
 | **Auth / Keycloak** | Client-credentials token, Spark config |
 | **Folders** | Create, update, find, delete; categories |
-| **Services** | Upload → compile → publish; schema, download, swagger, recompile, search |
+| **Services** | Upload → compile → publish; versions (list, get, edit, delete), schema, download, swagger, recompile, search, delete |
 | **Execute** | APIv3 and APIv4 locators, metadata options, common usecases |
 | **Metadata / WASM / Validation** | Lookup by folder/service, service id, or version id |
 | **API Call History** | Call detail, Excel rehydration, CSV/JSON log download jobs |
+| **Events** | Event viewer download job (start → status) |
 | **Transforms** | JSONata and Node transforms; upload, validate, list, get, delete |
 | **ImpEx** | Export/import jobs (start, status, cancel/describe) |
 | **Batch** | Pipeline flow (start → chunks → status → results → close/cancel) |
